@@ -74,19 +74,26 @@ module top;
     // add more here
   };
 
+  int rd, rs1, rs2, op1, op2;
+
   initial begin 
     @(posedge clk);
     wait (rst == 0);
     foreach (testcase[i]) begin
 
+      rs1 = testcase[i].rs1;
+      rs2 = testcase[i].rs2;
+      op1 = testcase[i].op1;
+      op2 = testcase[i].op2;
+
       // set input values into registers
 
-      stub.reg_file[testcase[i].rs1] = testcase[i].op1;
-      stub.reg_file[testcase[i].rs2] = testcase[i].op2;
+      force stub.reg_file[rs1] = op1;
+      force stub.reg_file[rs2] = op2;
 
       // put opcode into memory[0];
 
-      code_memory[0] = encode_rtype(testcase[i].opcode, testcase[i].rd, testcase[i].rs1, testcase[i].rs2);
+      code_memory[0] = encode_rtype(testcase[i].opcode, rd, rs1, rs2);
       code_memory[1] = HALT;
 
       // reset core
@@ -97,13 +104,10 @@ module top;
 
       $write("instruction: ");
       print_opcode(code_memory[0]); 
-      $display("  reg[%0d] = %0d reg[%0d] = %0d reg[%0d] = %0d ",
-                             testcase[i].rs1, testcase[i].op1,
-                             testcase[i].rs2, testcase[i].op2,
-                             testcase[i].rd,  stub.reg_file[testcase[i].rd]);
+      $display("  reg[%0d] = %0d reg[%0d] = %0d reg[%0d] = %0d ", rs1, op1, rs2, op2, rd,  stub.reg_file[rd]);
 
-      $write("  >>> expected: %0d actual: %0d ", testcase[i].expected_result, stub.reg_file[testcase[i].rd]);
-      if (testcase[i].expected_result != stub.reg_file[testcase[i].rd]) begin // handle errors
+      $write("  >>> expected: %0d actual: %0d ", testcase[i].expected_result, stub.reg_file[rd]);
+      if (testcase[i].expected_result != stub.reg_file[rd]) begin // handle errors
         $display (" === Fail! \n");
         errors ++;
       end else begin
