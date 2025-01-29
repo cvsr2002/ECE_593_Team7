@@ -129,22 +129,79 @@ task print_opcode(instruction_t instr);
 
 endtask
 
+// functions to assemble opcodes
+
 function instruction_t encode_rtype(opcode_mask_t base_opcode, int dest, int rs1, int rs2);
    instruction_t instr;
 
    instr = base_opcode;
 
-   // $display("before encoding: opcode_1: %b, opcode_2: %b ocpode_3: %b, rd: %b rs1: %b, rs2: %b", 
-   //           instr.r.opcode1, instr.r.opcode2, instr.r.opcode3, instr.r.rd, instr.r.rs1, instr.r.rs2);
-
    instr.r.rd  = register_num_t'(dest);
    instr.r.rs1 = register_num_t'(rs1);
    instr.r.rs2 = register_num_t'(rs2);
  
-   // $display("encoded as opcode_1: %b, opcode_2: %b ocpode_3: %b, rd: %b rs1: %b, rs2: %b", 
-   //            instr.r.opcode1, instr.r.opcode2, instr.r.opcode3, instr.r.rd, instr.r.rs1, instr.r.rs2);
    return instr;
 endfunction
+
+function instruction_t encode_itype(opcode_mask_t base_opcode, int dest, int rs1, int imm);
+   instruction_t instr;
+   
+   instr = base_opcode;
+
+   instr.i.rd  = register_num_t'(dest);
+   instr.i.rs1 = register_num_t'(rs1);
+   set_i_imm(instr, short_imm_t'(imm));
+
+   return instr;
+endfunction
+
+function instruction_t encode_stype(opcode_mask_t base_opcode, int rs1, int rs2, int imm);
+   instruction_t instr;
+   
+   instr = base_opcode;
+
+   instr.s.rs1 = register_num_t'(rs1);
+   instr.s.rs2 = register_num_t'(rs2);
+   set_s_imm(instr, short_imm_t'(imm));
+
+   return instr;
+endfunction
+
+function instruction_t encode_btype(opcode_mask_t base_opcode, int rs1, int rs2, int imm);
+   instruction_t instr;
+   
+   instr = base_opcode;
+
+   instr.b.rs1 = register_num_t'(rs1);
+   instr.b.rs2 = register_num_t'(rs2);
+   set_b_imm(instr, short_imm_t'(imm));
+
+   return instr;
+endfunction
+
+function instruction_t encode_utype(opcode_mask_t base_opcode, int dest, int imm);
+   instruction_t instr;
+   
+   instr = base_opcode;
+
+   instr.u.rd = register_num_t'(dest);
+   set_u_imm(instr, long_imm_t'(imm));
+
+   return instr;
+endfunction
+
+function instruction_t encode_jtype(opcode_mask_t base_opcode, int dest, int imm);
+   instruction_t instr;
+   
+   instr = base_opcode;
+
+   instr.j.rd = register_num_t'(dest);
+   set_j_imm(instr, long_imm_t'(imm));
+
+   return instr;
+endfunction
+
+// retrieve immediate values from opcodes 
 
 function short_imm_t get_i_imm(input instruction_t instr);
    return (instr.i.imm);
@@ -166,24 +223,26 @@ function long_imm_t get_j_imm(input instruction_t instr);
    return({instr.j.imm3, instr.j.imm2, instr.j.imm1, instr.j.imm0});
 endfunction
 
-task automatic set_i_imm(ref instruction_t instr, short_imm_t imm);
+// set immediate values in opcodes
+
+function automatic void set_i_imm(ref instruction_t instr, input short_imm_t imm);
    instr.i.imm = imm;
-endtask
+endfunction
 
-task automatic set_s_imm(ref instruction_t instr, input short_imm_t imm);
+function automatic void set_s_imm(ref instruction_t instr, input short_imm_t imm);
    {instr.s.imm1, instr.s.imm0} = imm;
-endtask
+endfunction
 
-task automatic set_b_imm(ref instruction_t instr, short_imm_t imm);
+function automatic void set_b_imm(ref instruction_t instr, input short_imm_t imm);
    {instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0} = imm;   
-endtask
+endfunction
 
-task automatic set_u_imm(ref instruction_t instr, long_imm_t imm);
+function automatic void set_u_imm(ref instruction_t instr, input long_imm_t imm);
    instr.u.imm = imm;
-endtask
+endfunction
 
-task automatic set_j_imm(ref instruction_t instr, long_imm_t imm);
+function automatic void set_j_imm(ref instruction_t instr, input long_imm_t imm);
    {instr.j.imm3, instr.j.imm2, instr.j.imm1, instr.j.imm0} = imm;
-endtask
+endfunction
 
 endpackage
