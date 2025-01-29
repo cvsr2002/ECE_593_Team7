@@ -4,6 +4,9 @@ typedef logic [6:0] base_opcode_t;
 typedef logic [4:0] register_num_t;
 typedef logic [2:0] funct3_t;
 typedef logic [6:0] funct7_t;
+typedef logic signed [11:0] short_imm_t;
+typedef logic signed [19:0] long_imm_t;
+
 
 typedef struct packed {
    funct7_t        opcode3;
@@ -142,5 +145,45 @@ function instruction_t encode_rtype(opcode_mask_t base_opcode, int dest, int rs1
    //            instr.r.opcode1, instr.r.opcode2, instr.r.opcode3, instr.r.rd, instr.r.rs1, instr.r.rs2);
    return instr;
 endfunction
+
+function short_imm_t get_i_imm(input instruction_t instr);
+   return (instr.i.imm);
+endfunction
+
+function short_imm_t get_s_imm(input instruction_t instr);
+   return ({instr.s.imm1, instr.s.imm0});
+endfunction
+
+function short_imm_t get_b_imm(input instruction_t instr);
+   return({instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0});
+endfunction
+
+function long_imm_t get_u_imm(input instruction_t instr);
+   return(instr.u.imm);
+endfunction
+
+function long_imm_t get_j_imm(input instruction_t instr);
+   return({instr.j.imm3, instr.j.imm2, instr.j.imm1, instr.j.imm0});
+endfunction
+
+task automatic set_i_imm(ref instruction_t instr, short_imm_t imm);
+   instr.i.imm = imm;
+endtask
+
+task automatic set_s_imm(ref instruction_t instr, input short_imm_t imm);
+   {instr.s.imm1, instr.s.imm0} = imm;
+endtask
+
+task automatic set_b_imm(ref instruction_t instr, short_imm_t imm);
+   {instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0} = imm;   
+endtask
+
+task automatic set_u_imm(ref instruction_t instr, long_imm_t imm);
+   instr.u.imm = imm;
+endtask
+
+task automatic set_j_imm(ref instruction_t instr, long_imm_t imm);
+   {instr.j.imm3, instr.j.imm2, instr.j.imm1, instr.j.imm0} = imm;
+endtask
 
 endpackage
