@@ -71,11 +71,26 @@ typedef union packed {
 
 const instruction_t HALT = 32'h00010073;
 
+typedef enum logic [5:0] { 
+    ADDI, STLI, STLIU, ANDI, ORI,  XORI, SLLI, SRLI, SRAI, LUI, AUIPC,
+    ADD,  SUB,  STL,   STLU, AND,  OR,   XOR,  SLL,  SRL,  SRA,
+    JAL,  JALR, BEQ,   BNE,  BLT,  BLTU, BGE,  BGEU,
+    LW,   LH,   LHU,   LBU,  SW,   SH,   SB 
+  } mnemonic_t;
+
+typedef enum logic [2:0] {
+    R_TYPE, I_TYPE, S_TYPE, B_TYPE, U_TYPE, J_TYPE 
+  } op_type_t;
+
+typedef enum logic [2:0] {
+    ALU, BRU, MAU
+  } proc_unit_t;
+
 typedef enum logic [31:0] {
 
    M_ADDI  = 32'bzzzz_zzzz_zzzz_zzzz_z000_zzzz_z001_0011,
-   M_STLI  = 32'bzzzz_zzzz_zzzz_zzzz_z010_zzzz_z001_0011,
-   M_STLIU = 32'bzzzz_zzzz_zzzz_zzzz_z011_zzzz_z001_0011,
+   M_SLTI  = 32'bzzzz_zzzz_zzzz_zzzz_z010_zzzz_z001_0011,
+   M_SLTIU = 32'bzzzz_zzzz_zzzz_zzzz_z011_zzzz_z001_0011,
    M_ANDI  = 32'bzzzz_zzzz_zzzz_zzzz_z111_zzzz_z001_0011,
    M_ORI   = 32'bzzzz_zzzz_zzzz_zzzz_z110_zzzz_z001_0011,
    M_XORI  = 32'bzzzz_zzzz_zzzz_zzzz_z100_zzzz_z001_0011,
@@ -116,6 +131,130 @@ typedef enum logic [31:0] {
    M_SB    = 32'bzzzz_zzzz_zzzz_zzzz_z000_zzzz_z010_0011
 
 } opcode_mask_t;
+
+function automatic logic is_r_type(input instruction_t instr);
+
+   casez (instr)
+    M_ADD, M_SUB, M_SLT, M_SLTU, M_AND, M_OR, M_XOR, M_SLL, M_SRL, M_SRA : return 1;
+    default : return 0;
+   endcase
+
+endfunction
+ 
+function automatic logic is_i_type(input instruction_t instr);  
+
+   casez (instr)
+    M_ADDI, M_SLTI, M_SLTIU, M_ANDI, M_ORI, M_XORI, M_SLLI,
+    M_SRLI, M_SRAI, M_LW, M_LH, M_LHU, M_LB, M_LBU, M_JALR : return 1;
+    default : return 0;
+   endcase
+
+endfunction
+ 
+function automatic logic is_s_type(input instruction_t instr);  
+
+   casez (instr)
+    M_SW, M_SH, M_SB : return 1;
+    default : return 0;
+   endcase
+
+endfunction
+ 
+function automatic logic is_b_type(input instruction_t instr);  
+
+   casez (instr)
+    M_BEQ, M_BNE, M_BLT, M_BLTU, M_BGE, M_BGEU : return 1;
+    default : return 0;
+   endcase
+
+endfunction
+ 
+function automatic logic is_u_type(input instruction_t instr);  
+
+   casez (instr)
+    M_AUIPC, M_LUI : return 1;
+    default : return 0;
+   endcase
+
+endfunction
+ 
+function automatic logic is_j_type(input instruction_t instr);  
+
+   casez (instr)
+    M_JAL : return 1;
+    default : return 0;
+   endcase
+
+endfunction
+
+function automatic logic is_alu_op(input instruction_t instr);
+  
+   casez(instr)
+    M_ADD, M_SUB, M_SLT, M_SLTU, M_AND, M_OR, M_XOR, M_SLL, M_SRL, 
+    M_SRA, M_ADDI, M_SLTI, M_SLTIU, M_ANDI, M_ORI, M_XORI, M_SLLI,
+    M_SRLI, M_SRAI, M_LUI, M_AUIPC : return 1;
+    default: return 0;
+   endcase
+     
+endfunction
+
+function automatic logic is_branch_op(input instruction_t instr);
+
+   casez(instr)
+    M_JAL, M_BEQ, M_BNE, M_BLT, M_BLTU, M_BGE, M_BGEU: return 1;
+    default: return 0;
+   endcase
+
+endfunction
+
+function automatic logic is_memory_op(input instruction_t instr);
+  
+   casez(instr) 
+    M_LW, M_LH, M_LHU, M_LB, M_LBU, M_SW, M_SH, M_SB: return 1;
+    default: return 0;
+   endcase
+
+endfunction
+
+function automatic register_num_t get_rd(instruction_t instr);
+  case (1) 
+   is_r_type(instr) : return instr.r.rd;
+   is_i_type(instr) : return instr.i.rd;
+   is_u_type(instr) : return instr.u.rd;
+   is_j_type(instr) : return instr.j.rd;
+   default : return 0;
+  endcase
+endfunction
+
+function automatic register_num_t get_rs1(instruction_t instr);
+  case (1) 
+   is_r_type(instr) : return instr.r.rs1;
+   is_i_type(instr) : return instr.i.rs1;
+   is_s_type(instr) : return instr.s.rs1;
+   is_b_type(instr) : return instr.b.rs1;
+   default : return 0;
+  endcase
+endfunction
+
+function automatic register_num_t get_rs2(instruction_t instr);
+  case (1) 
+   is_r_type(instr) : return instr.r.rs2;
+   is_s_type(instr) : return instr.s.rs2;
+   is_b_type(instr) : return instr.b.rs2;
+   default : return 0;
+  endcase
+endfunction
+
+function automatic long_imm_t get_imm(instruction_t instr);
+  case(1)
+   is_i_type(instr) : return get_i_imm(instr);
+   is_s_type(instr) : return get_s_imm(instr);
+   is_b_type(instr) : return get_b_imm(instr);
+   is_u_type(instr) : return get_u_imm(instr);
+   is_j_type(instr) : return get_j_imm(instr);
+   default : return 0;
+  endcase
+endfunction
 
 task print_opcode(instruction_t instr);
 
