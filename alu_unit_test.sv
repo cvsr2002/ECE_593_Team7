@@ -40,7 +40,9 @@ module alu_unit_test;
   instruction_t instr;
   register_t    op1, op2, pc, result, expected_result;
   logic         enable;
-  
+ 
+  int           errors;  
+
   register_t operands[] = { -3, -2, -1, 0, 1, 2, 3, 4, 100, 128, 16000,
                             32'hFFFFFFFF, 32'h00000000, 32'hAAAA5555, 32'h5555AAAA,
                             32'hFFFF0000, 32'h0000FFFF, 32'hF0F0F0F0, 32'h0F0F0F0F,
@@ -51,6 +53,7 @@ module alu_unit_test;
   initial begin
     @(posedge clk);
     wait (!rst);
+    errors = 0;
 
     foreach (operands[a]) begin
       foreach (operands[b]) begin
@@ -69,13 +72,23 @@ module alu_unit_test;
           print_opcode(instr);
           $display("   operand 0: %x operand 1: %x ", op1, op2);
           $write  ("   expected result: %x actual result: %x ", expected_result, result);
-          if (result == expected_result) $display("correct ");
-          else                           $display("wrong!  ");   
-          @(posedge clk);
+          if (result == expected_result) $display("correct \n");
+          else begin
+            $display("wrong!  \n");   
+            errors++;
+          end
           repeat (5) @(posedge clk);
         end
       end
     end
+    
+    $write("\n\nALU unit test complete -- ");
+    if (errors == 0) $display("Passed!\n\n");
+    else begin
+      $display("Failed!");
+      $display("error count: %d \n\n", errors);
+    end
+    $finish;
   end
 
   alu u_alu(.*);

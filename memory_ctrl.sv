@@ -34,7 +34,7 @@ module memory_ctrl (
    logic [2:0] size;
    register_t wdata;
 
-   always @(posedge clk) 
+   always_ff @(posedge clk) 
      if (rst) next_state <= IDLE;
      else state <= next_state;
 
