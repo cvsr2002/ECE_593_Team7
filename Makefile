@@ -41,10 +41,10 @@ alu_test_gui: compile
 	$(VSIM) -do run.do alu_unit_test
 
 jump_test: compile
-	$(VSIM) -c -do run.do jump_test
+	$(VSIM) -c -do run.do jump_unit_test
 
 jump_test_gui: compile
-	$(VSIM) -do run.do jump_test
+	$(VSIM) -do run.do jump_unit_test
 
 compile: clean
 	rm -rf ./work
@@ -53,13 +53,14 @@ compile: clean
 	$(VMAP) work ./work
 
 	$(VLOG) $(HW)/opcode_pkg.sv
-	$(VLOG) $(HW)/testbench.sv
+	#$(VLOG) $(HW)/testbench.sv
 	$(VLOG) $(HW)/alu.sv
 	$(VLOG) $(HW)/branch_ctrl.sv
 	$(VLOG) $(HW)/memory_ctrl.sv
 	$(VLOG) $(HW)/ssram.sv
 	$(VLOG) $(HW)/alu_unit_test.sv
 	$(VLOG) $(HW)/memory_ctrl_unit_test.sv
+	$(VLOG) $(HW)/jump_unit_test.sv
 
 CRUFT  = transcript
 CRUFT += *.wlf
