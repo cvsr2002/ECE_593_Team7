@@ -1,75 +1,96 @@
 import opcodes::*;
-module dut(
-    
-    input logic clk, rst
-);
 
-    // Internal Signals
-    logic [31:0] reg_file [31:0];
-    logic [31:0] code_memory ['h10000]; // Instruction Memory
-    instruction_t instr;
+module cpu_core (
+    input  logic        clk,
+    input  logic        rst,
+    input  logic [31:0] instruction,
+    output logic [31:0] pc
+);
+   
+
+    logic [31:0] pc_next;
+    logic [31:0] ret_addr;
+    logic [31:0] read_data1, read_data2;
     logic [31:0] alu_result;
-	logic enable;
-    logic zero_flag;
-    logic [2:0] state;
-    logic [31:0] pc_in, pc_out;
-	logic Enable;
-	logic FETCH;
+    logic [2:0]  state;
+    logic reg_write_en;
+    logic [4:0]  rd;
+    logic [31:0] write_data;
+    logic alu_enable;
+    logic branch_enable;
+	logic EXECUTE;
 	logic WRITEBACK;
 
-    // Program Counter Instance
-    /program_counter PC (
+    instruction_t decoded_instr;
+
+    // State Machine
+    fsm state_machine (
         .clk(clk),
         .rst(rst),
-        .pc_enable(1'b1),
-        .pc_in(pc_in),
-        .pc_out(pc_out)
-    );
-
-    // Register File Instance
-    register_file RF (
-        .clk(clk),
-        .rst(rst),
-        .reg_write(1'b1),
-        .rs1(instr.r.rs1),
-        .rs2(instr.r.rs2),
-        .rd(instr.r.rd),
-        .write_data(alu_result),
-        .read_data1(instr.r.rs1),
-        .read_data2(instr.r.rs2)
-    );
-
-    // ALU Instance
-    risc_v_alu ALU (.enable(Enable),
-        .instr(instr),
-        .alu_result(alu_result),
-        .zero_flag(zero_flag)
-    );
-
-    // FSM Instance
-    fsm FSM (
-        .clk(clk),
-        .rst(rst),
-        .instr(instr),
+        .instr(decoded_instr),
         .state(state)
     );
-	
-	//Decoder
-	decoder Decoder(.instr(instr),.Enable(Enable),.rs1(rs1), .rs2(rs2), .rd(rd),.imm(imm));
 
-    // Instruction Fetch
-    always_ff @(posedge clk) begin
-        if (state == FETCH) begin
-            instr <= code_memory[pc_out >> 2];
-            pc_in <= pc_out + 4;
-        end
+    // Program Counter (PC)
+    always_ff @(posedge clk or posedge rst)
+	begin
+        if (rst)
+            pc <= 32'h0000_0000;
+        else 
+            pc <= pc_next;  // Update PC
     end
-  
-    
-    // Writeback: Store the ALU result into register
-    always_ff @(posedge clk) begin
-        if (state == WRITEBACK)
-            reg_file[instr.r.rd] <= alu_result;
-    end
+
+    // Instruction Decoder
+    decoder decoder (
+        .instr(instruction),
+        .rs1(decoded_instr.r.rs1),
+        .rs2(decoded_instr.r.rs2),
+        .rd(rd),
+        .imm(write_data)
+    );
+
+    // Register File
+    register_file reg_file (
+        .clk(clk),
+        .rst(rst),
+        .reg_write_en(reg_write_en),
+        .rs1(decoded_instr.r.rs1),
+        .rs2(decoded_instr.r.rs2),
+        .rd(rd),
+        .write_data(write_data),
+        .read_data1(read_data1),
+        .read_data2(read_data2)
+    );
+
+    // ALU
+    risc_v_alu alu (
+        .enable(alu_enable),
+        .instr(decoded_instr),
+        .pc(pc),
+        .alu_result(alu_result),
+        .zero_flag()
+    );
+
+    // Branch Controller
+    branch_controller branch_ctrl (
+        .clk(clk),
+        .rst(rst),
+        .instr(decoded_instr),
+        .op1(read_data1),
+        .op2(read_data2),
+        .op3(write_data),
+        .pc(pc),
+        .enable(branch_enable),
+        .step(1'b1),  // Always step
+        .pc_out(pc_next),
+        .ret_addr(ret_addr)
+    );
+
+    // Control signals
+    assign reg_write_en = (state == WRITEBACK);
+    assign alu_enable = (state == EXECUTE);
+    assign branch_enable = (state == EXECUTE);
+    assign rd = decoded_instr.r.rd;
+    assign write_data = alu_result;
 
 endmodule

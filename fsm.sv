@@ -1,19 +1,20 @@
 import opcodes::*;
-module fsm(
-    
-    input  logic clk,
-    input  logic rst,
-    input  instruction_t instr,
-    output logic [2:0] state
+
+module fsm (
+    input  logic        clk,
+    input  logic        rst,
+    input  wire instruction_t instr,
+    output logic [2:0]  state
 );
 
     typedef enum logic [2:0] { FETCH, DECODE, EXECUTE, WRITEBACK, BREAK } state_t;
     state_t current_state, next_state;
 
-    always_ff @(posedge clk or posedge rst) begin
-        if (rst)
+    always_ff @(posedge clk or posedge rst) 
+	begin
+        if (rst) 
             current_state <= FETCH;
-        else
+        else 
             current_state <= next_state;
     end
 
@@ -29,4 +30,5 @@ module fsm(
     end
 
     assign state = current_state;
+
 endmodule
