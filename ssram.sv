@@ -4,7 +4,8 @@ module ssram #(
   ) (
     input logic                  clk, rst,
 
-    input logic [ADDR_BITS-1:0]  address,
+    // input logic [ADDR_BITS-1:0]  address,
+    input logic [31:0]           address,
     input logic [WIDTH-1:0]      write_data,
     input logic [(WIDTH/8)-1:0]  write_byte_enable,
     input logic                  write_enable,
@@ -17,14 +18,14 @@ module ssram #(
   
     generate 
       for (w=0; w<WIDTH/8; w++) begin
-        always_ff @(posedge clk) begin
-          if (rst) read_data[w*8:+8] <= '0;
-          else if (read_enable) read_data[w*8:+8] <= memory[address][w*8:+8];
+        always @(posedge clk) begin
+          if (rst) read_data[((w+1)*8-1)-:8] <= '0;
+          else if (read_enable) read_data[((w+1)*8-1)-:8] <= memory[address][((w+1)*8-1)-:8];
         end
 
-        always_ff @(posedge clk) begin
+        always @(posedge clk) begin
           if (!rst & write_enable) begin
-            if (write_byte_enable[w]) memory[address][w*8:+8] <= write_data[w*8:+8];
+            if (write_byte_enable[w]) memory[address][((w+1)*8-1)-:8] <= write_data[((w+1)*8-1)-:8];
           end
         end
       end

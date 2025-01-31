@@ -14,23 +14,37 @@ VSIM = $(QUESTA_HOME)/bin/vsim -voptargs=+acc -work work
 all: 
 	@echo " "
 	@echo " make targets are: "
-	@echo "   - clean   = remove created files and cruft "
-	@echo "   - compile = analyze all input hdl files "
-	@echo "   - sim     = run simulation in Questa (command line) "
-	@echo "   - gui     = run simulation in Questa with GUI "
-	@echo "   - broken  = run simulation with injected errors, should fail "
+	@echo "   - alu_test "
+	@echo "   - alu_test_gui "
+	@echo "   - mem_test "
+	@echo "   - mem_test_gui "
+	@echo "   - jump_test "
+	@echo "   - jump_test_gui "
 	@echo " "
 
 gui: compile
 	$(VSIM) -do run_gui.do top
-	$(VSIM) -do run_gui.do alu_unit_test
 
 sim: compile
 	$(VSIM) -c -do run.do top
+
+mem_test: compile
+	$(VSIM) -c -do run.do memory_ctrl_unit_test
+
+mem_test_gui: compile
+	$(VSIM) -do run.do memory_ctrl_unit_test
+	
+alu_test: compile
 	$(VSIM) -c -do run.do alu_unit_test
 
-broken: compile
-	$(VSIM) -g broken=1 -c -do run.do top
+alu_test_gui: compile
+	$(VSIM) -do run.do alu_unit_test
+
+jump_test: compile
+	$(VSIM) -c -do run.do jump_test
+
+jump_test_gui: compile
+	$(VSIM) -do run.do jump_test
 
 compile: clean
 	rm -rf ./work
@@ -45,6 +59,7 @@ compile: clean
 	$(VLOG) $(HW)/memory_ctrl.sv
 	$(VLOG) $(HW)/ssram.sv
 	$(VLOG) $(HW)/alu_unit_test.sv
+	$(VLOG) $(HW)/memory_ctrl_unit_test.sv
 
 CRUFT  = transcript
 CRUFT += *.wlf

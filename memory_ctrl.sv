@@ -5,7 +5,7 @@ module memory_ctrl (
    input logic          clk, rst,
 
    input wire instruction_t  instr,
-   input register_t     op1, op2, op3, pc,
+   input register_t     op1, op2, op3,
    input logic          enable,
    output register_t    result,
    output logic         result_valid,
@@ -35,7 +35,7 @@ module memory_ctrl (
    register_t wdata;
 
    always_ff @(posedge clk) 
-     if (rst) next_state <= IDLE;
+     if (rst) state <= IDLE;
      else state <= next_state;
 
    always_comb begin
@@ -62,7 +62,7 @@ module memory_ctrl (
      end
    end
 
-   assign result_valid = (read_op & read_ack) || (write_op & write_ack);
+   assign result_valid = (read_op & read_ack & (state == DONE)) || (write_op & write_ack);
    assign read_enable = (read_op & (state == ADDR_PHASE));
    assign write_enable = (write_op & (state == ADDR_PHASE));
    assign write_byte_enable = (!write_op) ? '0 :
@@ -94,9 +94,9 @@ module memory_ctrl (
          wdata <= '0;
        end
        if (enable) begin
-         address <= op1 + op2 & 32'hFFFFFFFC;
-         offset  <= op1 + op2 & 32'h00000003;
-         write_data <= op3;
+         address <= (op1 + op2) >> 2;
+         offset  <= (op1 + op2) & 32'h00000003;
+         wdata <= op3;
          casez (instr) 
            M_LW   : begin  size <= 4;  read_op  <= 1; sign_ex <= 0; end
            M_LH   : begin  size <= 2;  read_op  <= 1; sign_ex <= 1; end
