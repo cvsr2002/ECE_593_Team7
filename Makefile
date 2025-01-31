@@ -23,9 +23,11 @@ all:
 
 gui: compile
 	$(VSIM) -do run_gui.do top
+	$(VSIM) -do run_gui.do alu_unit_test
 
 sim: compile
 	$(VSIM) -c -do run.do top
+	$(VSIM) -c -do run.do alu_unit_test
 
 broken: compile
 	$(VSIM) -g broken=1 -c -do run.do top
@@ -38,6 +40,11 @@ compile: clean
 
 	$(VLOG) $(HW)/opcode_pkg.sv
 	$(VLOG) $(HW)/testbench.sv
+	$(VLOG) $(HW)/alu.sv
+	$(VLOG) $(HW)/branch_ctrl.sv
+	$(VLOG) $(HW)/memory_ctrl.sv
+	$(VLOG) $(HW)/ssram.sv
+	$(VLOG) $(HW)/alu_unit_test.sv
 
 CRUFT  = transcript
 CRUFT += *.wlf
