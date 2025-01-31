@@ -301,7 +301,7 @@ task print_opcode(instruction_t instr);
 
      // J-Type Instructions
      M_JAL  : $display("JAL  x%0d, %0d", instr.j.rd, {instr.j.imm3, instr.j.imm2, instr.j.imm1, instr.j.imm0});
-     M_JALR : $display("JALR x%0d, x%0d, %0d", instr.i.rd, instr.i.rs1, instr.i.imm);
+     M_JALR : $display("JALR x%0d, %0d(x%0d)", instr.i.rd, instr.i.imm, instr.i.rs1);
 
      // Load Instructions
      M_LW   : $display("LW   x%0d, %0d(x%0d)", instr.i.rd, instr.i.imm, instr.i.rs1);
