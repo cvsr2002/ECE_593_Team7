@@ -38,8 +38,7 @@ always_ff @(posedge clk) begin
             M_LUI          : result <= op1;               // op1 = immediate
             M_AUIPC        : result <= op1 + pc;          // op1 = immediate
           
-           default: assert (result != 32'hDEADBEEF)
-                             else $error("Invalid ALU operation detected for instruction: %h", instr);
+            default: assert (0) else $error("Invalid ALU operation detected for instruction: %h", instr);
             endcase
         end
 end
