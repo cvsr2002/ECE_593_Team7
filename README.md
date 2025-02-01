@@ -50,10 +50,10 @@ Here’s a high-level block diagram of our RISC-V core verification framework:
 
 Milestone	Tasks Completed
 M1	Designed ALU, Branch Controller, Memory Controller
-M2	Implemented Unit Tests, Integrated Core-Level Tests
-M3	Completed Opcode Tests, Added Functional Coverage
-M4	Executed Short Programs, Debugged State Machine
-M5	Achieved 100% Coverage, Finalized UVM Testbenches
+  M2	Implemented Unit Tests, Integrated Core-Level Tests
+  M3	Completed Opcode Tests, Added Functional Coverage
+  M4	Executed Short Programs, Debugged State Machine
+  M5	Achieved 100% Coverage, Finalized UVM Testbenches
 
 🔍 Key Findings
 
@@ -62,4 +62,17 @@ Directed and random tests confirmed correct execution of all instructions.
 The state machine was fully exercised, ensuring all instruction paths were covered.
 
 📢 Conclusion
-This project successfully verified a RISC-V RV32I core using comprehensive unit and core-level testing. The core meets the functional requirements and is ready for further optimizations.
+This project successfully verified a RISC-V RV32I core using comprehensive unit and core-level testing. The core meets the functional requirements and is ready for further development.
+
+-------------------
+
+To Build and Run:
+
+  make alu_test
+      - builds and runs ALU standalone unit test
+
+  make mem_test
+      - builds and runs Load/Store instruction unit test
+
+  make jump_test
+      - builds and runs branch control unit test
