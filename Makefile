@@ -1,5 +1,6 @@
 
 QUESTA_HOME = /pkgs/mentor/questa/2024.2/questasim/
+QUESTA_HOME = /u/release/questa/2024.2/questasim/
 
 HW   = ./
 
@@ -34,6 +35,19 @@ mem_test: compile
 mem_test_gui: compile
 	$(VSIM) -do run.do memory_ctrl_unit_test
 	
+alu_oo_test: compile
+	$(VSIM) -c -do run.do alu_oo_tb
+
+alu_oo_gui: compile
+	$(VSIM) -do run.do alu_oo_tb
+
+mem_oo_test: compile
+	$(VSIM) -c -do run.do mem_oo_tb 
+	#$(VSIM) -c -do run.do mem_oo_tb -g BROKEN=1
+
+mem_oo_gui: compile
+	$(VSIM) -do run.do mem_oo_tb
+
 alu_test: compile
 	$(VSIM) -c -do run.do alu_unit_test
 
@@ -61,6 +75,9 @@ compile: clean
 	$(VLOG) $(HW)/alu_unit_test.sv
 	$(VLOG) $(HW)/memory_ctrl_unit_test.sv
 	$(VLOG) $(HW)/jump_unit_test.sv
+
+	$(VLOG) $(HW)/alu_oo_tb.sv
+	$(VLOG) $(HW)/mem_oo_tb.sv
 
 CRUFT  = transcript
 CRUFT += *.wlf

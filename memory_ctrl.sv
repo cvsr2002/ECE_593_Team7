@@ -1,7 +1,9 @@
 
 import opcodes::*;
 
-module memory_ctrl (
+module memory_ctrl #(
+   parameter random_errors = 0
+ )(
    input logic          clk, rst,
 
    input wire instruction_t  instr,
@@ -33,6 +35,15 @@ module memory_ctrl (
    logic [1:0] offset;
    logic [2:0] size;
    register_t wdata;
+   register_t result_reg;
+
+   function automatic register_t induce_errors(register_t data);
+     if (random_errors) begin
+       if ($urandom_range(1,10)==7)   // 10% of the time flip a bit at random 
+         return data ^ register_t'(32'h1 << $urandom_range(0,31));
+     end 
+     return(data);
+   endfunction
 
    always_ff @(posedge clk) 
      if (rst) state <= IDLE;
@@ -47,22 +58,29 @@ module memory_ctrl (
      endcase
    end
 
+`ifndef SYNTHESIS
+   assign result = induce_errors(result_reg);
+`else
+   assign result = result_reg;
+`endif
+
    always_ff @(posedge clk) begin
-     if (rst) result <= '0;
+     if (rst) result_reg <= '0;
      else if ((state == DATA_PHASE) & (read_op & read_ack)) begin 
        if (sign_ex) begin
-         if (size == 4) result <= read_data;
-         if (size == 2) result <= signed_short'((read_data >> (8 * offset)) & 32'h0000FFFF);
-         if (size == 1) result <= signed_byte'((read_data >> (8 * offset)) & 32'h000000FF);
+         if (size == 4) result_reg <= read_data;
+         if (size == 2) result_reg <= signed_short'((read_data >> (8 * offset)) & 32'h0000FFFF);
+         if (size == 1) result_reg <= signed_byte'((read_data >> (8 * offset)) & 32'h000000FF);
        end else begin
-         if (size == 4) result <= read_data;
-         if (size == 2) result <= unsigned_short'((read_data >> (8 * offset)) & 32'h0000FFFF);
-         if (size == 1) result <= unsigned_byte'((read_data >> (8 * offset)) & 32'h000000FF);
+         if (size == 4) result_reg <= read_data;
+         if (size == 2) result_reg <= unsigned_short'((read_data >> (8 * offset)) & 32'h0000FFFF);
+         if (size == 1) result_reg <= unsigned_byte'((read_data >> (8 * offset)) & 32'h000000FF);
        end
      end
    end
 
-   assign result_valid = (read_op & read_ack & (state == DONE)) || (write_op & write_ack);
+   // assign result_valid = ((read_op & read_ack) || (write_op & write_ack)) & (state == DONE);
+   assign result_valid = (read_op & read_ack) & (state == DONE);
    assign read_enable = (read_op & (state == ADDR_PHASE));
    assign write_enable = (write_op & (state == ADDR_PHASE));
    assign write_byte_enable = (!write_op) ? '0 :
@@ -93,10 +111,15 @@ module memory_ctrl (
          write_op <= 0;
          wdata <= '0;
        end
-       if (enable) begin
+       if (enable & is_memory_op(instr)) begin
+       // $display("executing %s ", decode_instr(instr));
          address <= (op1 + op2) >> 2;
          offset  <= (op1 + op2) & 32'h00000003;
+`ifndef SYNTHESIS
+         wdata <= induce_errors(op3);
+`else
          wdata <= op3;
+`endif
          casez (instr) 
            M_LW   : begin  size <= 4;  read_op  <= 1; sign_ex <= 0; end
            M_LH   : begin  size <= 2;  read_op  <= 1; sign_ex <= 1; end

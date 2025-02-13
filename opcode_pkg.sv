@@ -282,68 +282,151 @@ function automatic long_imm_t get_imm(instruction_t instr);
 endfunction
 
 
-function print_opcode(instruction_t instr);
+function void print_opcode(instruction_t instr);
    $display(decode_instr(instr));
 endfunction
+
+function string frc(input int r);
+  return (r<10) ? $sformatf(" x%0d,", r) :
+                  $sformatf("x%0d,", r);
+endfunction
+
+function string fr(input int r);
+  return (r<10) ? $sformatf(" x%0d", r) :
+                  $sformatf("x%0d", r);
+endfunction
+
+function string fri(input int r);
+  return $sformatf("x%0d", r);
+endfunction
+
+function string fi(input int i);
+  return $sformatf("%0d", i);
+endfunction
+
+const instruction_t EBREAK = 32'h00100073;
 
 function string decode_instr(instruction_t instr);
 
    casez (instr) 
      // R-Type Instructions
-     M_ADD   : return $sformatf("ADD   x%0d, x%0d, x%0d", instr.r.rd, instr.r.rs1, instr.r.rs2);
-     M_SUB   : return $sformatf("SUB   x%0d, x%0d, x%0d", instr.r.rd, instr.r.rs1, instr.r.rs2);
-     M_AND   : return $sformatf("AND   x%0d, x%0d, x%0d", instr.r.rd, instr.r.rs1, instr.r.rs2);
-     M_OR    : return $sformatf("OR    x%0d, x%0d, x%0d", instr.r.rd, instr.r.rs1, instr.r.rs2);
-     M_XOR   : return $sformatf("XOR   x%0d, x%0d, x%0d", instr.r.rd, instr.r.rs1, instr.r.rs2);
-     M_SLL   : return $sformatf("SLL   x%0d, x%0d, x%0d", instr.r.rd, instr.r.rs1, instr.r.rs2);
-     M_SRL   : return $sformatf("SRL   x%0d, x%0d, x%0d", instr.r.rd, instr.r.rs1, instr.r.rs2);
-     M_SRA   : return $sformatf("SRA   x%0d, x%0d, x%0d", instr.r.rd, instr.r.rs1, instr.r.rs2);
-     M_STL   : return $sformatf("STL   x%0d, x%0d, x%0d", instr.r.rd, instr.r.rs1, instr.r.rs2);
-     M_STLU  : return $sformatf("STLU  x%0d, x%0d, x%0d", instr.r.rd, instr.r.rs1, instr.r.rs2);
+     M_ADD   : return $sformatf("ADD   %s %s %s", frc(instr.r.rd), frc(instr.r.rs1), fr(instr.r.rs2));
+     M_SUB   : return $sformatf("SUB   %s %s %s", frc(instr.r.rd), frc(instr.r.rs1), fr(instr.r.rs2));
+     M_AND   : return $sformatf("AND   %s %s %s", frc(instr.r.rd), frc(instr.r.rs1), fr(instr.r.rs2));
+     M_OR    : return $sformatf("OR    %s %s %s", frc(instr.r.rd), frc(instr.r.rs1), fr(instr.r.rs2));
+     M_XOR   : return $sformatf("XOR   %s %s %s", frc(instr.r.rd), frc(instr.r.rs1), fr(instr.r.rs2));
+     M_SLL   : return $sformatf("SLL   %s %s %s", frc(instr.r.rd), frc(instr.r.rs1), fr(instr.r.rs2));
+     M_SRL   : return $sformatf("SRL   %s %s %s", frc(instr.r.rd), frc(instr.r.rs1), fr(instr.r.rs2));
+     M_SRA   : return $sformatf("SRA   %s %s %s", frc(instr.r.rd), frc(instr.r.rs1), fr(instr.r.rs2));
+     M_STL   : return $sformatf("STL   %s %s %s", frc(instr.r.rd), frc(instr.r.rs1), fr(instr.r.rs2));
+     M_STLU  : return $sformatf("STLU  %s %s %s", frc(instr.r.rd), frc(instr.r.rs1), fr(instr.r.rs2));
 
      // I-Type Instructions
-     M_ADDI  : return $sformatf("ADDI  x%0d, x%0d, %0d", instr.i.rd, instr.i.rs1, instr.i.imm);
-     M_ANDI  : return $sformatf("ANDI  x%0d, x%0d, %0d", instr.i.rd, instr.i.rs1, instr.i.imm);
-     M_ORI   : return $sformatf("ORI   x%0d, x%0d, %0d", instr.i.rd, instr.i.rs1, instr.i.imm);
-     M_XORI  : return $sformatf("XORI  x%0d, x%0d, %0d", instr.i.rd, instr.i.rs1, instr.i.imm);
-     M_SLLI  : return $sformatf("SLLI  x%0d, x%0d, %0d", instr.i.rd, instr.i.rs1, instr.i.imm);
-     M_SRLI  : return $sformatf("SRLI  x%0d, x%0d, %0d", instr.i.rd, instr.i.rs1, instr.i.imm);
-     M_SRAI  : return $sformatf("SRAI  x%0d, x%0d, %0d", instr.i.rd, instr.i.rs1, instr.i.imm);
+     M_ADDI  : return $sformatf("ADDI  %s %s %s", frc(instr.i.rd), frc(instr.i.rs1), fi(instr.i.imm));
+     M_ANDI  : return $sformatf("ANDI  %s %s %s", frc(instr.i.rd), frc(instr.i.rs1), fi(instr.i.imm));
+     M_ORI   : return $sformatf("ORI   %s %s %s", frc(instr.i.rd), frc(instr.i.rs1), fi(instr.i.imm));
+     M_XORI  : return $sformatf("XORI  %s %s %s", frc(instr.i.rd), frc(instr.i.rs1), fi(instr.i.imm));
+     M_SLLI  : return $sformatf("SLLI  %s %s %s", frc(instr.i.rd), frc(instr.i.rs1), fi(instr.i.imm));
+     M_SRLI  : return $sformatf("SRLI  %s %s %s", frc(instr.i.rd), frc(instr.i.rs1), fi(instr.i.imm));
+     M_SRAI  : return $sformatf("SRAI  %s %s %s", frc(instr.i.rd), frc(instr.i.rs1), fi(instr.i.imm));
 
      // SI-Type Instructions
-     M_STLI  : return $sformatf("STLI  x%0d, x%0d, x%0d", instr.si.rd, instr.si.rs1, instr.si.imm);
-     M_STLUI : return $sformatf("STLUI x%0d, x%0d, x%0d", instr.si.rd, instr.si.rs1, instr.si.imm);
+     M_STLI  : return $sformatf("STLI  %s %s %s", frc(instr.si.rd), frc(instr.si.rs1), fi(instr.si.imm));
+     M_STLUI : return $sformatf("STLUI %s %s %s", frc(instr.si.rd), frc(instr.si.rs1), fi(instr.si.imm));
 
      // U-Type Instructions
-     M_LUI   : return $sformatf("LUI   x%0d, %0d", instr.u.rd, instr.u.imm);
-     M_AUIPC : return $sformatf("AUIPC x%0d, %0d", instr.u.rd, instr.u.imm);
+     M_LUI   : return $sformatf("LUI   %s %s", frc(instr.u.rd), fi(instr.u.imm));
+     M_AUIPC : return $sformatf("AUIPC %s %s", frc(instr.u.rd), fi(instr.u.imm));
 
      // S-Type Instructions
-     M_SW    : return $sformatf("SW    x%0d, %0d(x%0d)", instr.s.rs2, {instr.s.imm1, instr.s.imm0}, instr.s.rs1);
-     M_SH    : return $sformatf("SH    x%0d, %0d(x%0d)", instr.s.rs2, {instr.s.imm1, instr.s.imm0}, instr.s.rs1);
-     M_SB    : return $sformatf("SB    x%0d, %0d(x%0d)", instr.s.rs2, {instr.s.imm1, instr.s.imm0}, instr.s.rs1);
+     M_SW    : return $sformatf("SW    %s %s(%s)", frc(instr.s.rs2), fi({instr.s.imm1, instr.s.imm0}), fri(instr.s.rs1));
+     M_SH    : return $sformatf("SH    %s %s(%s)", frc(instr.s.rs2), fi({instr.s.imm1, instr.s.imm0}), fri(instr.s.rs1));
+     M_SB    : return $sformatf("SB    %s %s(%s)", frc(instr.s.rs2), fi({instr.s.imm1, instr.s.imm0}), fri(instr.s.rs1));
 
      // B-Type Instructions
-     M_BEQ   : return $sformatf("BEQ   x%0d, x%0d, %0d", instr.b.rs1, instr.b.rs2, {instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0});
-     M_BNE   : return $sformatf("BNE   x%0d, x%0d, %0d", instr.b.rs1, instr.b.rs2, {instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0});
-     M_BLT   : return $sformatf("BLT   x%0d, x%0d, %0d", instr.b.rs1, instr.b.rs2, {instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0});
-     M_BGE   : return $sformatf("BGE   x%0d, x%0d, %0d", instr.b.rs1, instr.b.rs2, {instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0});
-     M_BLTU  : return $sformatf("BLTU  x%0d, x%0d, %0d", instr.b.rs1, instr.b.rs2, {instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0});
-     M_BGEU  : return $sformatf("BGEU  x%0d, x%0d, %0d", instr.b.rs1, instr.b.rs2, {instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0});
+     M_BEQ   : return $sformatf("BEQ   %s %s %s", frc(instr.b.rs1), frc(instr.b.rs2), fi({instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0}));
+     M_BNE   : return $sformatf("BNE   %s %s %s", frc(instr.b.rs1), frc(instr.b.rs2), fi({instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0}));
+     M_BLT   : return $sformatf("BLT   %s %s %s", frc(instr.b.rs1), frc(instr.b.rs2), fi({instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0}));
+     M_BGE   : return $sformatf("BGE   %s %s %s", frc(instr.b.rs1), frc(instr.b.rs2), fi({instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0}));
+     M_BLTU  : return $sformatf("BLTU  %s %s %s", frc(instr.b.rs1), frc(instr.b.rs2), fi({instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0}));
+     M_BGEU  : return $sformatf("BGEU  %s %s %s", frc(instr.b.rs1), frc(instr.b.rs2), fi({instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0}));
 
      // J-Type Instructions
-     M_JAL   : return $sformatf("JAL   x%0d, %0d", instr.j.rd, {instr.j.imm3, instr.j.imm2, instr.j.imm1, instr.j.imm0});
-     M_JALR  : return $sformatf("JALR  x%0d, %0d(x%0d)", instr.i.rd, instr.i.imm, instr.i.rs1);
+     M_JAL   : return $sformatf("JAL   %s %s",     frc(instr.j.rd), fi({instr.j.imm3, instr.j.imm2, instr.j.imm1, instr.j.imm0}));
+     M_JALR  : return $sformatf("JALR  %s %s(%s)", frc(instr.i.rd), fi(instr.i.imm), fri(instr.i.rs1));
 
      // Load Instructions
-     M_LW    : return $sformatf("LW    x%0d, %0d(x%0d)", instr.i.rd, instr.i.imm, instr.i.rs1);
-     M_LH    : return $sformatf("LH    x%0d, %0d(x%0d)", instr.i.rd, instr.i.imm, instr.i.rs1);
-     M_LHU   : return $sformatf("LHU   x%0d, %0d(x%0d)", instr.i.rd, instr.i.imm, instr.i.rs1);
-     M_LB    : return $sformatf("LB    x%0d, %0d(x%0d)", instr.i.rd, instr.i.imm, instr.i.rs1);
-     M_LBU   : return $sformatf("LBU   x%0d, %0d(x%0d)", instr.i.rd, instr.i.imm, instr.i.rs1);
+     M_LW    : return $sformatf("LW    %s %s(%s)", frc(instr.i.rd), fi(instr.i.imm), fri(instr.i.rs1));
+     M_LH    : return $sformatf("LH    %s %s(%s)", frc(instr.i.rd), fi(instr.i.imm), fri(instr.i.rs1));
+     M_LHU   : return $sformatf("LHU   %s %s(%s)", frc(instr.i.rd), fi(instr.i.imm), fri(instr.i.rs1));
+     M_LB    : return $sformatf("LB    %s %s(%s)", frc(instr.i.rd), fi(instr.i.imm), fri(instr.i.rs1));
+     M_LBU   : return $sformatf("LBU   %s %s(%s)", frc(instr.i.rd), fi(instr.i.imm), fri(instr.i.rs1));
 
      // Default Case
+     EBREAK  : return "EBREAK";
      default : return $sformatf("unable to decode: 0x%x (%b) ", instr, instr);
+   endcase 
+endfunction
+
+
+function opcode_mask_t opc_base(instruction_t instr);
+
+   casez (instr) 
+     // R-Type Instructions
+     M_ADD   : return M_ADD;
+     M_SUB   : return M_SUB;
+     M_AND   : return M_AND;
+     M_OR    : return M_OR;
+     M_XOR   : return M_XOR;
+     M_SLL   : return M_SLL;
+     M_SRL   : return M_SRL;
+     M_SRA   : return M_SRA;
+     M_STL   : return M_STL;
+     M_STLU  : return M_STLU;
+
+     // I-Type Instructions
+     M_ADDI  : return M_ADDI;
+     M_ANDI  : return M_ANDI;
+     M_ORI   : return M_ORI;
+     M_XORI  : return M_XORI;
+     M_SLLI  : return M_SLLI;
+     M_SRLI  : return M_SRLI;
+     M_SRAI  : return M_SRAI;
+
+     // SI-Type Instructions
+     M_STLI  : return M_STLI;
+     M_STLUI : return M_STLUI;
+
+     // U-Type Instructions
+     M_LUI   : return M_LUI;
+     M_AUIPC : return M_AUIPC;
+
+     // S-Type Instructions
+     M_SW    : return M_SW;
+     M_SH    : return M_SH;
+     M_SB    : return M_SB;
+
+     // B-Type Instructions
+     M_BEQ   : return M_BEQ;
+     M_BNE   : return M_BNE;
+     M_BLT   : return M_BLT;
+     M_BGE   : return M_BGE;
+     M_BLTU  : return M_BLTU;
+     M_BGEU  : return M_BGEU;
+
+     // J-Type Instructions
+     M_JAL   : return M_JAL;
+     M_JALR  : return M_JALR;
+
+     // Load Instructions
+     M_LW    : return M_LW;
+     M_LH    : return M_LH;
+     M_LHU   : return M_LHU;
+     M_LB    : return M_LB;
+     M_LBU   : return M_LBU;
+
+     // Default Case
+     default : assert(0) else $error("Unknown instruction ");
    endcase 
 
 endfunction

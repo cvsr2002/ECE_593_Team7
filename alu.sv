@@ -1,20 +1,30 @@
 
 import opcodes::*;
 
-module alu (
+module alu #(
+    parameter trace = 0
+  ) (
     input logic clk,
     input logic rst,
-    input instruction_t instr,      // Current instruction
+    input var instruction_t instr,      // Current instruction
     input register_t op1,           // Operand 1 (from register/immediate)
     input register_t op2,           // Operand 2 (from register/immediate)
-    input register_t pc,            // Program Counter (for AUIPC)
     input logic enable,             // enable signal
+    output logic instr_exec,        // opcode was executed
     output register_t result        // ALU result
 );
 
 always_ff @(posedge clk) begin
     if (rst) result <= 0;
     else if (enable) begin
+   
+`ifndef SYNTHESIS
+        // trace of code execution
+        if (trace) if (enable && is_alu_op(instr))
+            $display("%t executed: %s ", $time, decode_instr(instr));
+`endif 
+        instr_exec <= 1;
+
         casez (instr)
             // Arithmetic Operations
             M_ADD, M_ADDI  : result <= op1 + op2;
@@ -36,11 +46,12 @@ always_ff @(posedge clk) begin
             
             // Upper Immediate
             M_LUI          : result <= op1;               // op1 = immediate
-            M_AUIPC        : result <= op1 + pc;          // op1 = immediate
+            M_AUIPC        : result <= op1 + op2;         // op1 = immediate
           
-            default: assert (0) else $error("Invalid ALU operation detected for instruction: %h", instr);
+            default: instr_exec <= 0;   // silently ignore bad opcodes, hold prior output
+
             endcase
-        end
+        end else instr_exec <= 0;
 end
 endmodule
  

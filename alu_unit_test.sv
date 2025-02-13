@@ -18,7 +18,7 @@ module alu_unit_test;
 
   function automatic register_t oracle(
       input instruction_t i,
-      input register_t op1, op2, pc);
+      input register_t op1, op2);
 
       casez (i)
         M_ADD, M_ADDI  : return op1 + op2;
@@ -32,13 +32,14 @@ module alu_unit_test;
         M_SRL, M_SRLI  : return unsigned'(op1) >> op2[4:0];
         M_SRA, M_SRAI  : return op1 >> op2[4:0];
         M_LUI          : return op1;
-        M_AUIPC        : return op1 + pc;
+        M_AUIPC        : return op1;
       endcase
 
   endfunction
 
   instruction_t instr;
-  register_t    op1, op2, pc, result, expected_result;
+  logic         instr_exec;
+  register_t    op1, op2, result, expected_result;
   logic         enable;
  
   int           errors;  
@@ -62,12 +63,11 @@ module alu_unit_test;
           instr = encode_rtype(ops[c], 1, 2, 3);
           op1 = operands[a];
           op2 = operands[b];
-          pc = 0;
           enable = 1;
           @(posedge clk);
           enable = 0;
           @(posedge clk);
-          expected_result = oracle(instr, op1, op2, pc);
+          expected_result = oracle(instr, op1, op2);
 
           print_opcode(instr);
           $display("   operand 0: %x operand 1: %x ", op1, op2);

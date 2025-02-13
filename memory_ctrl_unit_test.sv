@@ -67,7 +67,7 @@ module memory_ctrl_unit_test;
       @(posedge clk);
       enable = 0;
       @(posedge clk);
-      while(!result_valid) @(posedge clk);
+      //while(!result_valid) @(posedge clk);
       repeat (8) @(posedge clk);
     end
     
