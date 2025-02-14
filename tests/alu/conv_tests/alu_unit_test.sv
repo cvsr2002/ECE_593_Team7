@@ -1,7 +1,7 @@
 
 import opcodes::*;
 
-module alu_unit_test;
+module top;
 
   logic clk, rst;
 

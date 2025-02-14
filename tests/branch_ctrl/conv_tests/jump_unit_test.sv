@@ -2,7 +2,7 @@
 
 import opcodes::*;
 
-module jump_unit_test;
+module top;
 
   logic clk, rst;
 

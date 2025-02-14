@@ -2,7 +2,7 @@
 
 import opcodes::*;
 
-module memory_ctrl_unit_test;
+module top;
 
   logic clk, rst;
 

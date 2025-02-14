@@ -15,8 +15,10 @@ module branch_unit (
    assign pc_out = pc;
 
    always_ff @(posedge clk) begin
-     if (rst) pc <= '0;
-     else begin
+     if (rst) begin
+       pc <= '0;
+       ret_addr <= '0;
+     end else begin
        if (enable) begin
          ret_addr <= pc + 4;
          casez (instr) 
