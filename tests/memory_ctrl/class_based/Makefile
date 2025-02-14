@@ -18,6 +18,7 @@ all:
 	@echo " make targets are: "
 	@echo "   - sim    = run command line"
 	@echo "   - gui    = run with GUI"	
+	@echo "   - random = run with random transaction generator"
 	@echo "   - broken = runs with induced errors"
 	@echo " "
 
@@ -26,6 +27,9 @@ gui: compile
 
 sim: compile
 	$(VSIM) -c -do run.do top
+
+random: compile
+	$(VSIM) -c -do run.do top -g TEST_NO=1
 
 broken: compile
 	$(VSIM) -c -do run.do top -g BROKEN=1
@@ -37,9 +41,11 @@ compile: clean
 	$(VMAP) work ./work
 
 	$(VLOG) $(HW)/opcode_pkg.sv
+	$(VLOG) $(TB)/mem_oo_tb_pkg.sv
+	$(VLOG) $(TB)/mem_interface.sv
 	$(VLOG) $(HW)/memory_ctrl.sv
 	$(VLOG) $(HW)/ssram.sv
-	$(VLOG) $(TB)/mem_oo_tb.sv
+	$(VLOG) $(TB)/top.sv
 
 CRUFT  = transcript
 CRUFT += *.wlf
