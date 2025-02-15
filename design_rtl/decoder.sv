@@ -1,6 +1,8 @@
 import opcodes::*;
 
-module decoder (
+module decoder #(
+   parameter random_errors= 0
+ )(
   input logic clk, rst,
 
   input wire instruction_t instr,
@@ -12,6 +14,15 @@ module decoder (
 
   instruction_t instr_reg;
   register_t rs1, rs2, imm;
+
+  function automatic register_t induce_errors(register_t data);
+    if (random_errors) begin
+      if ($urandom_range(1,10)==7)   // 10% of the time flip a bit at random
+        return data ^ register_t'(32'h1 << $urandom_range(0,31));
+    end
+    return(data);
+  endfunction
+
 
   always_ff @(posedge clk) begin
     if (rst) begin
@@ -25,7 +36,11 @@ module decoder (
         rs1 <= get_rs1(instr);
         rs2 <= get_rs2(instr);
         imm <= get_imm(instr);
+`ifdef SYNTHESIS
         rd  <= get_rd(instr);
+`else
+        rd  <= register_num_t'(induce_errors(get_rd(instr)));
+`endif
         instr_reg <= instr;
       end
     end
@@ -63,6 +78,11 @@ module decoder (
       (instr_reg == EBREAK) : op1 = '0;
       //  default: $error("invalid opcode in decoder: %x ", instr);
     endcase
+`ifndef SYNTHESIS
+    op1 = induce_errors(op1);
+    op2 = induce_errors(op2);
+    op3 = induce_errors(op3);
+`endif
   end 
 
 endmodule
