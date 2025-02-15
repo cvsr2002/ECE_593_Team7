@@ -1,6 +1,6 @@
 
 QUESTA_HOME = /pkgs/mentor/questa/2024.2/questasim/
-QUESTA_HOME = /u/release/questa/2024.2/questasim/
+#QUESTA_HOME = /u/release/questa/2024.2/questasim/
 
 HW   = ../../../design_rtl
 TB   = ./
