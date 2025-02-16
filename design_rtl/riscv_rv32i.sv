@@ -79,15 +79,15 @@ module riscv_rv32i(
    );
 
    alu u_alu(
-     .clk           (clk),
-     .rst           (rst),
+     .clk            (clk),
+     .rst            (rst),
  
-     .instr         (instr),
-     .op1           (op1),
-     .op2           (op2),
-     .enable        (execute),
-     .instr_exec    (executed),
-     .result        (alu_result)
+     .instr          (instr),
+     .op1            (op1),
+     .op2            (op2),
+     .enable         (execute),
+     .instr_exec     (executed),
+     .result         (alu_result)
    );
 
    branch_unit u_branch_unit(
@@ -105,24 +105,25 @@ module riscv_rv32i(
    );
    
    memory_ctrl u_memory_ctrl(
-     .clk             (clk),
-     .rst             (rst),
+     .clk            (clk),
+     .rst            (rst),
 
-     .instr           (instr),
-     .op1             (op1),
-     .op2             (op2),
-     .op3             (op3),
-     .result          (mcu_result),
-     .result_valid    (),
+     .instr          (instr),
+     .op1            (op1),
+     .op2            (op2),
+     .op3            (op3),
+     .enable         (execute),
+     .result         (mcu_result),
+     .result_valid   (),
 
-     .address         (data_address),
-     .read_enable     (data_read_enable),
-     .read_data       (data_read_data),
-     .read_ack        (data_read_rdy),
-     .write_enable    (data_write_enable),
+     .address        (data_address),
+     .read_enable    (data_read_enable),
+     .read_data      (data_read_data),
+     .read_ack       (data_read_rdy),
+     .write_enable   (data_write_enable),
      .write_byte_enable (data_write_byte_enable),
-     .write_data      (data_write_data),
-     .write_ack       (data_write_rdy)
+     .write_data     (data_write_data),
+     .write_ack      (data_write_rdy)
    );
 
    always @(posedge clk) begin
@@ -143,12 +144,28 @@ module riscv_rv32i(
 
 `ifndef SYNTHESIS
 
+   // processor trace output
+
+   function automatic void print_write;
+     case (data_write_byte_enable)
+       'hf: $display(" write @%x = %x ",  data_address<<2, data_write_data);
+       'hc: $display(" write @%x = %4x ", data_address<<2, (data_write_data >> 16));
+       'h3: $display(" write @%x = %4x ", data_address<<2, (data_write_data & 'hFFFF));
+       'h8: $display(" write @%x = %2x ", data_address<<2, (data_write_data >> 24) & 'hFF);
+       'h4: $display(" write @%x = %2x ", data_address<<2, (data_write_data >> 16) & 'hFF);
+       'h2: $display(" write @%x = %2x ", data_address<<2, (data_write_data >>  8) & 'hFF); 
+       'h1: $display(" write @%x = %2x ", data_address<<2, (data_write_data >>  0) & 'hFF);
+       default: $display(" *** illegal write operation ");
+     endcase
+   endfunction
+
    // instruciton tracing for debug
    always @(posedge clk) begin
      if (chatty & execute) $write("opcode executed: %-25s ", decode_instr(instr));
      if (chatty) begin
        if (write_back) begin
          if (rd != 0) $display(" x%0d = %x ", rd, result);
+         else if (is_s_type(instr)) print_write();
          else $display(" "); // newline
        end
      end

@@ -46,15 +46,16 @@ module memory_ctrl #(
    endfunction
 
    always_ff @(posedge clk) 
-     if (rst) state <= IDLE;
+     if (rst) state <= ADDR_PHASE; // IDLE;
      else state <= next_state;
 
    always_comb begin
      case (state) 
-       IDLE       : if (enable) next_state = ADDR_PHASE;
-       ADDR_PHASE : next_state = DATA_PHASE;
+       IDLE       : if (enable) next_state = ADDR_PHASE; else next_state = IDLE;
+       // ADDR_PHASE : next_state = DATA_PHASE;
+       ADDR_PHASE : if (enable) next_state = DATA_PHASE; else next_state = ADDR_PHASE;
        DATA_PHASE : if ((read_op & read_ack) || (!read_op & write_ack)) next_state = DONE;
-       DONE       : next_state = IDLE;
+       DONE       : next_state = ADDR_PHASE;
      endcase
    end
 
@@ -64,7 +65,7 @@ module memory_ctrl #(
    assign result = result_reg;
 `endif
 
-   always_ff @(posedge clk) begin
+   always_comb begin 
      if (rst) result_reg <= '0;
      else if ((state == DATA_PHASE) & (read_op & read_ack)) begin 
        if (sign_ex) begin
@@ -94,41 +95,41 @@ module memory_ctrl #(
                        (size == 2) ? (wdata & 32'h0000FFFF) << (offset * 8) :
                        (size == 1) ? (wdata & 32'h000000FF) << (offset * 8) : '0;
 
-   always_ff @(posedge clk) begin
+   always_comb begin
      if (rst) begin 
-       size <= '0;
-       offset <= '0;
-       address <= '0;
-       read_op <= 0;
-       write_op <= 0;
-       wdata <= '0;
+       size = '0;
+       offset = '0;
+       address = '0;
+       read_op = 0;
+       write_op = 0;
+       wdata = '0;
      end else begin
        if (state == DONE) begin
-         size <= '0;
-         offset <= '0;
-         address <= '0;
-         read_op <= 0;
-         write_op <= 0;
-         wdata <= '0;
+         size = '0;
+         offset = '0;
+         address = '0;
+         read_op = 0;
+         write_op = 0;
+         wdata = '0;
        end
        if (enable & is_memory_op(instr)) begin
        // $display("executing %s ", decode_instr(instr));
-         address <= (op1 + op2) >> 2;
-         offset  <= (op1 + op2) & 32'h00000003;
+         address = (op1 + op2) >> 2;
+         offset  = (op1 + op2) & 32'h00000003;
 `ifndef SYNTHESIS
-         wdata <= induce_errors(op3);
+         wdata = induce_errors(op3);
 `else
-         wdata <= op3;
+         wdata = op3;
 `endif
          casez (instr) 
-           M_LW   : begin  size <= 4;  read_op  <= 1; sign_ex <= 0; end
-           M_LH   : begin  size <= 2;  read_op  <= 1; sign_ex <= 1; end
-           M_LHU  : begin  size <= 2;  read_op  <= 1; sign_ex <= 0; end
-           M_LB   : begin  size <= 1;  read_op  <= 1; sign_ex <= 1; end
-           M_LBU  : begin  size <= 1;  read_op  <= 1; sign_ex <= 0; end
-           M_SW   : begin  size <= 4;  write_op <= 1; sign_ex <= 0; end
-           M_SH   : begin  size <= 2;  write_op <= 1; sign_ex <= 0; end
-           M_SB   : begin  size <= 1;  write_op <= 1; sign_ex <= 0; end
+           M_LW   : begin  size = 4;  read_op  = 1; sign_ex = 0; end
+           M_LH   : begin  size = 2;  read_op  = 1; sign_ex = 1; end
+           M_LHU  : begin  size = 2;  read_op  = 1; sign_ex = 0; end
+           M_LB   : begin  size = 1;  read_op  = 1; sign_ex = 1; end
+           M_LBU  : begin  size = 1;  read_op  = 1; sign_ex = 0; end
+           M_SW   : begin  size = 4;  write_op = 1; sign_ex = 0; end
+           M_SH   : begin  size = 2;  write_op = 1; sign_ex = 0; end
+           M_SB   : begin  size = 1;  write_op = 1; sign_ex = 0; end
          endcase
        end
      end

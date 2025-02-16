@@ -1,6 +1,6 @@
 
 QUESTA_HOME = /pkgs/mentor/questa/2024.2/questasim/
-QUESTA_HOME = /u/release/questa/2024.2/questasim/
+#QUESTA_HOME = /u/release/questa/2024.2/questasim/
 
 HW   = ../../../design_rtl
 TB   = ./
@@ -18,6 +18,8 @@ all:
 	@echo " make targets are: "
 	@echo "   - sim "
 	@echo "   - gui "
+	@echo "   - fib  = run fibonacci program "
+	@echo "   - mem_test = run memory test "
 	@echo " "
 
 gui: compile
@@ -25,6 +27,12 @@ gui: compile
 
 sim: compile
 	$(VSIM) -c -do run.do cpu_tb
+
+fib: compile
+	$(VSIM) -do run_gui.do cpu_tb -g testname="fibonacci"
+
+mem_test: compile
+	$(VSIM) -do run_gui.do cpu_tb -g testname="memory_test"
 
 compile: clean
 	rm -rf ./work

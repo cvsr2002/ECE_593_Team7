@@ -269,7 +269,7 @@ function automatic register_num_t get_rs2(instruction_t instr);
   endcase
 endfunction
 
-function automatic long_imm_t get_imm(instruction_t instr);
+function automatic register_t get_imm(instruction_t instr);
   case(1)
    is_i_type(instr) : return get_i_imm(instr);
    is_si_type(instr) : return get_si_imm(instr);
@@ -364,7 +364,10 @@ function string decode_instr(instruction_t instr);
 
      // Default Case
      EBREAK  : return "EBREAK";
-     default : return $sformatf("unable to decode: 0x%x (%b) ", instr, instr);
+     default : begin 
+                return $sformatf("unable to decode: 0x%x (%b) ", instr, instr);
+               end
+               
    endcase 
 endfunction
 
@@ -548,8 +551,8 @@ function short_imm_t get_b_imm(input instruction_t instr);
    return({instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0});
 endfunction
 
-function long_imm_t get_u_imm(input instruction_t instr);
-   return(instr.u.imm << 12);
+function register_t get_u_imm(input instruction_t instr);
+   return(register_t'(instr.u.imm) << 12);
 endfunction
 
 function long_imm_t get_j_imm(input instruction_t instr);
@@ -575,7 +578,7 @@ function automatic void set_b_imm(ref instruction_t instr, input short_imm_t imm
 endfunction
 
 function automatic void set_u_imm(ref instruction_t instr, input long_imm_t imm);
-   instr.u.imm = imm << 12; // & 32'h000FFFFF;
+   instr.u.imm = imm; // & 32'h000FFFFF;
 endfunction
 
 function automatic void set_j_imm(ref instruction_t instr, input long_imm_t imm);

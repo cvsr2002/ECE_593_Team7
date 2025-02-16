@@ -37,6 +37,7 @@ module cpu_design(
     .data_write_enable   (data_write_enable),
     .data_write_byte_enable (data_byte_enables),
     .data_write_data     (data_write_data),
+    .data_write_rdy      (data_write_ack),
     .halted              (halted)
   );
 

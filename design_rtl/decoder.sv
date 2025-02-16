@@ -23,6 +23,9 @@ module decoder #(
     return(data);
   endfunction
 
+  string debug_opcode;
+
+  assign debug_opcode = decode_instr(instr); 
 
   always_ff @(posedge clk) begin
     if (rst) begin
@@ -64,17 +67,21 @@ module decoder #(
           op2 = imm;
         end
       is_s_type(instr_reg): begin
-          op1 = register_bank[rs1];
-          op2 = register_bank[rs2];
-          op3 = imm;
+          op1 = register_bank[rs1]; 
+          op2 = imm;                
+          op3 = register_bank[rs2]; 
         end
       is_b_type(instr_reg): begin
           op1 = register_bank[rs1];
           op2 = register_bank[rs2];
           op3 = imm;
         end
-      is_u_type(instr_reg): op1 = imm; 
-      is_j_type(instr_reg): op1 = imm; 
+      is_u_type(instr_reg): begin
+          op1 = imm; 
+        end
+      is_j_type(instr_reg): begin
+          op1 = imm; 
+        end
       (instr_reg == EBREAK) : op1 = '0;
       //  default: $error("invalid opcode in decoder: %x ", instr);
     endcase
