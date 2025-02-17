@@ -81,7 +81,7 @@ module memory_ctrl #(
    end
 
    // assign result_valid = ((read_op & read_ack) || (write_op & write_ack)) & (state == DONE);
-   assign result_valid = (read_op & read_ack) & (state == DONE);
+   assign result_valid = (read_op & read_ack) & (state == DATA_PHASE);
    assign read_enable = (read_op & (state == ADDR_PHASE));
    assign write_enable = (write_op & (state == ADDR_PHASE));
    assign write_byte_enable = (!write_op) ? '0 :

@@ -4,6 +4,8 @@ import opcodes::*;
 
 module top;
 
+  parameter broken = 0;
+
   logic clk, rst;
 
   initial begin
@@ -86,6 +88,7 @@ module top;
     for (i = 0; i < count; i++) begin
       op1 = 0;
       op2 = i*size;   // read_address
+      expected_result = i;
 
       enable = 1;
       @(posedge clk);
@@ -99,8 +102,8 @@ module top;
         4: $display("read %08x from address %x ", result, unsigned'(op1 + op2));
       endcase
 
-      if (result != i) begin
-         $display("  Expected: %d actual: %d -- wrong!! ", i, result);
+      if (result != expected_result) begin
+         $display("  Expected: %d actual: %d -- wrong!! ", expected_result, result);
          errors ++;
       end
       repeat (8) @(posedge clk);
@@ -138,7 +141,7 @@ module top;
 
   // instantiate DUT and memory
 
-  memory_ctrl u_mcu(.*);
+  memory_ctrl #(.random_errors(broken))u_mcu(.*);
 
   ssram u_mem(.*);
 

@@ -1,6 +1,6 @@
 
 QUESTA_HOME = /pkgs/mentor/questa/2024.2/questasim/
-QUESTA_HOME = /u/release/questa/2024.2/questasim/
+#QUESTA_HOME = /u/release/questa/2024.2/questasim/
 
 HW   = ../../../design_rtl
 TB   = ./
@@ -16,12 +16,9 @@ VSIM = $(QUESTA_HOME)/bin/vsim -voptargs=+acc -work work
 all: 
 	@echo " "
 	@echo " make targets are: "
-	@echo "   - sim "
-	@echo "   - gui "
-	@echo "   - mem_test "
-	@echo "   - mem_test_gui "
-	@echo "   - jump_test "
-	@echo "   - jump_test_gui "
+	@echo "   - sim = run command line"
+	@echo "   - gui = run with Questa GUI"
+	@echo "   - broken = run with errors induced in the DUT"
 	@echo " "
 
 gui: compile
@@ -29,6 +26,9 @@ gui: compile
 
 sim: compile
 	$(VSIM) -c -do run.do top
+
+broken: compile
+	$(VSIM) -c -do run.do top -g broken=1
 
 compile: clean
 	rm -rf ./work
