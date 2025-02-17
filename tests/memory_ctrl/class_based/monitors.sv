@@ -3,12 +3,12 @@
 
 class monitor_in_c;
   virtual mem_if_i  vif;
-  mailbox           mon_in2scb;
+  mailbox#(stimulus_c) mon_in2scb;
   stimulus_c        inputs;
 
   logic             chatty = 0;
 
-  function new(virtual mem_if_i i, mailbox m);
+  function new(virtual mem_if_i i, mailbox#(stimulus_c) m);
     vif         = i;
     mon_in2scb  = m;
   endfunction
@@ -23,20 +23,25 @@ class monitor_in_c;
 
       if (vif.enable) begin
 
-        inputs         = new();
+        inputs          = new();
 
-        inputs.instr   = vif.instr;
-        inputs.op1     = vif.op1;
-        inputs.op2     = vif.op2;
-        inputs.op3     = vif.op3;
+        inputs.instr    = vif.instr;
+        inputs.op1      = vif.op1;
+        inputs.op2      = vif.op2;
+        inputs.op3      = vif.op3;
+        inputs.instr_id = vif.instr_id;
 
+        if (verbose) $display("[MONITOR IN ] %5d instruction: %-25s op1: %x op2: %x op3: %x ",
+                                 inputs.instr_id, decode_instr(inputs.instr), inputs.op1, inputs.op2, inputs.op3);
+           
         mon_in2scb.put(inputs);
 
         if (chatty) begin
           $write("time: %t stimulus sent: %s ", 
                     $time, decode_instr(vif.instr));
         end
-        // @(posedge vif.clk);
+
+        if (inputs.instr == EBREAK) break;
       end
     end
   endtask
@@ -46,14 +51,14 @@ endclass
 // captures read data from memory instance
 
 class monitor_out_c;
-  virtual mem_if_i   vif;
-  mailbox            mon_out2scb;
-  results_c          rx;
-  register_t         write_data;
+  virtual mem_if_i     vif;
+  mailbox#(results_c)  mon_out2scb;
+  results_c            rx;
+  register_t           write_data;
 
-  logic              chatty = 0;
+  logic                chatty = 0;
 
-  function new(virtual mem_if_i i, mailbox m);
+  function new(virtual mem_if_i i, mailbox#(results_c) m);
     vif           = i;
     mon_out2scb   = m;
   endfunction
@@ -70,11 +75,14 @@ class monitor_out_c;
       // capture memory reads
       if (vif.result_valid) begin
 
-        rx = new();
+        rx           = new();
 
-        rx.rw = RX_READ;
-        rx.result = vif.result;
+        rx.rw        = RX_READ;
+        rx.result    = vif.result;
+        rx.instr_id  = vif.instr_id;
 
+        if (verbose) $display("[MONITOR OUT] %5d instruction: READ, value: %x ", rx.instr_id, rx.result);
+           
         mon_out2scb.put(rx);
 
       end
@@ -94,10 +102,13 @@ class monitor_out_c;
           default: $error("%t Invalid write byte enable pattern %x (%d) ", $time, vif.byte_enables, vif.write_enable);
         endcase
 
-        rx = new();
+        rx           = new();
 
-        rx.rw = RX_WRITE;
-        rx.result = vif.write_data;
+        rx.rw        = RX_WRITE;
+        rx.result    = vif.write_data;
+        rx.instr_id  = vif.instr_id;
+
+        if (verbose) $display("[MONITOR OUT] %5d instruction: WRITE, value: %x ", rx.instr_id, rx.result);
 
         mon_out2scb.put(rx);
       end
@@ -110,6 +121,8 @@ class monitor_out_c;
 
         rx.rw = RX_READ;
         rx.result = '0;
+
+        if (verbose) $display("[MONITOR OUT] End of test marker received ");
 
         mon_out2scb.put(rx);
 

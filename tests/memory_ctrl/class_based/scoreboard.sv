@@ -128,7 +128,8 @@ endfunction
 // scoreboard class
 
 class scoreboard_c;
-  mailbox      mon_in2scb, mon_out2scb;
+  mailbox#(stimulus_c) mon_in2scb;
+  mailbox#(results_c)  mon_out2scb;
   stimulus_c   stim;
   results_c    resp;
   results_c    expected_result;
@@ -136,10 +137,10 @@ class scoreboard_c;
   int          instruction_count;
   logic        done;
 
-  logic        chatty = 1;
+  logic        chatty = 0;
   logic        very_chatty = 0;
 
-  function new(mailbox i, o); 
+  function new(mailbox#(stimulus_c) i, mailbox#(results_c) o); 
     mon_in2scb         = i;
     mon_out2scb        = o;
     stim               = new;
@@ -151,16 +152,17 @@ class scoreboard_c;
 
   task get_stim(ref stimulus_c stim);
     mon_in2scb.get(stim);
-    if (very_chatty) begin
-      $display("time: %t Stimulus received: op1=%x op2=%x op3=%x", $time, stim.op1, stim.op2, stim.op3);
+    if (verbose) begin
+      $display("[SCOREBOARD ] %5d instruction: %-25s op1: %x op2: %x op3: %x", 
+                   stim.instr_id, decode_instr(stim.instr), stim.op1, stim.op2, stim.op3);
     end
   endtask;
 
   task get_resp(ref results_c resp);
     mon_out2scb.get(resp);
-    if (very_chatty) begin
-      $display("time: %t Response received: %s response: %x ", 
-                  $time, (resp.rw == RX_READ) ? "Read" : "Write", resp.result);
+    if (verbose) begin
+      $display("[SCOREBOARD ] %5d %s response: %x ", 
+                  stim.instr_id, (resp.rw == RX_READ) ? "Read" : "Write", resp.result);
     end
   endtask;
 
@@ -169,10 +171,10 @@ class scoreboard_c;
     
       // get stim and responses
       fork
-        mon_in2scb.get(stim);
-        mon_out2scb.get(resp);
-        //get_stim(stim);
-        //get_resp(resp);
+        // mon_in2scb.get(stim);
+        // mon_out2scb.get(resp);
+        get_stim(stim);
+        get_resp(resp);
       join
 
       if (stim.instr == EBREAK) begin
@@ -194,6 +196,16 @@ class scoreboard_c;
       end else if (chatty) begin // if chatty, record all trsnactions
         $display("Success: %-28s op1=%x op2=%x result=%x ", 
                     decode_instr(stim.instr), stim.op1, stim.op2, resp.result);
+      end
+   
+      if (verbose) begin 
+        if ((expected_result.rw     != resp.rw) ||
+            (expected_result.result != resp.result)) 
+            $display("[SCOREBOARD ] %5d - failure - instruction: %-25s expected=%x actual=%x ", 
+                       stim.instr_id, decode_instr(stim.instr), expected_result.result, resp.result); 
+        else 
+            $display("[SCOREBOARD ] %5d - success - instruction: %-25s expected=%x actual=%x ", 
+                       stim.instr_id, decode_instr(stim.instr), expected_result.result, resp.result); 
       end
       instruction_count++;
     end

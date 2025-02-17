@@ -14,4 +14,5 @@ interface mem_if_i(input logic clk, rst);
   logic [31:0]    write_data;
   logic [3:0]     byte_enables;
   logic           write_enable;
+  int             instr_id;
 endinterface

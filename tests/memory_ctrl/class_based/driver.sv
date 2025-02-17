@@ -50,14 +50,20 @@ class  driver_c;
       vif.op1         = inputs.op1;
       vif.op2         = inputs.op2;
       vif.op3         = inputs.op3;
+      vif.instr_id    = inputs.instr_id;
 
       // toggle enable
       vif.enable = 1;
       @(posedge vif.clk);
       vif.enable = 0;
 
+      if (verbose) $display("[DRIVER     ] %5d instruction: %-25s op1: %x op2: %x op3: %x", 
+                              inputs.instr_id, decode_instr(inputs.instr), inputs.op1, inputs.op2, inputs.op3);
+
       // wait a bit
       repeat (pause) @(posedge vif.clk);
+
+      if (inputs.instr == EBREAK) break;
     end
 
     if (chatty) $display("driver: finished");

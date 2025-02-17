@@ -8,8 +8,8 @@ class environment_c;
   scoreboard_c     scb;
 
   mailbox#(stimulus_c)  gen2drv;
-  mailbox          mon_in2scb;
-  mailbox          mon_out2scb;
+  mailbox#(stimulus_c)  mon_in2scb;
+  mailbox#(results_c)   mon_out2scb;
 
   virtual mem_if_i vif;
   int              num_tests;
@@ -27,9 +27,9 @@ class environment_c;
 
     // make new mailboxes
 
-    gen2drv      = new();
-    mon_in2scb   = new();
-    mon_out2scb  = new();
+    gen2drv       = new();
+    mon_in2scb    = new();
+    mon_out2scb   = new();
 
     // connect virtual interface
     vif          = m;

@@ -134,5 +134,58 @@ module memory_ctrl #(
        end
      end
    end
-   
+
+   opcode_mask_t opcode;
+   assign opcode = opc_base(instr);
+
+   covergroup mcu_cg @(posedge clk); 
+     coverpoint opcode {
+        bins instr[] = {M_LW, M_LH, M_LHU, M_LB, M_LBU, M_SW, M_SH, M_SB};
+        // ignore_bins: others;
+      }
+      coverpoint result_reg {
+        bins positive = { [1:$] };
+        bins zero     = { 0 };
+        bins negative = { [$:-1] };
+      }
+      cross opcode, result_reg;
+   endgroup  
+
+   covergroup mcu_halfword_cg @(posedge clk);
+     coverpoint opcode {
+        bins instr[] = {M_LH, M_LHU};
+        //ignore_bins: others;
+      }
+      coverpoint result_reg {
+        bins positive = { [1:$] };
+        bins zero     = { 0 };
+        bins negative = { [$:-1] };
+      }
+      coverpoint offset {
+        bins offset[2] = {0, 2};
+        ignore_bins misaligned = {1, 3};
+      }
+      cross opcode, result_reg, offset;
+   endgroup  
+
+   covergroup mcu_byte_cg @(posedge clk);
+     coverpoint opcode {
+        bins instr[] = {M_LB, M_LBU};
+        //ignore_bins: others;
+      }
+      coverpoint result_reg {
+        bins positive = { [1:$] };
+        bins zero     = { 0 };
+        bins negative = { [$:-1] };
+      }
+      coverpoint offset {
+        bins offset[2] = {[0:3]};
+      }
+      cross opcode, result_reg, offset;
+   endgroup  
+
+   mcu_cg          mcu_cg_inst           = new();
+   mcu_halfword_cg mcu_halfword_cg_inst  = new();
+   mcu_byte_cg     mcu_byte_cg_inst      = new();
+
 endmodule
