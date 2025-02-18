@@ -1,6 +1,8 @@
 
 QUESTA_HOME = /pkgs/mentor/questa/2024.2/questasim/
-#QUESTA_HOME = /u/release/questa/2024.2/questasim/
+ifdef MENTOR
+  QUESTA_HOME = /u/release/questa/2024.2/questasim/
+endif
 
 HW   = ../../../design_rtl
 TB   = ./
@@ -18,6 +20,7 @@ all:
 	@echo " make targets are: "
 	@echo "   - sim    = run command line"
 	@echo "   - gui    = run with GUI"	
+	@echo "   - coverage = run with coverage enabled"
 	@echo "   - random = run with random transaction generator"
 	@echo "   - broken = runs with induced errors"
 	@echo " "
@@ -34,6 +37,9 @@ random: compile
 broken: compile
 	$(VSIM) -c -do run.do top -g BROKEN=1
 
+coverage: compile
+	$(VSIM) -do run_gui.do top -coverage -g TEST_NO=1
+
 compile: clean
 	rm -rf ./work
 
@@ -43,7 +49,7 @@ compile: clean
 	$(VLOG) $(HW)/opcode_pkg.sv
 	$(VLOG) $(TB)/decoder_oo_tb_pkg.sv
 	$(VLOG) $(TB)/decoder_interface.sv
-	$(VLOG) $(HW)/decoder.sv
+	$(VLOG) $(HW)/decoder.sv +cover
 	$(VLOG) $(HW)/ssram.sv
 	$(VLOG) $(TB)/top.sv
 

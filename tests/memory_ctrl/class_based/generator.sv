@@ -89,7 +89,8 @@ typedef enum {Sequential_Test=0, Random_Test} mem_test_t;
 class generator_c;
   stimulus_c            inputs;
   mailbox#(stimulus_c)  gen2drv;
-  int                   instruction_count;
+  int                   test_count;
+  int                   test_index;
 
   logic                 chatty = 1;
 
@@ -100,7 +101,8 @@ class generator_c;
     if (chatty) $display("generator: started");
 
     gen2drv           = mb;
-    instruction_count = num_tests; 
+    test_count        = num_tests; 
+    test_index        = 0;
   endfunction
 
   // creates a sequence of "count" transactions
@@ -117,10 +119,14 @@ class generator_c;
     for (i=0; i<count; i++) begin
       inputs = new();
 
-      inputs.instr = instr;
-      inputs.op1 = '0;
-      inputs.op2 = base + i * size;
-      inputs.op3 = i;
+      inputs.instr    = instr;
+      inputs.op1      = '0;
+      inputs.op2      = base + i * size;
+      inputs.op3      = i;
+      inputs.instr_id = test_index++;
+
+      if (verbose) $display("[GENERATOR  ] %5d instruction: %-25s op1: %x op2: %x op3: %x ",
+                              inputs.instr_id, decode_instr(inputs.instr), inputs.op1, inputs.op2, inputs.op3); 
 
       gen2drv.put(inputs);
     end
@@ -135,6 +141,7 @@ class generator_c;
     inputs.op2   = '0;
     inputs.op3   = '0;
     
+    if (verbose) $display("[GENERATOR  ] --- end of test sent");
     if (chatty) $display("Sending EBREAK");
     gen2drv.put(inputs);
   endtask
@@ -150,7 +157,7 @@ class generator_c;
 
     testcase = new();
 
-    repeat(instruction_count) begin
+    repeat(test_count) begin
 
       assert(testcase.randomize());
 
@@ -160,6 +167,10 @@ class generator_c;
       inputs.op1          = testcase.base;
       inputs.op2          = testcase.offset;
       inputs.op3          = testcase.w_data;
+      inputs.instr_id     = test_index++;
+
+      if (verbose) $display("[GENERATOR  ] %5d instruction: %-25s op1: %x op2: %x op3: %x ",
+                              inputs.instr_id, decode_instr(inputs.instr), inputs.op1, inputs.op2, inputs.op3); 
 
       gen2drv.put(inputs);
 
@@ -169,6 +180,10 @@ class generator_c;
       inputs.op1          = testcase.base;
       inputs.op2          = testcase.offset;
       inputs.op3          = '0;
+      inputs.instr_id     = test_index++;
+
+      if (verbose) $display("[GENERATOR  ] %5d instruction: %-25s op1: %x op2: %x op3: %x ",
+                              inputs.instr_id, decode_instr(inputs.instr), inputs.op1, inputs.op2, inputs.op3); 
 
       gen2drv.put(inputs);
 

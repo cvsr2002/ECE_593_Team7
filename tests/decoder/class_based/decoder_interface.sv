@@ -9,4 +9,5 @@ interface decoder_if_i(input logic clk, rst);
   register_t      op1, op2, op3;
   register_num_t  rd;
   logic           enable;
+  int             instr_id;
 endinterface

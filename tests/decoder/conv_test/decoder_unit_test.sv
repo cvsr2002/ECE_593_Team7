@@ -31,6 +31,8 @@ module top;
 
     // do not copy or reuse decode routines (does not really test anything)
     op = opc_base(instr);
+
+    // set op1
     if (op inside {
      /* R  */ M_ADD, M_SUB, M_AND, M_OR, M_XOR, M_SLL, M_SRL, M_SRA, M_STL, M_STLU, 
      /* I  */ M_ADDI, M_ANDI, M_ORI, M_XORI, M_SLLI, M_SRLI, M_SRAI, M_LW, M_LH, M_LHU, M_LB, M_LBU, M_JALR,
@@ -40,16 +42,21 @@ module top;
     if (op inside {
      /* J  */ M_JAL, 
      /* U  */ M_LUI, M_AUIPC }) ex_op1 = get_imm(instr);
+
+    // set op2
     if (op inside {
      /* R  */ M_ADD, M_SUB, M_AND, M_OR, M_XOR, M_SLL, M_SRL, M_SRA, M_STL, M_STLU, 
-     /* S  */ M_SW, M_SH, M_SB, 
      /* B  */ M_BEQ, M_BNE, M_BLT, M_BGE, M_BLTU, M_BGEU}) ex_op2 = r[get_rs2(instr)];
     if (op inside {
      /* I  */ M_ADDI, M_ANDI, M_ORI, M_XORI, M_SLLI, M_SRLI, M_SRAI, M_LW, M_LH, M_LHU, M_LB, M_LBU, M_JALR,
+     /* S  */ M_SW, M_SH, M_SB, 
      /* SI */ M_STLI, M_STLUI })  ex_op2 = get_imm(instr);
+
+    // set op3
     if (op inside {
-     /* B  */ M_BEQ, M_BNE, M_BLT, M_BGE, M_BLTU, M_BGEU,
-     /* S  */ M_SW, M_SH, M_SB })  ex_op3 = get_imm(instr);
+     /* B  */ M_BEQ, M_BNE, M_BLT, M_BGE, M_BLTU, M_BGEU}) ex_op3 = get_imm(instr);
+    if (op inside {
+     /* S  */ M_SW, M_SH, M_SB })  ex_op3 = r[get_rs2(instr)];
  
     if (op inside {
      /* R  */ M_ADD, M_SUB, M_AND, M_OR, M_XOR, M_SLL, M_SRL, M_SRA, M_STL, M_STLU, 

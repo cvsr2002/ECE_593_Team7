@@ -60,7 +60,8 @@ typedef enum {Instruciton_Test=0, Random_Test} decoder_test_t;
 class generator_c;
   stimulus_c            inputs;
   mailbox#(stimulus_c)  gen2drv;
-  int                   instruction_count;
+  int                   test_count;
+  int                   test_index;
 
   logic                 chatty = 1;
 
@@ -71,7 +72,8 @@ class generator_c;
     if (chatty) $display("generator: started");
 
     gen2drv           = mb;
-    instruction_count = num_tests; 
+    test_count        = num_tests;
+    test_index        = 0; 
   endfunction
 
   // sends a break instruciton to end simulation
@@ -82,6 +84,8 @@ class generator_c;
     foreach(inputs.register_bank[i]) inputs.register_bank[i]  = '0;
     
     if (chatty) $display("Sending EBREAK");
+    if (verbose) $display("[GENERATOR  ] --- end of test sent");
+
     gen2drv.put(inputs);
   endtask
 
@@ -94,7 +98,7 @@ class generator_c;
 
     testcase = new();
 
-    repeat(instruction_count) begin
+    repeat(test_count) begin
 
       assert(testcase.randomize());
 
@@ -102,6 +106,11 @@ class generator_c;
 
       inputs.instr = testcase.instr;
       foreach (inputs.register_bank[i]) inputs.register_bank[i] = testcase.register_bank[i];
+      inputs.instr_id = test_index++;
+
+      if (verbose) $display("[GENERATOR  ] %5d instruction: %-25s register[1]: %x register[2]: %x register[3]: %x ",
+                              inputs.instr_id, decode_instr(inputs.instr), inputs.register_bank[1],
+                              inputs.register_bank[1], inputs.register_bank[2]);
 
       gen2drv.put(inputs);
     end
@@ -124,6 +133,11 @@ class generator_c;
 
       foreach (inputs.register_bank[i]) inputs.register_bank[i] = i;
       inputs.instr = instr;
+      inputs.instr_id = test_index++;
+
+      if (verbose) $display("[GENERATOR  ] %5d instruction: %-25s register[1]: %x register[2]: %x register[3]: %x ",
+                              inputs.instr_id, decode_instr(inputs.instr), inputs.register_bank[1],
+                              inputs.register_bank[1], inputs.register_bank[2]);
 
       gen2drv.put(inputs);
     end

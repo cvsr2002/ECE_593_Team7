@@ -45,11 +45,16 @@ class  driver_c;
       // drive inputs
       vif.instr       = inputs.instr;
       foreach(vif.register_bank[i]) vif.register_bank[i] = inputs.register_bank[i];
+      vif.instr_id    = inputs.instr_id;
 
       // toggle enable
       vif.enable = 1;
       @(posedge vif.clk);
       vif.enable = 0;
+
+      if (verbose) $display("[DRIVER     ] %5d instruction: %-25s registers[1]: %x registers[2]: %x registers[3]: %x",
+                              inputs.instr_id, decode_instr(inputs.instr), inputs.register_bank[1],
+                              inputs.register_bank[2], inputs.register_bank[3]);
 
       // wait a bit
       repeat (pause) @(posedge vif.clk);

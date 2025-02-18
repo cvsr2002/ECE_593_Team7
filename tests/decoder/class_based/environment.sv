@@ -8,8 +8,8 @@ class environment_c;
   scoreboard_c     scb;
 
   mailbox#(stimulus_c)  gen2drv;
-  mailbox          mon_in2scb;
-  mailbox          mon_out2scb;
+  mailbox#(stimulus_c)  mon_in2scb;
+  mailbox#(results_c)   mon_out2scb;
 
   virtual decoder_if_i vif;
   int              num_tests;
