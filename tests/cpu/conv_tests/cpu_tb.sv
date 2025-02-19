@@ -1,4 +1,5 @@
 import opcodes::*;
+import iss_pkg::*;
 
 module cpu_tb;
 
@@ -88,6 +89,8 @@ module cpu_tb;
        u_cpu_design.u_code_memory.memory[19] = encode_instr(M_OR,   .rd(10), .rs1(10), .rs2(9));   // x10 = x10 | x9
        u_cpu_design.u_code_memory.memory[20] = EBREAK;                                             // done
    // done
+
+
   endtask
 
   task load_mem_test;
@@ -249,19 +252,85 @@ module cpu_tb;
      
   endtask
 
+  task run_iss;
+  // set up tracking ISS
+    iss_enable_trace();
+    for (int i=0; i<100; i++) iss_set_instruction(i, u_cpu_design.u_code_memory.memory[i]);
+    iss_reset();
+    iss_run();
+    $display("\n\n\n");
+  endtask
+
   initial begin
     if (testname == "memory_test") load_mem_test;
     if (testname == "fibonacci")   load_fibonacci;
+    run_iss;
   end
 
-  always @(posedge clk) if (halted) begin
-    $display("\n\nTest finished ");
-    $display("Final register state: ");
-    foreach (u_cpu_design.u_cpu.register_bank[i]) begin
-      $display("x%0d = %x ", i, u_cpu_design.u_cpu.register_bank[i]);
+  function int compare_register_state; // compare tracking ISS and RTL for consistent register state
+    register_t expected_value, actual_value;
+    int i, errors;
+
+    errors = 0;
+
+    foreach(u_cpu_design.u_cpu.register_bank[i]) begin
+      expected_value = iss_get_register(i);
+      actual_value = u_cpu_design.u_cpu.register_bank[i];
+      $write("reg[%2d] iss: %x rtl: %x ", i, expected_value, actual_value);
+      if (actual_value == expected_value) $display(" matches! ");
+      else begin
+        $display(" ERROR: does not match ");
+        errors++;
+      end
     end
-    if ('h600D == (u_cpu_design.u_cpu.register_bank[10] & 'hFFFF)) $display("\n\n>>> Test passed\n");
-    else $display("\n\n>>> Test failed: code %x", u_cpu_design.u_cpu.register_bank[10] >> 16);
+    $display("");
+    return errors;
+  endfunction
+
+  function int compare_memory_state(int start_address, end_address);
+    register_t expected_value, actual_value;
+    int i, errors;
+
+    errors = 0;
+
+    for (i=start_address; i<end_address; i+=4) begin
+      expected_value = iss_get_memory_word(i);
+      actual_value   = u_cpu_design.u_data_memory.memory[i>>2];
+      $write("memory[%x] iss: %x rtl: %x ", i, expected_value, actual_value);
+      if (actual_value == expected_value) $display("matches! ");
+      else begin
+        $display(" ERROR: does not match ");
+        errors++;
+      end
+    end
+    $display("");
+    return errors;
+  endfunction
+
+  int errors;
+  always @(posedge clk) if (halted) begin
+    errors = 0;
+
+    $display("\n\n%s test finished ", testname);
+
+    if (testname == "memory_test") begin
+      errors += compare_register_state;
+      errors += compare_memory_state('h00, 'h0C);
+      errors += compare_memory_state('h20, 'h3C);
+      errors += compare_memory_state('h80, 'hBC);
+    end
+
+    if (testname == "fibonacci") begin
+
+      errors += compare_register_state;
+      errors += compare_memory_state(0, 'h38);
+    end
+
+    if (errors > 0) $display("Processor state and tracking ISS not consistent, Test failed, %0d errors ", errors);
+    else begin
+      if ('h600D == (u_cpu_design.u_cpu.register_bank[10] & 'hFFFF)) $display("\n\n>>> Test passed\n");
+      else $display("\n\n>>> Test failed: code %x", u_cpu_design.u_cpu.register_bank[10] >> 16);
+    end
     $finish;
   end
 

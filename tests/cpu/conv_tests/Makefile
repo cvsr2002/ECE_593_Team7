@@ -1,6 +1,8 @@
 
 QUESTA_HOME = /pkgs/mentor/questa/2024.2/questasim/
-#QUESTA_HOME = /u/release/questa/2024.2/questasim/
+ifdef MENTOR
+  QUESTA_HOME = /u/release/questa/2024.2/questasim/
+endif
 
 HW   = ../../../design_rtl
 TB   = ./
@@ -22,19 +24,19 @@ all:
 	@echo "   - mem_test = run memory test "
 	@echo " "
 
-gui: compile
-	$(VSIM) -do run_gui.do cpu_tb
+gui: compile riscv_iss.so 
+	$(VSIM) -do run_gui.do cpu_tb -sv_lib riscv_iss
 
-sim: compile
-	$(VSIM) -c -do run.do cpu_tb
+sim: compile riscv_iss.so
+	$(VSIM) -c -do run.do cpu_tb -sv_lib riscv_iss
 
-fib: compile
-	$(VSIM) -do run_gui.do cpu_tb -g testname="fibonacci"
+fib: compile riscv_iss.so
+	$(VSIM) -do run_gui.do cpu_tb -g testname="fibonacci" -sv_lib riscv_iss
 
-mem_test: compile
-	$(VSIM) -do run_gui.do cpu_tb -g testname="memory_test"
+mem_test: compile riscv_iss.so
+	$(VSIM) -do run_gui.do cpu_tb -g testname="memory_test" -sv_lib riscv_iss
 
-compile: clean
+compile: clean 
 	rm -rf ./work
 
 	$(VLIB) ./work
@@ -48,7 +50,11 @@ compile: clean
 	$(VLOG) $(HW)/ssram.sv
 	$(VLOG) $(HW)/riscv_rv32i.sv
 	$(VLOG) $(HW)/cpu_design.sv
+	$(VLOG) $(TB)/iss_pkg.sv
 	$(VLOG) $(TB)/cpu_tb.sv
+
+riscv_iss.so: riscv_iss.c
+	gcc -m32 -o riscv_iss.so -shared -fPIC -std=c99 riscv_iss.c 
 
 CRUFT  = transcript
 CRUFT += *.wlf
