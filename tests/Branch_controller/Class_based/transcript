@@ -1,0 +1,341 @@
+# vsim -voptargs="+acc" -work work -c -do "run -all" tb 
+# Start time: 16:31:46 on Feb 17,2025
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
+# Support of the MGLS_LICENSE_FILE and LM_LICENSE_FILE licensing environment variables will be discontinued starting with the 2025.1 release. Please update to using the SALT_LICENSE_SERVER variable.
+# Please contact Siemens EDA Customer Support (https://support.sw.siemens.com/) for assistance.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# //  Questa Sim-64
+# //  Version 2024.2 linux_x86_64 May 20 2024
+# //
+# // Unpublished work. Copyright 2024 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading sv_std.std
+# Loading work.opcodes(fast)
+# Loading work.pkg(fast)
+# Loading work.top_sv_unit(fast)
+# Loading work.tb(fast)
+# Loading work.interface_sv_unit(fast)
+# Loading work.branch_if(fast__2)
+# Loading work.branch_ctrl_sv_unit(fast)
+# Loading work.branch_unit(fast)
+# Loading work.branch_if(fast)
+# run -all
+# ENV: Starting testbench
+# GEN:  after randomization txn.instr=3,txn.op1=1,txn.op2=24,txn.op3=7
+# drv:  received txn.instr=3,txn.op1=1,txn.op2=24,txn.op3=7
+# [DRIVER] Sent: instr=3, op1=1, op2=24, op3=7, enable=1
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=0, ret_addr=x
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=0,vif.ret_addr=x
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=4,ret_addr=4
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=4
+# SCB: Match! Expected PC: 4, Actual PC: 4, Expected Ret Addr: 4, Actual Ret Addr: 4,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=4, ret_addr=4
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=4,vif.ret_addr=4
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=8,ret_addr=8
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=8
+# SCB: Match! Expected PC: 8, Actual PC: 8, Expected Ret Addr: 8, Actual Ret Addr: 8,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=8, ret_addr=8
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=8,vif.ret_addr=8
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=12,ret_addr=12
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=12
+# SCB: Match! Expected PC: c, Actual PC: c, Expected Ret Addr: c, Actual Ret Addr: c,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=c, ret_addr=c
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=12,vif.ret_addr=12
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=16,ret_addr=16
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=16
+# SCB: Match! Expected PC: 10, Actual PC: 10, Expected Ret Addr: 10, Actual Ret Addr: 10,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=10, ret_addr=10
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=16,vif.ret_addr=16
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=20,ret_addr=20
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=20
+# SCB: Match! Expected PC: 14, Actual PC: 14, Expected Ret Addr: 14, Actual Ret Addr: 14,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=14, ret_addr=14
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=20,vif.ret_addr=20
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=24,ret_addr=24
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=24
+# SCB: Match! Expected PC: 18, Actual PC: 18, Expected Ret Addr: 18, Actual Ret Addr: 18,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=18, ret_addr=18
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=24,vif.ret_addr=24
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=28,ret_addr=28
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=28
+# SCB: Match! Expected PC: 1c, Actual PC: 1c, Expected Ret Addr: 1c, Actual Ret Addr: 1c,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=1c, ret_addr=1c
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=28,vif.ret_addr=28
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=32,ret_addr=32
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=32
+# SCB: Match! Expected PC: 20, Actual PC: 20, Expected Ret Addr: 20, Actual Ret Addr: 20,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=20, ret_addr=20
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=32,vif.ret_addr=32
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=36,ret_addr=36
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=36
+# SCB: Match! Expected PC: 24, Actual PC: 24, Expected Ret Addr: 24, Actual Ret Addr: 24,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=24, ret_addr=24
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=36,vif.ret_addr=36
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=40,ret_addr=40
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=40
+# SCB: Match! Expected PC: 28, Actual PC: 28, Expected Ret Addr: 28, Actual Ret Addr: 28,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=28, ret_addr=28
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=40,vif.ret_addr=40
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=44,ret_addr=44
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=44
+# SCB: Match! Expected PC: 2c, Actual PC: 2c, Expected Ret Addr: 2c, Actual Ret Addr: 2c,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=2c, ret_addr=2c
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=44,vif.ret_addr=44
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=48,ret_addr=48
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=48
+# SCB: Match! Expected PC: 30, Actual PC: 30, Expected Ret Addr: 30, Actual Ret Addr: 30,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=30, ret_addr=30
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=48,vif.ret_addr=48
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=52,ret_addr=52
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=52
+# SCB: Match! Expected PC: 34, Actual PC: 34, Expected Ret Addr: 34, Actual Ret Addr: 34,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=34, ret_addr=34
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=52,vif.ret_addr=52
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=56,ret_addr=56
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=56
+# SCB: Match! Expected PC: 38, Actual PC: 38, Expected Ret Addr: 38, Actual Ret Addr: 38,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=38, ret_addr=38
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=56,vif.ret_addr=56
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=60,ret_addr=60
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=60
+# SCB: Match! Expected PC: 3c, Actual PC: 3c, Expected Ret Addr: 3c, Actual Ret Addr: 3c,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=3c, ret_addr=3c
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=60,vif.ret_addr=60
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=64,ret_addr=64
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=64
+# SCB: Match! Expected PC: 40, Actual PC: 40, Expected Ret Addr: 40, Actual Ret Addr: 40,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=40, ret_addr=40
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=64,vif.ret_addr=64
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=68,ret_addr=68
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=68
+# SCB: Match! Expected PC: 44, Actual PC: 44, Expected Ret Addr: 44, Actual Ret Addr: 44,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=44, ret_addr=44
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=68,vif.ret_addr=68
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=72,ret_addr=72
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=72
+# SCB: Match! Expected PC: 48, Actual PC: 48, Expected Ret Addr: 48, Actual Ret Addr: 48,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=48, ret_addr=48
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=72,vif.ret_addr=72
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=76,ret_addr=76
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=76
+# SCB: Match! Expected PC: 4c, Actual PC: 4c, Expected Ret Addr: 4c, Actual Ret Addr: 4c,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=4c, ret_addr=4c
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=76,vif.ret_addr=76
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=80,ret_addr=80
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=80
+# SCB: Match! Expected PC: 50, Actual PC: 50, Expected Ret Addr: 50, Actual Ret Addr: 50,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=50, ret_addr=50
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=80,vif.ret_addr=80
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=84,ret_addr=84
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=84
+# SCB: Match! Expected PC: 54, Actual PC: 54, Expected Ret Addr: 54, Actual Ret Addr: 54,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=54, ret_addr=54
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=84,vif.ret_addr=84
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=88,ret_addr=88
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=88
+# SCB: Match! Expected PC: 58, Actual PC: 58, Expected Ret Addr: 58, Actual Ret Addr: 58,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=58, ret_addr=58
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=88,vif.ret_addr=88
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=92,ret_addr=92
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=92
+# SCB: Match! Expected PC: 5c, Actual PC: 5c, Expected Ret Addr: 5c, Actual Ret Addr: 5c,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=5c, ret_addr=5c
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=92,vif.ret_addr=92
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=96,ret_addr=96
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=96
+# SCB: Match! Expected PC: 60, Actual PC: 60, Expected Ret Addr: 60, Actual Ret Addr: 60,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=60, ret_addr=60
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=96,vif.ret_addr=96
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=100,ret_addr=100
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=100
+# SCB: Match! Expected PC: 64, Actual PC: 64, Expected Ret Addr: 64, Actual Ret Addr: 64,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=64, ret_addr=64
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=100,vif.ret_addr=100
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=104,ret_addr=104
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=104
+# SCB: Match! Expected PC: 68, Actual PC: 68, Expected Ret Addr: 68, Actual Ret Addr: 68,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=68, ret_addr=68
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=104,vif.ret_addr=104
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=108,ret_addr=108
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=108
+# SCB: Match! Expected PC: 6c, Actual PC: 6c, Expected Ret Addr: 6c, Actual Ret Addr: 6c,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=6c, ret_addr=6c
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=108,vif.ret_addr=108
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=112,ret_addr=112
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=112
+# SCB: Match! Expected PC: 70, Actual PC: 70, Expected Ret Addr: 70, Actual Ret Addr: 70,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=70, ret_addr=70
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=112,vif.ret_addr=112
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=116,ret_addr=116
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=116
+# SCB: Match! Expected PC: 74, Actual PC: 74, Expected Ret Addr: 74, Actual Ret Addr: 74,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=74, ret_addr=74
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=116,vif.ret_addr=116
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=120,ret_addr=120
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=120
+# SCB: Match! Expected PC: 78, Actual PC: 78, Expected Ret Addr: 78, Actual Ret Addr: 78,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=78, ret_addr=78
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=120,vif.ret_addr=120
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=124,ret_addr=124
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=124
+# SCB: Match! Expected PC: 7c, Actual PC: 7c, Expected Ret Addr: 7c, Actual Ret Addr: 7c,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=7c, ret_addr=7c
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=124,vif.ret_addr=124
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=128,ret_addr=128
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=128
+# SCB: Match! Expected PC: 80, Actual PC: 80, Expected Ret Addr: 80, Actual Ret Addr: 80,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=80, ret_addr=80
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=128,vif.ret_addr=128
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=132,ret_addr=132
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=132
+# SCB: Match! Expected PC: 84, Actual PC: 84, Expected Ret Addr: 84, Actual Ret Addr: 84,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=84, ret_addr=84
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=132,vif.ret_addr=132
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=136,ret_addr=136
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=136
+# SCB: Match! Expected PC: 88, Actual PC: 88, Expected Ret Addr: 88, Actual Ret Addr: 88,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=88, ret_addr=88
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=136,vif.ret_addr=136
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=140,ret_addr=140
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=140
+# SCB: Match! Expected PC: 8c, Actual PC: 8c, Expected Ret Addr: 8c, Actual Ret Addr: 8c,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=8c, ret_addr=8c
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=140,vif.ret_addr=140
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=144,ret_addr=144
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=144
+# SCB: Match! Expected PC: 90, Actual PC: 90, Expected Ret Addr: 90, Actual Ret Addr: 90,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=90, ret_addr=90
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=144,vif.ret_addr=144
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=148,ret_addr=148
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=148
+# SCB: Match! Expected PC: 94, Actual PC: 94, Expected Ret Addr: 94, Actual Ret Addr: 94,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=94, ret_addr=94
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=148,vif.ret_addr=148
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=152,ret_addr=152
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=152
+# SCB: Match! Expected PC: 98, Actual PC: 98, Expected Ret Addr: 98, Actual Ret Addr: 98,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=98, ret_addr=98
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=152,vif.ret_addr=152
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=156,ret_addr=156
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=156
+# SCB: Match! Expected PC: 9c, Actual PC: 9c, Expected Ret Addr: 9c, Actual Ret Addr: 9c,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=9c, ret_addr=9c
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=156,vif.ret_addr=156
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=160,ret_addr=160
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=160
+# SCB: Match! Expected PC: a0, Actual PC: a0, Expected Ret Addr: a0, Actual Ret Addr: a0,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=a0, ret_addr=a0
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=160,vif.ret_addr=160
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=164,ret_addr=164
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=164
+# SCB: Match! Expected PC: a4, Actual PC: a4, Expected Ret Addr: a4, Actual Ret Addr: a4,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=a4, ret_addr=a4
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=164,vif.ret_addr=164
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=168,ret_addr=168
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=168
+# SCB: Match! Expected PC: a8, Actual PC: a8, Expected Ret Addr: a8, Actual Ret Addr: a8,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=a8, ret_addr=a8
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=168,vif.ret_addr=168
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=172,ret_addr=172
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=172
+# SCB: Match! Expected PC: ac, Actual PC: ac, Expected Ret Addr: ac, Actual Ret Addr: ac,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=ac, ret_addr=ac
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=172,vif.ret_addr=172
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=176,ret_addr=176
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=176
+# SCB: Match! Expected PC: b0, Actual PC: b0, Expected Ret Addr: b0, Actual Ret Addr: b0,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=b0, ret_addr=b0
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=176,vif.ret_addr=176
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=180,ret_addr=180
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=180
+# SCB: Match! Expected PC: b4, Actual PC: b4, Expected Ret Addr: b4, Actual Ret Addr: b4,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=b4, ret_addr=b4
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=180,vif.ret_addr=180
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=184,ret_addr=184
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=184
+# SCB: Match! Expected PC: b8, Actual PC: b8, Expected Ret Addr: b8, Actual Ret Addr: b8,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=b8, ret_addr=b8
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=184,vif.ret_addr=184
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=188,ret_addr=188
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=188
+# SCB: Match! Expected PC: bc, Actual PC: bc, Expected Ret Addr: bc, Actual Ret Addr: bc,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=bc, ret_addr=bc
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=188,vif.ret_addr=188
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=192,ret_addr=192
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=192
+# SCB: Match! Expected PC: c0, Actual PC: c0, Expected Ret Addr: c0, Actual Ret Addr: c0,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=c0, ret_addr=c0
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=192,vif.ret_addr=192
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=196,ret_addr=196
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=196
+# SCB: Match! Expected PC: c4, Actual PC: c4, Expected Ret Addr: c4, Actual Ret Addr: c4,txn.instr=3
+# [DUT] Enable=1, instr=3, op1=1, op2=24, op3=7
+# [DUT] PC Updated: pc=c4, ret_addr=c4
+# INF: received vif.instr=3, vif.op1=1, vif.op2=24, vif.op3=7,vif.pc_out=196,vif.ret_addr=196
+# mon: received txn.instr=3, txn.op1=1, txn.op2=24, txn.op3=7,pc_out=200,ret_addr=200
+# SCB: Received txn - instr=3, op1=1, op2=24, op3=7, enable=1,pc_out=200
+# SCB: Match! Expected PC: c8, Actual PC: c8, Expected Ret Addr: c8, Actual Ret Addr: c8,txn.instr=3
+# [TB] Test finished. PC=c8, Ret Addr=c8
+# ** Note: $finish    : ./top.sv(27)
+#    Time: 545 ns  Iteration: 0  Instance: /tb
+# End time: 16:31:48 on Feb 17,2025, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 1
