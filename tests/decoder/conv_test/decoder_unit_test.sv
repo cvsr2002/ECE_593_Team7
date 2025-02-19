@@ -15,6 +15,8 @@ module top;
     rst = #1 1;
     rst = #20 0;
   end
+  
+  string instr_str;
 
   function automatic void oracle(
       input  instruction_t   instr, 
@@ -106,7 +108,7 @@ module top;
   task automatic basic_tests;
     // test each opcode
 
-    logic oops, chatty;
+    logic oops, chatty = 1;
 
     foreach (opcode_list[i]) begin
       instr = encode_instr(opcode_list[i], .rd(5), .rs1(1), .rs2(2), .imm(32'h12345678));   
@@ -138,7 +140,7 @@ module top;
   task automatic reg_tests;
     // test all register combinations for one of each type of instruciton
 
-    logic oops, chatty = 0;    
+    logic oops, chatty = 1;    
 
     foreach (op_type_list[i]) begin
       for (rs1n = 0; rs1n<32; rs1n++) begin
@@ -180,7 +182,7 @@ module top;
     int op_index;
     int imm;
     logic oops;
-    logic chatty = 0;
+    logic chatty = 1;
 
     for (i=0; i<num_tests; i++) begin
       op_index = $urandom_range(0, opcode_list.size-1);
@@ -243,6 +245,8 @@ module top;
     end
     $finish;
   end
+
+  assign instr_str = decode_instr(instr);
 
   decoder u_decoder(.*);
 
