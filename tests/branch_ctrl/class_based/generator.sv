@@ -10,14 +10,15 @@ class branch_gen;
 	endfunction
 	
 	task run();
-		//repeat(10) 
+		repeat(100) 
 		begin
 		  txn = new(); 
 		if (!txn.randomize()) begin
          $error("randomization failed");
        end
        else begin
-       $display("GEN:  after randomization txn.instr=%0d,txn.op1=%0d,txn.op2=%0d,txn.op3=%0d", txn.instr,txn.op1,txn.op2,txn.op3);
+	   //txn.display();
+       $display("[ GENERATOR]:  after randomization txn.instr=%0d,txn.op1=%0d,txn.op2=%0d,txn.op3=%0d", txn.instr,txn.op1,txn.op2,txn.op3);
        end 
 		gen2drv.put(txn);
 		  
@@ -25,3 +26,4 @@ class branch_gen;
 	endtask
 	
 endclass
+
