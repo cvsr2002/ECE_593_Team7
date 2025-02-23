@@ -9,15 +9,31 @@ class branch_scb;
     register_t last_pc = 0;
     register_t expected_ret_addr_reg = 0; 
     register_t expected_pc_out, expected_ret_addr;
+	
+	// Functional coverage
+    /*covergroup scb_cg;
+        coverpoint txn.instr {
+            bins branch_instr[] = {M_JAL, M_JALR, M_BEQ, M_BNE, M_BLT, M_BLTU, M_BGE, M_BGEU};
+        }
+        coverpoint txn.pc_out {
+            bins zero = {0};
+            bins positive = { [1:$] };
+            bins negative = { [$:-1] };
+        }
+        cross txn.instr, txn.pc_out;
+    endgroup
+*/
+
 
     function new(mailbox mon2scb);
         this.mon2scb = mon2scb;
+		 //scb_cg = new();
     endfunction
 
     task run();
         forever begin
             mon2scb.get(txn);
-			
+			//scb_cg.sample();
             $display("SCB: Received txn - instr=%0d, op1=%0d, op2=%0d, op3=%0d, enable=%0d,pc_out=%0d",txn.instr, txn.op1, txn.op2, txn.op3, txn.enable,txn.pc_out);
             
             // Check for valid enable signal
@@ -52,6 +68,7 @@ class branch_scb;
             // Check for mismatches
             if (txn.pc_out !== expected_pc_out || txn.ret_addr !== expected_ret_addr) begin
                 error_count++;
+
                 $error("SCB: Mismatch! Expected PC: %0h, Actual PC: %0h, Expected Ret Addr: %0h, Actual Ret Addr: %0h,txn.instr=%0d",
                        expected_pc_out, txn.pc_out, expected_ret_addr, txn.ret_addr,txn.instr);
             end else begin
