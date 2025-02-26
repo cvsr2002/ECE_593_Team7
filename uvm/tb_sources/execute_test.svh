@@ -50,7 +50,8 @@ class execute_test_c extends uvm_test;
   endfunction
 
   virtual function int load_program();
-    `uvm_error(get_type_name(), "No program loaded");
+    `uvm_warning(get_type_name(), "No program loaded");
+    return 0;
   endfunction
 
 endclass
