@@ -19,7 +19,7 @@ module branch_unit (
      else begin
        if (enable) begin
          ret_addr <= pc + 4;
-		 $display("[DUT] Enable=%0b, instr=%0d, op1=%0d, op2=%0d, op3=%0d", enable, instr, op1, op2, op3);
+	//	 $display("[DUT] Enable=%0b, instr=%0d, op1=%0d, op2=%0d, op3=%0d", enable, instr, op1, op2, op3);
          casez (instr) 
 		   // Standard RISC-V Jump Instructions
            M_JAL  : pc <= op1;
@@ -34,7 +34,7 @@ module branch_unit (
            M_BGEU : pc <= (unsigned'(op1) >= unsigned'(op2)) ? pc + op3 : pc + 4;
            default : pc <= pc + 4;
          endcase
-		 $display("[DUT] PC Updated: pc=%0h, ret_addr=%0h", pc, ret_addr);
+	 //	 $display("[DUT] PC Updated: pc=%0h, ret_addr=%0h", pc, ret_addr);
        end
      end
    end

@@ -18,23 +18,31 @@ VSIM = $(QUESTA_HOME)/bin/vsim -voptargs=+acc -work work
 all: 
 	@echo " "
 	@echo " make targets are: "
-	@echo "   - sim "
-	@echo "   - gui "
-	@echo "   - fib  = run fibonacci program "
-	@echo "   - mem_test = run memory test "
+	@echo "   - sim         = run Questa in command line mode Questa "
+	@echo "   - gui         = run Questa in GUI mode "
+	@echo "   - fib         = run fibonacci program "
+	@echo "   - mem_test    = run memory test "
+	@echo "   - coverage    = run coverage analysis "
+	@echo "   - broken      = run with errors induced in the DUT "
 	@echo " "
 
 gui: compile riscv_iss.so
 	$(VSIM) -do run_gui.do top +UVM_TESTNAME=fibonacci -sv_lib riscv_iss
 
 sim: compile riscv_iss.so
-	$(VSIM) -c -do run.do top +UVM_TESTNAME=fibonacci -sv_lib riscv_iss
+	$(VSIM) -c -do run.do top +UVM_TESTNAME=fibonacci -sv_lib riscv_iss 
 
 fib: compile riscv_iss.so
-	$(VSIM) -do run_gui.do cpu_tb -g testname="fibonacci" -sv_lib riscv_iss
+	$(VSIM) -do run_gui.do top +UVM_TESTNAME="fibonacci" -sv_lib riscv_iss
 
 mem_test: compile riscv_iss.so
-	$(VSIM) -do run_gui.do cpu_tb -g testname="memory_test" -sv_lib riscv_iss
+	$(VSIM) -do run_gui.do top +UVM_TESTNAME="mem_test" -sv_lib riscv_iss
+
+coverage: compile riscv_iss.so
+	$(VSIM) -do run_gui.do top +UVM_TESTNAME="mem_test" -sv_lib riscv_iss -coverage
+
+broken: compile riscv_iss.so
+	$(VSIM) -c -do run.do top +UVM_TESTNAME="mem_test" -sv_lib riscv_iss -g BROKEN=1
 
 compile: clean 
 	rm -rf ./work
@@ -43,15 +51,16 @@ compile: clean
 	$(VMAP) work ./work
 
 	$(VLOG) $(HW)/opcode_pkg.sv
-	$(VLOG) $(TB)/cpu_interface.sv
 	$(VLOG) $(TB)/iss_pkg.sv
-	$(VLOG) $(TB)/simple_uvm.sv
+	$(VLOG) $(TB)/riscv_test_interfaces.sv
+	$(VLOG) $(TB)/riscv_test_pkg.sv
+	$(VLOG) $(TB)/riscv_design_test.sv
 
-	$(VLOG) $(HW)/alu.sv
-	$(VLOG) $(HW)/memory_ctrl.sv
-	$(VLOG) $(HW)/branch_ctrl.sv
-	$(VLOG) $(HW)/decoder.sv
-	$(VLOG) $(HW)/riscv_rv32i.sv
+	$(VLOG) $(HW)/alu.sv +cover
+	$(VLOG) $(HW)/memory_ctrl.sv +cover
+	$(VLOG) $(HW)/branch_ctrl.sv +cover
+	$(VLOG) $(HW)/decoder.sv +cover
+	$(VLOG) $(HW)/riscv_rv32i.sv +cover
 
 	$(VLOG) $(HW)/ssram.sv
 	$(VLOG) $(HW)/cpu_design.sv
@@ -63,6 +72,7 @@ CRUFT  = transcript
 CRUFT += *.wlf
 CRUFT += work
 CRUFT += modelsim.ini
+CRUFT += riscv_iss.so
 
 clean:
 	rm -rf $(CRUFT)

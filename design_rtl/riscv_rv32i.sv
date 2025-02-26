@@ -1,6 +1,8 @@
 import opcodes::*;
 
-module riscv_rv32i(
+module riscv_rv32i #(
+     parameter BROKEN=0
+  )(
    input  logic         clk, rst,
 
    // instruction memory interface
@@ -65,7 +67,7 @@ module riscv_rv32i(
    assign execute    = (state == EXECUTE)    ? 1 : 0;
    assign write_back = (state == WRITE_BACK) ? 1 : 0;
 
-   decoder u_decoder(
+   decoder #(.random_errors(BROKEN)) u_decoder(
      .clk           (clk),
      .rst           (rst),
   
@@ -141,36 +143,5 @@ module riscv_rv32i(
    assign result = is_alu_op(instr)    ? alu_result :
                    is_memory_op(instr) ? mcu_result :
                    is_branch_op(instr) ? bcu_result : '0;
-
-`ifndef SYNTHESIS
-
-   // processor trace output
-
-   function automatic void print_write;
-     case (data_write_byte_enable)
-       'hf: $display(" write @%x = %x ",  data_address<<2, data_write_data);
-       'hc: $display(" write @%x = %4x ", data_address<<2, (data_write_data >> 16));
-       'h3: $display(" write @%x = %4x ", data_address<<2, (data_write_data & 'hFFFF));
-       'h8: $display(" write @%x = %2x ", data_address<<2, (data_write_data >> 24) & 'hFF);
-       'h4: $display(" write @%x = %2x ", data_address<<2, (data_write_data >> 16) & 'hFF);
-       'h2: $display(" write @%x = %2x ", data_address<<2, (data_write_data >>  8) & 'hFF); 
-       'h1: $display(" write @%x = %2x ", data_address<<2, (data_write_data >>  0) & 'hFF);
-       default: $display(" *** illegal write operation ");
-     endcase
-   endfunction
-
-   // instruciton tracing for debug
-   always @(posedge clk) begin
-     if (chatty & execute) $write("opcode executed: %-25s ", decode_instr(instr));
-     if (chatty) begin
-       if (write_back) begin
-         if (rd != 0) $display(" x%0d = %x ", rd, result);
-         else if (is_s_type(instr)) print_write();
-         else $display(" "); // newline
-       end
-     end
-   end
-
-`endif
 
 endmodule

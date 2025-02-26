@@ -29,4 +29,11 @@ import "DPI-C" function void iss_run();
 import "DPI-C" function void iss_enable_trace();
 import "DPI-C" function void iss_disable_trace();
 
+// trace routines
+
+import "DPI-C" function int  iss_get_rd();
+import "DPI-C" function int  iss_get_write_op();
+import "DPI-C" function int  iss_get_wdata();
+import "DPI-C" function int  iss_get_waddr();
+
 endpackage

@@ -8,7 +8,9 @@ typedef logic [2:0] funct3_t;
 typedef logic [6:0] funct7_t;
 typedef logic        [4:0]  tiny_imm_t;
 typedef logic signed [11:0] short_imm_t;
+typedef logic signed [13:0] b_imm_t;
 typedef logic signed [19:0] long_imm_t;
+typedef logic signed [20:0] j_imm_t;
 typedef logic signed [XLEN-1:0] register_t;
 
 typedef struct packed {
@@ -429,7 +431,7 @@ function opcode_mask_t opc_base(instruction_t instr);
      M_LBU   : return M_LBU;
 
      // Default Case
-     default : assert(0) else $error("Unknown instruction ");
+     // default : $error("Unknown instruction ");
    endcase 
 
 endfunction
@@ -489,8 +491,7 @@ function instruction_t encode_btype(opcode_mask_t base_opcode, int rs1, int rs2,
 
    instr.b.rs1 = register_num_t'(rs1);
    instr.b.rs2 = register_num_t'(rs2);
-   set_b_imm(instr, short_imm_t'(imm));
-
+   set_b_imm(instr, b_imm_t'(imm));
    return instr;
 endfunction
 
@@ -511,7 +512,7 @@ function instruction_t encode_jtype(opcode_mask_t base_opcode, int dest, int imm
    instr = base_opcode;
 
    instr.j.rd = register_num_t'(dest);
-   set_j_imm(instr, long_imm_t'(imm));
+   set_j_imm(instr, j_imm_t'(imm));
 
    return instr;
 endfunction
@@ -548,7 +549,7 @@ function short_imm_t get_s_imm(input instruction_t instr);
 endfunction
 
 function short_imm_t get_b_imm(input instruction_t instr);
-   return({instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0});
+   return({instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0, 1'b0});
 endfunction
 
 function register_t get_u_imm(input instruction_t instr);
@@ -556,7 +557,7 @@ function register_t get_u_imm(input instruction_t instr);
 endfunction
 
 function long_imm_t get_j_imm(input instruction_t instr);
-   return({instr.j.imm3, instr.j.imm2, instr.j.imm1, instr.j.imm0});
+   return({instr.j.imm3, instr.j.imm2, instr.j.imm1, instr.j.imm0, 1'b0});
 endfunction
 
 // set immediate values in opcodes
@@ -573,16 +574,16 @@ function automatic void set_s_imm(ref instruction_t instr, input short_imm_t imm
    {instr.s.imm1, instr.s.imm0} = imm & 32'h00000FFF;
 endfunction
 
-function automatic void set_b_imm(ref instruction_t instr, input short_imm_t imm);
-   {instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0} = imm & 32'h00000FFF;   
+function automatic void set_b_imm(ref instruction_t instr, input b_imm_t imm);
+   {instr.b.imm3, instr.b.imm2, instr.b.imm1, instr.b.imm0} = (imm >> 1) & 32'h00001FFE;   
 endfunction
 
 function automatic void set_u_imm(ref instruction_t instr, input long_imm_t imm);
    instr.u.imm = imm; // & 32'h000FFFFF;
 endfunction
 
-function automatic void set_j_imm(ref instruction_t instr, input long_imm_t imm);
-   {instr.j.imm3, instr.j.imm2, instr.j.imm1, instr.j.imm0} = imm &32'h000FFFFF;
+function automatic void set_j_imm(ref instruction_t instr, input j_imm_t imm);
+   {instr.j.imm3, instr.j.imm2, instr.j.imm1, instr.j.imm0} = (imm>>1) &32'h000FFFFF;
 endfunction
 
 function automatic void check_encode_decode();

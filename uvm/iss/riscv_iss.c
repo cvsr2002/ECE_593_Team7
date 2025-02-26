@@ -22,8 +22,13 @@ static const int u_type = 6;
 static unsigned long code_memory[0x4000];
 static unsigned long data_memory[0x4000];
 
-  static signed long register_bank[32];
+static   signed long register_bank[32];
 static unsigned long pc;
+
+static unsigned long tr_rd;
+static unsigned long wdata;
+static unsigned long waddr;
+static unsigned long write_op;
 
 static int chatty;
 static int run_complete;
@@ -56,6 +61,12 @@ static void get_r_type_ops(
     *rd = bf.rd;
     *rs1 = bf.rs1;
     *rs2 = bf.rs2;
+
+    // tracking info
+    tr_rd = *rd;
+    write_op = 0;
+    waddr = 0;
+    wdata = 0;
 }
     
 static void get_i_type_ops(
@@ -83,6 +94,12 @@ static void get_i_type_ops(
     *rs1 = bf.rs1;
     *imm = bf.imm;
     if (*imm & 0x800) *imm |= 0xFFFFF000;  // sign extend
+
+    // tracking info
+    tr_rd = *rd;
+    write_op = 0;
+    waddr = 0;
+    wdata = 0;
 }
 
 
@@ -111,6 +128,12 @@ static void get_si_type_ops(
     *rd = bf.rd;
     *rs1 = bf.rs1;
     *imm = bf.imm;  // do not sign extend
+
+    // tracking info
+    tr_rd = *rd;
+    write_op = 0;
+    waddr = 0;
+    wdata = 0;
 }
        
 
@@ -140,6 +163,11 @@ static void get_s_type_ops(
     *rs2 = bf.rs2;
     *imm = (bf.imm1 << 5) | bf.imm0;
     if (*imm & 0x800) *imm |= 0xFFFFF000;
+
+    // tracking info
+    tr_rd = 0;
+    write_op = 1;
+    waddr = register_bank[*rs1] + *imm;
 }
 
 static void get_b_type_ops(
@@ -170,6 +198,12 @@ static void get_b_type_ops(
     *rs2 = bf.rs2;
     *imm = (bf.imm3 << 12) | (bf.imm2 << 11) | (bf.imm1 << 5) | (bf.imm0 << 1);
     if (*imm & 0x1000) *imm |= 0xFFFFE000;
+
+    // tracking info
+    tr_rd = 0;
+    write_op = 0;
+    waddr = 0;
+    wdata = 0;
 }
 
 
@@ -196,6 +230,13 @@ static void get_j_type_ops(
     
     *rd = bf.rd;
     *imm = (bf.imm3 << 20 ) | (bf.imm3 << 12) | (bf.imm1 << 11) | (bf.imm0 << 1);
+
+    // tracking info
+    tr_rd = *rd;
+    write_op = 0;
+    waddr = 0;
+    wdata = 0;
+
 }
 
 
@@ -219,6 +260,12 @@ static void get_u_type_ops(
 
     *rd = bf.rd;
     *imm = bf.imm << 12;
+
+    // tracking info
+    tr_rd = *rd;
+    write_op = 0;
+    waddr = 0;
+    wdata = 0;
 }
 
 //
@@ -686,6 +733,10 @@ static int sw(unsigned long instr, char *mnemonic, char *trace)
   
    sprintf(trace, "%-6s  x%d, %d(x%d)           ", mnemonic, rs2, imm, rs1);
    sprintf(trace+27, "write @%08x = %08x ", address*4, register_bank[rs2]);
+
+   // tracking info
+   wdata = register_bank[rs2];
+ 
    return 0;
 }
 
@@ -705,6 +756,12 @@ static int sh(unsigned long instr, char *mnemonic, char *trace)
   
    sprintf(trace, "%-6s  x%d, %d(x%d)           ", mnemonic, rs2, imm, rs1);
    sprintf(trace+27, "write @%08x = %04x ", address*4+offset, register_bank[rs2] & 0xFFFF);
+
+   // tracking info
+   wdata = register_bank[rs2];
+   //if (offset == 0) wdata = register_bank[rs2] & 0x0000FFFF;
+   //if (offset == 2) wdata = register_bank[rs2] >> 16;
+ 
    return 0;
 }
 
@@ -726,6 +783,14 @@ static int sb(unsigned long instr, char *mnemonic, char *trace)
   
    sprintf(trace, "%-6s  x%d, %d(x%d)           ", mnemonic, rs2, imm, rs1);
    sprintf(trace+27, "write @%08x = %02x ", address*4+offset, register_bank[rs2] & 0xFF);
+
+   // tracking info
+   wdata = register_bank[rs2];
+   //if (offset == 0) wdata = (register_bank[rs2] >>  0) & 0x000000FF;
+   //if (offset == 1) wdata = (register_bank[rs2] >>  8) & 0x000000FF;
+   //if (offset == 2) wdata = (register_bank[rs2] >> 16) & 0x000000FF;
+   //if (offset == 3) wdata = (register_bank[rs2] >> 24) & 0x000000FF;
+ 
    return 0;
 }
 
@@ -1000,4 +1065,24 @@ void iss_enable_trace()
 void iss_disable_trace()
 {
   chatty = 0;
+}
+
+unsigned long iss_get_rd()
+{
+  return(tr_rd);
+}
+
+unsigned long iss_get_wdata()
+{ 
+  return(wdata);
+}
+
+unsigned long iss_get_waddr()
+{
+  return(waddr);
+}
+
+unsigned long iss_get_write_op()
+{
+  return(write_op);
 }

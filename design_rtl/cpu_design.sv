@@ -1,6 +1,7 @@
 import opcodes::*;
 
-module cpu_design(
+module cpu_design #(parameter BROKEN = 1)
+  (
     input logic clk, rst,
     output logic halted);
 
@@ -22,7 +23,7 @@ module cpu_design(
   logic        code_read_ack = 1;
   logic [31:0] code_read_data;
 
-  riscv_rv32i u_cpu(
+  riscv_rv32i #(.BROKEN(BROKEN)) u_cpu(
     .clk         (clk),
     .rst         (rst),
 

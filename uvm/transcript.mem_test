@@ -1,0 +1,625 @@
+# //  Questa Sim
+# //  Version 2024.2 linux May 20 2024
+# //
+# // Unpublished work. Copyright 2024 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# vsim -voptargs="+acc" -work work -do "run_gui.do" top "+UVM_TESTNAME=mem_test" -sv_lib riscv_iss 
+# Start time: 10:37:15 on Feb 26,2025
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
+# Support of the MGLS_LICENSE_FILE and LM_LICENSE_FILE licensing environment variables will be discontinued starting with the 2025.1 release. Please update to using the SALT_LICENSE_SERVER variable.
+# Please contact Siemens EDA Customer Support (https://support.sw.siemens.com/) for assistance.
+# ** Warning: ./tb_sources/execute_test.svh(52): (vopt-2250) Function "load_program" has no return value assignment.
+# ** Note: (vopt-143) Recognized 1 FSM in module "memory_ctrl(fast)".
+# ** Note: (vopt-143) Recognized 1 FSM in module "riscv_rv32i(fast)".
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=2.
+# Loading sv_std.std
+# Loading work.cpu_state_i(fast)
+# Loading work.config_data_i(fast)
+# Loading work.cpu_if_i(fast)
+# Loading work.cpu_trace_i(fast)
+# Loading work.iss_pkg(fast)
+# Loading work.code_memory_i(fast)
+# Loading mtiUvm.uvm_pkg(fast)
+# Loading work.opcodes(fast)
+# Loading work.riscv_test_pkg(fast)
+# Loading work.riscv_design_test_sv_unit(fast)
+# Loading mtiUvm.questa_uvm_pkg(fast)
+# Loading work.top(fast)
+# Loading work.riscv_test_interfaces_sv_unit(fast)
+# Loading work.code_memory_i(fast__1)
+# Loading work.cpu_interface_sv_unit(fast)
+# Loading work.cpu_if_i(fast__2)
+# Loading work.cpu_trace_i(fast__2)
+# Loading work.cpu_state_i(fast__2)
+# Loading work.config_data_i(fast__2)
+# Loading work.cpu_design_sv_unit(fast)
+# Loading work.cpu_design(fast)
+# Loading work.riscv_rv32i_sv_unit(fast)
+# Loading work.riscv_rv32i(fast)
+# Loading work.decoder_sv_unit(fast)
+# Loading work.decoder(fast)
+# Loading work.alu_sv_unit(fast)
+# Loading work.alu(fast)
+# Loading work.branch_ctrl_sv_unit(fast)
+# Loading work.branch_unit(fast)
+# Loading work.memory_ctrl_sv_unit(fast)
+# Loading work.memory_ctrl(fast)
+# Loading work.ssram(fast)
+# Loading ./riscv_iss.so
+# Loading /u/release/questa/2024.2/questasim/uvm-1.1d/linux/uvm_dpi.so
+# do run_gui.do
+# ----------------------------------------------------------------
+# UVM-1.1d
+# (C) 2007-2013 Mentor Graphics Corporation
+# (C) 2007-2013 Cadence Design Systems, Inc.
+# (C) 2006-2013 Synopsys, Inc.
+# (C) 2011-2013 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(277) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(278) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
+# UVM_INFO ./tb_sources/riscv_design_test.sv(16) @ 0: reporter [Start] Hello, World!
+# UVM_INFO @ 0: reporter [RNTST] Running test mem_test...
+# loading program
+# UVM_INFO ./tb_sources/mem_test.svh(12) @ 0: uvm_test_top [mem_test] Loading program to design memory
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000000: 00100093 : ADDI   x1,  x0, 1         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000000: 00000093 : ADDI   x1,  x0, 0         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000001: 00000113 : ADDI   x2,  x0, 0         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000002: 01000193 : ADDI   x3,  x0, 16        
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000003: 00100213 : ADDI   x4,  x0, 1         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000004: 00208023 : SB     x2, 0(x1)          
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000005: 00108093 : ADDI   x1,  x1, 1         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000006: 00410133 : ADD    x2,  x2,  x4       
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000007: fe30cae3 : BLT    x1,  x3, 4090      
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000008: 00000093 : ADDI   x1,  x0, 0         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000009: 00000113 : ADDI   x2,  x0, 0         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000000a: 00010283 : LB     x5, 0(x2)          
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000000b: 12129e63 : BNE    x5,  x1, 158       
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000000c: 00108093 : ADDI   x1,  x1, 1         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000000d: 00410133 : ADD    x2,  x2,  x4       
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000000e: fe30c8e3 : BLT    x1,  x3, 4088      
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000000f: 00000093 : ADDI   x1,  x0, 0         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000010: 02000113 : ADDI   x2,  x0, 32        
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000011: 01000193 : ADDI   x3,  x0, 16        
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000012: 00200213 : ADDI   x4,  x0, 2         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000013: 00111023 : SH     x1, 0(x2)          
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000014: 00108093 : ADDI   x1,  x1, 1         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000015: 00410133 : ADD    x2,  x2,  x4       
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000016: fe30cae3 : BLT    x1,  x3, 4090      
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000017: 00000093 : ADDI   x1,  x0, 0         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000018: 02000113 : ADDI   x2,  x0, 32        
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000019: 00011283 : LH     x5, 0(x2)          
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000001a: 10129063 : BNE    x5,  x1, 128       
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000001b: 00108093 : ADDI   x1,  x1, 1         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000001c: 00410133 : ADD    x2,  x2,  x4       
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000001d: fe30c8e3 : BLT    x1,  x3, 4088      
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000001e: 00000093 : ADDI   x1,  x0, 0         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000001f: 08000113 : ADDI   x2,  x0, 128       
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000020: 01000193 : ADDI   x3,  x0, 16        
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000021: 00400213 : ADDI   x4,  x0, 4         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000022: 00112023 : SW     x1, 0(x2)          
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000023: 00108093 : ADDI   x1,  x1, 1         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000024: 00410133 : ADD    x2,  x2,  x4       
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000025: fe30cae3 : BLT    x1,  x3, 4090      
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000026: 00000093 : ADDI   x1,  x0, 0         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000027: 08000113 : ADDI   x2,  x0, 128       
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000028: 00012283 : LW     x5, 0(x2)          
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000029: 0c129263 : BNE    x5,  x1, 98        
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000002a: 00108093 : ADDI   x1,  x1, 1         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000002b: 00410133 : ADD    x2,  x2,  x4       
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000002c: fe30c8e3 : BLT    x1,  x3, 4088      
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000002d: 1400006f : JAL    x0, 160            
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000050: 600d0537 : LUI   x10, 393424         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000051: 01055493 : SRLI   x9, x10, 16        
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000052: 00956533 : OR    x10, x10,  x9       
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 00000053: 00100073 : EBREAK                    
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000005a: dead0537 : LUI   x10, 912080         
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000005b: 01055493 : SRLI   x9, x10, 16        
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000005c: 00956533 : OR    x10, x10,  x9       
+# UVM_INFO ./tb_sources/execute_test.svh(29) @ 0: uvm_test_top [mem_test] Load instruction: 0000005d: 00100073 : EBREAK                    
+# UVM_INFO ./tb_sources/execute_scoreboard.svh(37) @ 0: uvm_test_top.env_execute_test.execute_scoreboard [SCB] Loading program into ISS memory from design code_memory
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 96: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x0, 0          set: x1 = 00000000 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 112: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x2,  x0, 0          set: x2 = 00000000 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 128: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x3,  x0, 16         set: x3 = 00000010 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 144: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x4,  x0, 1          set: x4 = 00000001 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 160: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SB     x2, 0(x1)           set: @00000000 = 00000000 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 176: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000001 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 192: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000001 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 208: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 224: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SB     x2, 0(x1)           set: @00000001 = 00000001 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 240: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000002 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 256: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000002 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 272: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 288: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SB     x2, 0(x1)           set: @00000002 = 00000002 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 304: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000003 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 320: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000003 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 336: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 352: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SB     x2, 0(x1)           set: @00000003 = 00000003 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 368: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000004 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 384: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000004 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 400: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 416: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SB     x2, 0(x1)           set: @00000004 = 00000004 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 432: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000005 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 448: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000005 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 464: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 480: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SB     x2, 0(x1)           set: @00000005 = 00000005 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 496: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000006 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 512: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000006 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 528: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 544: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SB     x2, 0(x1)           set: @00000006 = 00000006 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 560: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000007 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 576: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000007 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 592: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 608: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SB     x2, 0(x1)           set: @00000007 = 00000007 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 624: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000008 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 640: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000008 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 656: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 672: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SB     x2, 0(x1)           set: @00000008 = 00000008 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 688: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000009 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 704: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000009 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 720: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 736: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SB     x2, 0(x1)           set: @00000009 = 00000009 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 752: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 768: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000000a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 784: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 800: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SB     x2, 0(x1)           set: @0000000a = 0000000a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 816: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000b 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 832: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000000b 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 848: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 864: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SB     x2, 0(x1)           set: @0000000b = 0000000b 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 880: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 896: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000000c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 912: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 928: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SB     x2, 0(x1)           set: @0000000c = 0000000c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 944: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000d 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 960: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000000d 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 976: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 992: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SB     x2, 0(x1)           set: @0000000d = 0000000d 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1008: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1024: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000000e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1040: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1056: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SB     x2, 0(x1)           set: @0000000e = 0000000e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1072: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000f 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1088: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000000f 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1104: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1120: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SB     x2, 0(x1)           set: @0000000f = 0000000f 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1136: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000010 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1152: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000010 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1168: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1184: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x0, 0          set: x1 = 00000000 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1200: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x2,  x0, 0          set: x2 = 00000000 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1216: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LB     x5, 0(x2)           set: x5 = 00000000 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1232: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 158        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1248: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000001 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1264: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000001 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1280: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1296: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LB     x5, 0(x2)           set: x5 = 00000001 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1312: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 158        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1328: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000002 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1344: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000002 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1360: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1376: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LB     x5, 0(x2)           set: x5 = 00000002 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1392: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 158        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1408: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000003 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1424: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000003 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1440: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1456: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LB     x5, 0(x2)           set: x5 = 00000003 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1472: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 158        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1488: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000004 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1504: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000004 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1520: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1536: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LB     x5, 0(x2)           set: x5 = 00000004 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1552: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 158        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1568: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000005 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1584: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000005 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1600: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1616: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LB     x5, 0(x2)           set: x5 = 00000005 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1632: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 158        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1648: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000006 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1664: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000006 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1680: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1696: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LB     x5, 0(x2)           set: x5 = 00000006 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1712: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 158        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1728: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000007 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1744: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000007 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1760: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1776: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LB     x5, 0(x2)           set: x5 = 00000007 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1792: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 158        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1808: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000008 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1824: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000008 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1840: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1856: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LB     x5, 0(x2)           set: x5 = 00000008 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1872: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 158        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1888: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000009 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1904: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000009 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1920: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1936: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LB     x5, 0(x2)           set: x5 = 00000009 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1952: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 158        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1968: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 1984: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000000a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2000: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2016: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LB     x5, 0(x2)           set: x5 = 0000000a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2032: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 158        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2048: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000b 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2064: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000000b 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2080: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2096: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LB     x5, 0(x2)           set: x5 = 0000000b 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2112: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 158        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2128: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2144: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000000c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2160: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2176: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LB     x5, 0(x2)           set: x5 = 0000000c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2192: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 158        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2208: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000d 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2224: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000000d 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2240: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2256: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LB     x5, 0(x2)           set: x5 = 0000000d 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2272: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 158        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2288: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2304: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000000e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2320: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2336: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LB     x5, 0(x2)           set: x5 = 0000000e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2352: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 158        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2368: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000f 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2384: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000000f 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2400: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2416: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LB     x5, 0(x2)           set: x5 = 0000000f 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2432: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 158        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2448: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000010 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2464: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000010 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2480: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2496: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x0, 0          set: x1 = 00000000 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2512: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x2,  x0, 32         set: x2 = 00000020 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2528: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x3,  x0, 16         set: x3 = 00000010 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2544: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x4,  x0, 2          set: x4 = 00000002 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2560: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SH     x1, 0(x2)           set: @00000020 = 00000000 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2576: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000001 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2592: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000022 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2608: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2624: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SH     x1, 0(x2)           set: @00000022 = 00000001 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2640: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000002 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2656: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000024 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2672: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2688: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SH     x1, 0(x2)           set: @00000024 = 00000002 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2704: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000003 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2720: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000026 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2736: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2752: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SH     x1, 0(x2)           set: @00000026 = 00000003 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2768: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000004 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2784: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000028 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2800: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2816: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SH     x1, 0(x2)           set: @00000028 = 00000004 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2832: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000005 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2848: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000002a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2864: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2880: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SH     x1, 0(x2)           set: @0000002a = 00000005 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2896: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000006 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2912: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000002c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2928: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2944: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SH     x1, 0(x2)           set: @0000002c = 00000006 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2960: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000007 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2976: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000002e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 2992: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3008: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SH     x1, 0(x2)           set: @0000002e = 00000007 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3024: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000008 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3040: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000030 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3056: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3072: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SH     x1, 0(x2)           set: @00000030 = 00000008 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3088: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000009 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3104: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000032 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3120: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3136: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SH     x1, 0(x2)           set: @00000032 = 00000009 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3152: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3168: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000034 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3184: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3200: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SH     x1, 0(x2)           set: @00000034 = 0000000a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3216: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000b 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3232: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000036 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3248: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3264: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SH     x1, 0(x2)           set: @00000036 = 0000000b 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3280: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3296: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000038 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3312: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3328: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SH     x1, 0(x2)           set: @00000038 = 0000000c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3344: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000d 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3360: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000003a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3376: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3392: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SH     x1, 0(x2)           set: @0000003a = 0000000d 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3408: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3424: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000003c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3440: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3456: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SH     x1, 0(x2)           set: @0000003c = 0000000e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3472: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000f 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3488: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000003e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3504: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3520: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SH     x1, 0(x2)           set: @0000003e = 0000000f 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3536: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000010 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3552: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000040 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3568: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3584: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x0, 0          set: x1 = 00000000 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3600: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x2,  x0, 32         set: x2 = 00000020 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3616: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LH     x5, 0(x2)           set: x5 = 00000000 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3632: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 128        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3648: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000001 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3664: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000022 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3680: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3696: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LH     x5, 0(x2)           set: x5 = 00000001 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3712: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 128        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3728: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000002 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3744: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000024 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3760: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3776: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LH     x5, 0(x2)           set: x5 = 00000002 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3792: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 128        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3808: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000003 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3824: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000026 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3840: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3856: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LH     x5, 0(x2)           set: x5 = 00000003 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3872: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 128        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3888: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000004 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3904: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000028 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3920: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3936: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LH     x5, 0(x2)           set: x5 = 00000004 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3952: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 128        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3968: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000005 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 3984: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000002a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4000: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4016: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LH     x5, 0(x2)           set: x5 = 00000005 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4032: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 128        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4048: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000006 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4064: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000002c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4080: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4096: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LH     x5, 0(x2)           set: x5 = 00000006 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4112: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 128        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4128: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000007 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4144: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000002e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4160: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4176: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LH     x5, 0(x2)           set: x5 = 00000007 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4192: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 128        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4208: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000008 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4224: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000030 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4240: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4256: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LH     x5, 0(x2)           set: x5 = 00000008 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4272: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 128        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4288: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000009 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4304: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000032 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4320: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4336: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LH     x5, 0(x2)           set: x5 = 00000009 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4352: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 128        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4368: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4384: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000034 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4400: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4416: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LH     x5, 0(x2)           set: x5 = 0000000a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4432: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 128        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4448: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000b 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4464: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000036 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4480: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4496: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LH     x5, 0(x2)           set: x5 = 0000000b 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4512: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 128        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4528: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4544: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000038 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4560: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4576: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LH     x5, 0(x2)           set: x5 = 0000000c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4592: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 128        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4608: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000d 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4624: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000003a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4640: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4656: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LH     x5, 0(x2)           set: x5 = 0000000d 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4672: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 128        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4688: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4704: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000003c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4720: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4736: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LH     x5, 0(x2)           set: x5 = 0000000e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4752: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 128        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4768: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000f 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4784: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000003e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4800: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4816: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LH     x5, 0(x2)           set: x5 = 0000000f 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4832: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 128        
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4848: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000010 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4864: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000040 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4880: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4896: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x0, 0          set: x1 = 00000000 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4912: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x2,  x0, 128        set: x2 = 00000080 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4928: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x3,  x0, 16         set: x3 = 00000010 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4944: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x4,  x0, 4          set: x4 = 00000004 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4960: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SW     x1, 0(x2)           set: @00000080 = 00000000 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4976: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000001 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 4992: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000084 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5008: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5024: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SW     x1, 0(x2)           set: @00000084 = 00000001 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5040: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000002 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5056: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000088 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5072: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5088: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SW     x1, 0(x2)           set: @00000088 = 00000002 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5104: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000003 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5120: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000008c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5136: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5152: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SW     x1, 0(x2)           set: @0000008c = 00000003 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5168: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000004 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5184: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000090 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5200: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5216: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SW     x1, 0(x2)           set: @00000090 = 00000004 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5232: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000005 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5248: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000094 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5264: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5280: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SW     x1, 0(x2)           set: @00000094 = 00000005 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5296: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000006 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5312: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000098 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5328: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5344: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SW     x1, 0(x2)           set: @00000098 = 00000006 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5360: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000007 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5376: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000009c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5392: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5408: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SW     x1, 0(x2)           set: @0000009c = 00000007 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5424: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000008 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5440: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000a0 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5456: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5472: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SW     x1, 0(x2)           set: @000000a0 = 00000008 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5488: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000009 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5504: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000a4 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5520: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5536: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SW     x1, 0(x2)           set: @000000a4 = 00000009 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5552: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5568: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000a8 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5584: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5600: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SW     x1, 0(x2)           set: @000000a8 = 0000000a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5616: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000b 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5632: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000ac 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5648: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5664: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SW     x1, 0(x2)           set: @000000ac = 0000000b 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5680: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5696: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000b0 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5712: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5728: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SW     x1, 0(x2)           set: @000000b0 = 0000000c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5744: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000d 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5760: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000b4 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5776: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5792: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SW     x1, 0(x2)           set: @000000b4 = 0000000d 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5808: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5824: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000b8 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5840: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5856: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SW     x1, 0(x2)           set: @000000b8 = 0000000e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5872: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000f 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5888: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000bc 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5904: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5920: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SW     x1, 0(x2)           set: @000000bc = 0000000f 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5936: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000010 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5952: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000c0 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5968: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4090       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 5984: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x0, 0          set: x1 = 00000000 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6000: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x2,  x0, 128        set: x2 = 00000080 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6016: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LW     x5, 0(x2)           set: x5 = 00000000 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6032: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 98         
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6048: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000001 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6064: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000084 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6080: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6096: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LW     x5, 0(x2)           set: x5 = 00000001 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6112: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 98         
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6128: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000002 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6144: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000088 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6160: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6176: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LW     x5, 0(x2)           set: x5 = 00000002 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6192: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 98         
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6208: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000003 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6224: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000008c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6240: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6256: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LW     x5, 0(x2)           set: x5 = 00000003 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6272: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 98         
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6288: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000004 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6304: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000090 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6320: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6336: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LW     x5, 0(x2)           set: x5 = 00000004 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6352: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 98         
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6368: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000005 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6384: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000094 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6400: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6416: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LW     x5, 0(x2)           set: x5 = 00000005 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6432: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 98         
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6448: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000006 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6464: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 00000098 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6480: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6496: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LW     x5, 0(x2)           set: x5 = 00000006 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6512: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 98         
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6528: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000007 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6544: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 0000009c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6560: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6576: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LW     x5, 0(x2)           set: x5 = 00000007 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6592: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 98         
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6608: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000008 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6624: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000a0 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6640: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6656: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LW     x5, 0(x2)           set: x5 = 00000008 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6672: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 98         
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6688: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000009 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6704: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000a4 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6720: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6736: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LW     x5, 0(x2)           set: x5 = 00000009 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6752: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 98         
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6768: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6784: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000a8 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6800: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6816: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LW     x5, 0(x2)           set: x5 = 0000000a 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6832: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 98         
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6848: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000b 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6864: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000ac 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6880: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6896: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LW     x5, 0(x2)           set: x5 = 0000000b 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6912: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 98         
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6928: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6944: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000b0 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6960: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6976: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LW     x5, 0(x2)           set: x5 = 0000000c 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 6992: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 98         
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7008: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000d 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7024: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000b4 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7040: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7056: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LW     x5, 0(x2)           set: x5 = 0000000d 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7072: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 98         
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7088: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7104: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000b8 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7120: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7136: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LW     x5, 0(x2)           set: x5 = 0000000e 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7152: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 98         
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7168: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 0000000f 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7184: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000bc 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7200: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7216: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LW     x5, 0(x2)           set: x5 = 0000000f 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7232: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BNE    x5,  x1, 98         
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7248: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADDI   x1,  x1, 1          set: x1 = 00000010 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7264: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  ADD    x2,  x2,  x4        set: x2 = 000000c0 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7280: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  BLT    x1,  x3, 4088       
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7296: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  JAL    x0, 160             
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7312: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  LUI   x10, 393424          set: x10 = 600d0000 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7328: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  SRLI   x9, x10, 16         set: x9 = 0000600d 
+# UVM_INFO ./tb_sources/cpu_tracer.svh(34) @ 7344: uvm_test_top.env_execute_test.cpu_tracer [cpu_tracer_c]  OR    x10, x10,  x9        set: x10 = 600d600d 
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 7352: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO ./tb_sources/execute_scoreboard.svh(70) @ 7352: uvm_test_top.env_execute_test.execute_scoreboard [execute_scoreboard_c] =======================================================
+# UVM_INFO ./tb_sources/execute_scoreboard.svh(71) @ 7352: uvm_test_top.env_execute_test.execute_scoreboard [execute_scoreboard_c] ||                                                   ||
+# UVM_INFO ./tb_sources/execute_scoreboard.svh(72) @ 7352: uvm_test_top.env_execute_test.execute_scoreboard [execute_scoreboard_c] ||                                                   ||
+# UVM_INFO ./tb_sources/execute_scoreboard.svh(74) @ 7352: uvm_test_top.env_execute_test.execute_scoreboard [execute_scoreboard_c] || UVM Program execution test passed!                ||
+# UVM_INFO ./tb_sources/execute_scoreboard.svh(78) @ 7352: uvm_test_top.env_execute_test.execute_scoreboard [execute_scoreboard_c] ||                                                   ||
+# UVM_INFO ./tb_sources/execute_scoreboard.svh(79) @ 7352: uvm_test_top.env_execute_test.execute_scoreboard [execute_scoreboard_c] ||                                                   ||
+# UVM_INFO ./tb_sources/execute_scoreboard.svh(80) @ 7352: uvm_test_top.env_execute_test.execute_scoreboard [execute_scoreboard_c] =======================================================
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :  523
+# UVM_WARNING :    0
+# UVM_ERROR :    0
+# UVM_FATAL :    0
+# ** Report counts by id
+# [Questa UVM]     2
+# [RNTST]     1
+# [SCB]     1
+# [Start]     1
+# [TEST_DONE]     1
+# [cpu_tracer_c]   454
+# [execute_scoreboard_c]     7
+# [mem_test]    56
+# ** Note: $finish    : /u/release/questa/2024.2/questasim/linux/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+#    Time: 7352 ns  Iteration: 59  Instance: /top
+# End time: 10:37:25 on Feb 26,2025, Elapsed time: 0:00:10
+# Errors: 0, Warnings: 2
