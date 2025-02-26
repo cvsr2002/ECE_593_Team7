@@ -1,5 +1,5 @@
 class cpu_exec_record_c extends uvm_object;
- // `uvm_component_utils(cpu_exec_record_c)
+ // `uvm_object_utils(cpu_exec_record_c)
  
   instruction_t  instr;
   register_num_t rd;
