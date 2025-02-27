@@ -9,9 +9,9 @@ TB   = ./tb_sources
 
 VLIB = $(QUESTA_HOME)/bin/vlib
 VMAP = $(QUESTA_HOME)/bin/vmap
-VLOG = $(QUESTA_HOME)/bin/vlog -lint +acc=all -work work +incdir=$(TB)
+VLOG = $(QUESTA_HOME)/bin/vlog -64 -lint +acc=all -work work +incdir=$(TB)
 VOPT = $(QUESTA_HOME)/bin/vopt 
-VSIM = $(QUESTA_HOME)/bin/vsim -voptargs=+acc -work work 
+VSIM = $(QUESTA_HOME)/bin/vsim -64 -voptargs=+acc -work work 
 
 .PHONY: all compile sim gui clean
 
@@ -66,7 +66,7 @@ compile: clean
 	$(VLOG) $(HW)/cpu_design.sv
 
 riscv_iss.so: iss/riscv_iss.c
-	gcc -m32 -o riscv_iss.so -shared -fPIC -std=c99 iss/riscv_iss.c 
+	gcc -o riscv_iss.so -shared -fPIC -std=c99 iss/riscv_iss.c 
 
 CRUFT  = transcript
 CRUFT += *.wlf
