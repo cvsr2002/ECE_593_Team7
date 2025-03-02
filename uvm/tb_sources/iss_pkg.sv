@@ -36,4 +36,10 @@ import "DPI-C" function int  iss_get_write_op();
 import "DPI-C" function int  iss_get_wdata();
 import "DPI-C" function int  iss_get_waddr();
 
+// test support routines
+
+import "DPI-C" function void iss_enable_data_bypass();
+import "DPI-C" function void iss_disable_data_bypass();
+import "DPI-C" function void iss_set_read_value(int value);
+
 endpackage

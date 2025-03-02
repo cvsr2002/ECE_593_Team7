@@ -94,38 +94,47 @@ module decoder #(
   end 
 
 
-   opcode_mask_t opcode;
+   mnemonic_t opcode;
    assign opcode = opc_base(instr);
 
    covergroup opcodes_cg @(posedge clk);
      coverpoint opcode {
         bins instr[] = {
-             M_ADD, M_SUB, M_AND, M_OR, M_XOR, M_SLL, M_SRA, M_STL, M_STLU, 
-             M_ADDI, M_ANDI, M_ORI,  M_XORI, M_SLLI, M_SRAI, M_STL, M_STLU, M_LW, M_LH, M_LHU, M_LB, M_LBU, M_JALR,
-             M_STLI, M_STLUI,
-             M_LUI, M_AUIPC,
-             M_SW, M_SH, M_SB,
-             M_BEQ, M_BNE, M_BLT, M_BGE, M_BLTU, M_BGEU,
-             M_JAL };
+             ADD, SUB, AND, OR, XOR, SLL, SRA, STL, STLU, 
+             ADDI, ANDI, ORI,  XORI, SLLI, SRAI, STL, STLU, LW, LH, LHU, LB, LBU, JALR,
+             STLI, STLUI,
+             LUI, AUIPC,
+             SW, SH, SB,
+             BEQ, BNE, BLT, BGE, BLTU, BGEU,
+             JAL };
      }
    endgroup
 
    covergroup regs_cg @(posedge clk);
      coverpoint opcode {
-       bins r_type = { M_ADD, M_SUB, M_AND, M_OR, M_XOR, M_SLL, M_SRA, M_STL, M_STLU };
-       bins i_type = { M_ADDI, M_ANDI, M_ORI,  M_XORI, M_SLLI, M_SRAI, M_STL, M_STLU, M_LW, M_LH, M_LHU, M_LB, M_LBU, M_JALR };
-       bins si_type = { M_STLI, M_STLUI };
-       bins u_type = { M_LUI, M_AUIPC };
-       bins s_type = { M_SW, M_SH, M_SB };
-       bins b_type = { M_BEQ, M_BNE, M_BLT, M_BGE, M_BLTU, M_BGEU };
-       bins j_type = { M_JAL };
+       bins r_type = { ADD, SUB, AND, OR, XOR, SLL, SRA, STL, STLU };
+       bins i_type = { ADDI, ANDI, ORI,  XORI, SLLI, SRAI, STL, STLU, LW, LH, LHU, LB, LBU, JALR };
+       bins si_type = { STLI, STLUI };
+       bins u_type = { LUI, AUIPC };
+       bins s_type = { SW, SH, SB };
+       bins b_type = { BEQ, BNE, BLT, BGE, BLTU, BGEU };
+       bins j_type = { JAL };
+     }
+     coverpoint rs1 {
+       bins n[4] = {[0:31]};
+     }
+     coverpoint rs2 {
+       bins n[4] = {[0:31]};
+     }
+     coverpoint rd {
+       bins n[4] = {[0:31]};
      }
      cross opcode, rs1, rs2, rd;
    endgroup
 
    covergroup one_operand_cg @(posedge clk);
      coverpoint opcode {
-       bins one_operand = { M_JAL, M_LUI, M_AUIPC };
+       bins one_operand = { JAL, LUI, AUIPC };
      }
      coverpoint op1 {
        bins negative = {[$:-1]};
@@ -138,9 +147,9 @@ module decoder #(
    covergroup two_operand_cg @(posedge clk);
      coverpoint opcode {
        bins two_operand = {
-              M_ADD, M_SUB, M_AND, M_OR, M_XOR, M_SLL, M_SRA, M_STL, M_STLU,
-              M_ADDI, M_ANDI, M_ORI,  M_XORI, M_SLLI, M_SRAI, M_STL, M_STLU, M_LW, M_LH, M_LHU, M_LB, M_LBU, M_JALR,
-              M_STLI, M_STLUI };
+              ADD, SUB, AND, OR, XOR, SLL, SRA, STL, STLU,
+              ADDI, ANDI, ORI,  XORI, SLLI, SRAI, STL, STLU, LW, LH, LHU, LB, LBU, JALR,
+              STLI, STLUI };
      }
      coverpoint op1 {
        bins negative = {[$:-1]};
@@ -157,7 +166,7 @@ module decoder #(
 
    covergroup three_operand_cg @(posedge clk);
      coverpoint opcode {
-       bins three_operand = { M_SW, M_SH, M_SB, M_BEQ, M_BNE, M_BLT, M_BGE, M_BLTU, M_BGEU };
+       bins three_operand = { SW, SH, SB, BEQ, BNE, BLT, BGE, BLTU, BGEU };
      }
      coverpoint op1 {
        bins negative = {[$:-1]};

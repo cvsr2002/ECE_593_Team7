@@ -29,6 +29,14 @@ class iss_c extends uvm_object;
     iss_set_instruction(addr, instr);
   endfunction
 
+  function void set_register(int addr, register_t value);
+    iss_set_register(addr, value);
+  endfunction
+
+  function void set_pc(register_t value);
+    iss_set_pc(value);
+  endfunction
+
   function void reset();
     iss_reset();
   endfunction
@@ -50,8 +58,21 @@ class iss_c extends uvm_object;
     iss_run();
   endfunction
 
+  function void set_read_value(int value);
+    iss_set_read_value(value);
+  endfunction
+
+  function void enable_data_bypass();
+    iss_enable_data_bypass();
+  endfunction
+
+  function void disable_data_bypass();
+    iss_disable_data_bypass();
+  endfunction
+
   function void get_exec_rec(ref cpu_exec_record_c exec_rec);
     exec_rec.instr = iss_get_instruction(iss_get_pc());
+
     iss_step();
     exec_rec.next_pc = ((iss_get_pc()) << 2);
     exec_rec.rd = iss_get_rd();

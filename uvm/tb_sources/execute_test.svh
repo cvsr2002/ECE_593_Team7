@@ -21,6 +21,12 @@ class execute_test_c extends uvm_test;
 
   endfunction
 
+  virtual function void end_of_elaboration_phase(uvm_phase phase);
+    super.end_of_elaboration_phase(phase);
+
+    uvm_top.print_topology();
+  endfunction
+
   function void set_instr(int address, instruction_t instr,
        input virtual interface cpu_state_i cs_vif);
     string message;

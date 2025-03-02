@@ -3,7 +3,7 @@
 
   // interfaces needed for stimulus, response and checking
 
-  // DUT signal interface, for driveing sampling 
+  // DUT signal interface, for driving and sampling 
   // boundary of CPU core
 
   interface cpu_if_i(input logic clk, rst);
@@ -59,7 +59,8 @@
   interface cpu_state_i(
     ref logic [31:0] code_memory ['h10000],
     ref logic [31:0] data_memory ['h10000],
-    ref register_t register_bank[32]);
+    ref register_t register_bank[32],
+    ref register_t pc);
     int program_size;
   endinterface
 

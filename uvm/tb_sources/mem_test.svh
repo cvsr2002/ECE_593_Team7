@@ -8,7 +8,6 @@ class mem_test extends execute_test_c;
   virtual function int load_program();
 
    virtual interface cpu_state_i cs_vif;
-   $display("loading program");
    `uvm_info(get_type_name(), "Loading program to design memory", UVM_MEDIUM);
    if (!uvm_config_db#(virtual interface cpu_state_i)::get(this, "", "cpu_state_if", cs_vif))
      `uvm_error(get_type_name, "Failed to get cpu_state interface");

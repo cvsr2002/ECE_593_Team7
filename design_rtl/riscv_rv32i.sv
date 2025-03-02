@@ -38,9 +38,7 @@ module riscv_rv32i #(
    register_t alu_result, mcu_result, bcu_result, result;
    register_num_t rd;
 
-   int i;
-
-   logic chatty = 1;
+   logic [5:0] i;
 
    assign instruction_address = pc;
    assign instruction_enable = fetch;

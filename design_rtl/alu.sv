@@ -6,7 +6,7 @@ module alu #(
   ) (
     input logic clk,
     input logic rst,
-    input var instruction_t instr,      // Current instruction
+    input var instruction_t instr,  // Current instruction
     input register_t op1,           // Operand 1 (from register/immediate)
     input register_t op2,           // Operand 2 (from register/immediate)
     input logic enable,             // enable signal
@@ -31,8 +31,8 @@ always_ff @(posedge clk) begin
             M_SUB          : result <= op1 - op2;
             
             // Comparisons
-            M_STL, M_STLI  : result <= ($unsigned(op1) < $unsigned(op2)) ? 1 : 0;
-            M_STLU, M_STLUI: result <= (op1 < op2) ? 1 : 0;
+            M_STLU, M_STLUI: result <= ($unsigned(op1) < $unsigned(op2)) ? 1 : 0;
+            M_STL, M_STLI  : result <=   ($signed(op1) <   $signed(op2)) ? 1 : 0;
             
             // Logical Operations
             M_AND, M_ANDI  : result <= op1 & op2;
@@ -41,8 +41,8 @@ always_ff @(posedge clk) begin
             
             // Shifts
             M_SLL, M_SLLI  : result <= op1 << op2[4:0];
-            M_SRL, M_SRLI  : result <= $unsigned(op1) >> op2[4:0];
-            M_SRA, M_SRAI  : result <= op1 >> op2[4:0];
+            M_SRL, M_SRLI  : result <= $unsigned(op1) >>  op2[4:0];
+            M_SRA, M_SRAI  : result <=   $signed(op1) >>> op2[4:0];
             
             // Upper Immediate
             M_LUI          : result <= op1;               // op1 = immediate

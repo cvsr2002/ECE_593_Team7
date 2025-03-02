@@ -21,7 +21,7 @@ module memory_ctrl #(
    output logic [31:0]  write_data,
    input  logic         write_ack);
 
-   typedef enum logic[2:0] { IDLE, ADDR_PHASE, DATA_PHASE, DONE } state_t;
+   typedef enum logic[2:0] { ADDR_PHASE, DATA_PHASE, DONE } state_t;
 
    typedef logic unsigned [15:0]  unsigned_short;
    typedef logic signed   [15:0]  signed_short;
@@ -46,13 +46,11 @@ module memory_ctrl #(
    endfunction
 
    always_ff @(posedge clk) 
-     if (rst) state <= ADDR_PHASE; // IDLE;
+     if (rst) state <= ADDR_PHASE; 
      else state <= next_state;
 
    always_comb begin
      case (state) 
-       IDLE       : if (enable) next_state = ADDR_PHASE; else next_state = IDLE;
-       // ADDR_PHASE : next_state = DATA_PHASE;
        ADDR_PHASE : if (enable) next_state = DATA_PHASE; else next_state = ADDR_PHASE;
        DATA_PHASE : if ((read_op & read_ack) || (!read_op & write_ack)) next_state = DONE;
        DONE       : next_state = ADDR_PHASE;
@@ -135,12 +133,12 @@ module memory_ctrl #(
      end
    end
 
-   opcode_mask_t opcode;
+   mnemonic_t opcode;
    assign opcode = opc_base(instr);
 
    covergroup mcu_cg @(posedge clk); 
      coverpoint opcode {
-        bins instr[] = {M_LW, M_LH, M_LHU, M_LB, M_LBU, M_SW, M_SH, M_SB};
+        bins instr[] = {LW, LH, LHU, LB, LBU, SW, SH, SB};
         // ignore_bins: others;
       }
       coverpoint result_reg {
@@ -153,7 +151,7 @@ module memory_ctrl #(
 
    covergroup mcu_halfword_cg @(posedge clk);
      coverpoint opcode {
-        bins instr[] = {M_LH, M_LHU};
+        bins instr[] = {LH, LHU};
         //ignore_bins: others;
       }
       coverpoint result_reg {
@@ -170,7 +168,7 @@ module memory_ctrl #(
 
    covergroup mcu_byte_cg @(posedge clk);
      coverpoint opcode {
-        bins instr[] = {M_LB, M_LBU};
+        bins instr[] = {LB, LBU};
         //ignore_bins: others;
       }
       coverpoint result_reg {

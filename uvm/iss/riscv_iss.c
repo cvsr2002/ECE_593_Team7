@@ -30,6 +30,8 @@ static unsigned long wdata;
 static unsigned long waddr;
 static unsigned long write_op;
 
+static int bypass_mode = 0;
+static unsigned long read_value;
 static int chatty;
 static int run_complete;
 
@@ -45,12 +47,12 @@ static void get_r_type_ops(
     struct bit_fields {
       union {
         struct {
-          int opc1 : 7;
-          int rd   : 5;
-          int opc2 : 3;
-          int rs1  : 5;
-          int rs2  : 5;
-          int opc3 : 7;
+          unsigned int opc1 : 7;
+          unsigned int rd   : 5;
+          unsigned int opc2 : 3;
+          unsigned int rs1  : 5;
+          unsigned int rs2  : 5;
+          unsigned int opc3 : 7;
         };
         unsigned long w;
       };
@@ -167,7 +169,6 @@ static void get_s_type_ops(
     // tracking info
     tr_rd = 0;
     write_op = 1;
-    waddr = register_bank[*rs1] + *imm;
 }
 
 static void get_b_type_ops(
@@ -268,6 +269,12 @@ static void get_u_type_ops(
     wdata = 0;
 }
 
+unsigned long get_read_value(unsigned long address)
+{
+   if (bypass_mode) return read_value;
+   else return data_memory[address];
+}
+
 //
 // Functional routines for executing instructions with tracing 
 //
@@ -335,7 +342,7 @@ static int stli(unsigned long instr, char *mnemonic, char *trace)
    
    get_i_type_ops(instr, &rd, &rs1, &imm);
    
-   register_bank[rd] = (register_bank[rs1] < ((unsigned) imm)) ? 1 : 0;
+   register_bank[rd] = (register_bank[rs1] < imm) ? 1 : 0;
   
    sprintf(trace, "%-6s  x%d, x%d, %d            ", mnemonic, rd, rs1, imm);
    sprintf(trace+27, "x%d = %08x ", rd, register_bank[rd]);
@@ -348,7 +355,7 @@ static int stlui(unsigned long instr, char *mnemonic, char *trace)
    
    get_i_type_ops(instr, &rd, &rs1, &imm);
    
-   register_bank[rd] = (((signed) register_bank[rs1]) < imm) ? 1 : 0;
+   register_bank[rd] = (((signed) register_bank[rs1]) < ((unsigned) imm)) ? 1 : 0;
   
    sprintf(trace, "%-6s  x%d, x%d, %d            ", mnemonic, rd, rs1, imm);
    sprintf(trace+27, "x%d = %08x ", rd, register_bank[rd]);
@@ -366,7 +373,7 @@ static int lw(unsigned long instr, char *mnemonic, char *trace)
    get_i_type_ops(instr, &rd, &rs1, &imm);
    
    address = (register_bank[rs1] + imm) >> 2;
-   register_bank[rd] = data_memory[address];
+   register_bank[rd] = get_read_value(address); // data_memory[address];
   
    sprintf(trace, "%-6s  x%d, x%d, %d            ", mnemonic, rd, rs1, imm);
    sprintf(trace+27, "x%d = %08x ", rd, register_bank[rd]);
@@ -384,7 +391,8 @@ static int lh(unsigned long instr, char *mnemonic, char *trace)
    
    address = (register_bank[rs1] + imm) >> 2;
    offset = (register_bank[rs1] + imm) & 2;
-   register_bank[rd] = ((data_memory[address]) >> (offset * 8)) & 0xFFFF;
+   // register_bank[rd] = ((data_memory[address]) >> (offset * 8)) & 0xFFFF;
+   register_bank[rd] = ((get_read_value(address)) >> (offset * 8)) & 0xFFFF;
    if (register_bank[rd] & 0x00008000) register_bank[rd] |= 0xFFFF0000;
   
    sprintf(trace, "%-6s  x%d, x%d, %d            ", mnemonic, rd, rs1, imm);
@@ -403,7 +411,8 @@ static int lhu(unsigned long instr, char *mnemonic, char *trace)
    
    address = (register_bank[rs1] + imm) >> 2;
    offset = (register_bank[rs1] + imm) & 2;
-   register_bank[rd] = ((data_memory[address]) >> (offset * 8)) & 0xFFFF;
+   // register_bank[rd] = ((data_memory[address]) >> (offset * 8)) & 0xFFFF;
+   register_bank[rd] = ((get_read_value(address)) >> (offset * 8)) & 0xFFFF;
   
    sprintf(trace, "%-6s  x%d, x%d, %d            ", mnemonic, rd, rs1, imm);
    sprintf(trace+27, "x%d = %08x ", rd, register_bank[rd]);
@@ -421,7 +430,8 @@ static int lb(unsigned long instr, char *mnemonic, char *trace)
    
    address = (register_bank[rs1] + imm) >> 2;
    offset = (register_bank[rs1] + imm) & 3;
-   register_bank[rd] = ((data_memory[address]) >> (offset * 8)) & 0xFF;
+   // register_bank[rd] = ((data_memory[address]) >> (offset * 8)) & 0xFF;
+   register_bank[rd] = ((get_read_value(address)) >> (offset * 8)) & 0xFF;
    if (register_bank[rd] & 0x00000080) register_bank[rd] |= 0xFFFFFF00;
   
    sprintf(trace, "%-6s  x%d, x%d, %d            ", mnemonic, rd, rs1, imm);
@@ -440,7 +450,8 @@ static int lbu(unsigned long instr, char *mnemonic, char *trace)
    
    address = (register_bank[rs1] + imm) >> 2;
    offset = (register_bank[rs1] + imm) & 3;
-   register_bank[rd] = ((data_memory[address]) >> (offset * 8)) & 0xFF;
+   // register_bank[rd] = ((data_memory[address]) >> (offset * 8)) & 0xFF;
+   register_bank[rd] = ((get_read_value(address)) >> (offset * 8)) & 0xFF;
   
    sprintf(trace, "%-6s  x%d, x%d, %d            ", mnemonic, rd, rs1, imm);
    sprintf(trace+27, "x%d = %08x ", rd, register_bank[rd]);
@@ -736,6 +747,7 @@ static int sw(unsigned long instr, char *mnemonic, char *trace)
 
    // tracking info
    wdata = register_bank[rs2];
+   waddr = (register_bank[rs1] + imm) & 0xFFFFFFFC;
  
    return 0;
 }
@@ -758,9 +770,8 @@ static int sh(unsigned long instr, char *mnemonic, char *trace)
    sprintf(trace+27, "write @%08x = %04x ", address*4+offset, register_bank[rs2] & 0xFFFF);
 
    // tracking info
-   wdata = register_bank[rs2];
-   //if (offset == 0) wdata = register_bank[rs2] & 0x0000FFFF;
-   //if (offset == 2) wdata = register_bank[rs2] >> 16;
+   wdata = register_bank[rs2] & 0x0000FFFF;
+   waddr = (register_bank[rs1] + imm) & 0xFFFFFFFE;
  
    return 0;
 }
@@ -785,11 +796,8 @@ static int sb(unsigned long instr, char *mnemonic, char *trace)
    sprintf(trace+27, "write @%08x = %02x ", address*4+offset, register_bank[rs2] & 0xFF);
 
    // tracking info
-   wdata = register_bank[rs2];
-   //if (offset == 0) wdata = (register_bank[rs2] >>  0) & 0x000000FF;
-   //if (offset == 1) wdata = (register_bank[rs2] >>  8) & 0x000000FF;
-   //if (offset == 2) wdata = (register_bank[rs2] >> 16) & 0x000000FF;
-   //if (offset == 3) wdata = (register_bank[rs2] >> 24) & 0x000000FF;
+   wdata = register_bank[rs2] & 0x000000FF;
+   waddr = (register_bank[rs1] + imm) & 0xFFFFFFFF;
  
    return 0;
 }
@@ -868,7 +876,7 @@ static int srai(unsigned long instr, char *mnemonic, char *trace)
 
    get_si_type_ops(instr, &rd, &rs1, &imm);
  
-   register_bank[rd] = register_bank[rs1] << imm;
+   register_bank[rd] = ((signed) register_bank[rs1]) >> imm;
 
    sprintf(trace, "%-6s  x%d, x%d, %d            ", mnemonic, rd, rs1, imm);
    sprintf(trace+27, "x%d = %08x ", rd, register_bank[rd]);
@@ -904,8 +912,8 @@ static struct opcode_table_s {
    { "SLLI",   0xFE00707F, 0x00001013, slli   },
    { "SRLI",   0xFE00707F, 0x00005013, srli   },
    { "SRAI",   0xFE00707F, 0x40005013, srai   },
-   { "LUI",    0x0000707F, 0x00000037, lui    },
-   { "AUIPC",  0x0000707F, 0x00000017, auipc  },
+   { "LUI",    0x0000007F, 0x00000037, lui    },
+   { "AUIPC",  0x0000007F, 0x00000017, auipc  },
 
    { "ADD",    0xFE00707F, 0x00000033, add    },
    { "SUB",    0xFE00707F, 0x40000033, sub    },
@@ -956,6 +964,8 @@ void iss_reset()
 
    pc = 0;
    for (i=0; i<32; i++) register_bank[i] = 0;
+   bypass_mode = 0;
+   read_value = 0;
 }
 
 void iss_step()
@@ -981,7 +991,6 @@ void iss_step()
 
    if (chatty) printf("[ISS] trace: %08x: %08x : %s \n", old_pc * 4, instr, decode);
    if (!branched) pc ++;
-
 }
 
 void iss_run()
@@ -1057,32 +1066,48 @@ unsigned long iss_get_register(unsigned long address)
    return register_bank[address & 0x1F];
 }
 
+void iss_set_read_value(unsigned long value)
+{
+   bypass_mode = 1;
+   read_value = value;
+}
+
+void iss_enable_data_bypass()
+{
+   bypass_mode = 1;
+}
+
+void iss_disable_data_bypass()
+{
+   bypass_mode = 0;
+}
+
 void iss_enable_trace()
 {
-  chatty = 1;
+   chatty = 1;
 }
 
 void iss_disable_trace()
 {
-  chatty = 0;
+   chatty = 0;
 }
 
 unsigned long iss_get_rd()
 {
-  return(tr_rd);
+   return(tr_rd);
 }
 
 unsigned long iss_get_wdata()
 { 
-  return(wdata);
+   return(wdata);
 }
 
 unsigned long iss_get_waddr()
 {
-  return(waddr);
+   return(waddr);
 }
 
 unsigned long iss_get_write_op()
 {
-  return(write_op);
+   return(write_op);
 }

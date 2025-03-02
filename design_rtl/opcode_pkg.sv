@@ -90,7 +90,7 @@ typedef enum logic [5:0] {
     ADDI, STLI, STLUI, ANDI, ORI,  XORI, SLLI, SRLI, SRAI, LUI, AUIPC,
     ADD,  SUB,  STL,   STLU, AND,  OR,   XOR,  SLL,  SRL,  SRA,
     JAL,  JALR, BEQ,   BNE,  BLT,  BLTU, BGE,  BGEU,
-    LW,   LH,   LHU,   LBU,  SW,   SH,   SB 
+    LW,   LH,   LB,    LHU,   LBU,  SW,   SH,   SB 
   } mnemonic_t;
 
 typedef enum logic [2:0] {
@@ -374,61 +374,61 @@ function string decode_instr(instruction_t instr);
 endfunction
 
 
-function opcode_mask_t opc_base(instruction_t instr);
+function mnemonic_t opc_base(instruction_t instr);
 
    casez (instr) 
      // R-Type Instructions
-     M_ADD   : return M_ADD;
-     M_SUB   : return M_SUB;
-     M_AND   : return M_AND;
-     M_OR    : return M_OR;
-     M_XOR   : return M_XOR;
-     M_SLL   : return M_SLL;
-     M_SRL   : return M_SRL;
-     M_SRA   : return M_SRA;
-     M_STL   : return M_STL;
-     M_STLU  : return M_STLU;
+     M_ADD   : return ADD;
+     M_SUB   : return SUB;
+     M_AND   : return AND;
+     M_OR    : return OR;
+     M_XOR   : return XOR;
+     M_SLL   : return SLL;
+     M_SRL   : return SRL;
+     M_SRA   : return SRA;
+     M_STL   : return STL;
+     M_STLU  : return STLU;
 
      // I-Type Instructions
-     M_ADDI  : return M_ADDI;
-     M_ANDI  : return M_ANDI;
-     M_ORI   : return M_ORI;
-     M_XORI  : return M_XORI;
-     M_SLLI  : return M_SLLI;
-     M_SRLI  : return M_SRLI;
-     M_SRAI  : return M_SRAI;
+     M_ADDI  : return ADDI;
+     M_ANDI  : return ANDI;
+     M_ORI   : return ORI;
+     M_XORI  : return XORI;
+     M_SLLI  : return SLLI;
+     M_SRLI  : return SRLI;
+     M_SRAI  : return SRAI;
 
      // SI-Type Instructions
-     M_STLI  : return M_STLI;
-     M_STLUI : return M_STLUI;
+     M_STLI  : return STLI;
+     M_STLUI : return STLUI;
 
      // U-Type Instructions
-     M_LUI   : return M_LUI;
-     M_AUIPC : return M_AUIPC;
+     M_LUI   : return LUI;
+     M_AUIPC : return AUIPC;
 
      // S-Type Instructions
-     M_SW    : return M_SW;
-     M_SH    : return M_SH;
-     M_SB    : return M_SB;
+     M_SW    : return SW;
+     M_SH    : return SH;
+     M_SB    : return SB;
 
      // B-Type Instructions
-     M_BEQ   : return M_BEQ;
-     M_BNE   : return M_BNE;
-     M_BLT   : return M_BLT;
-     M_BGE   : return M_BGE;
-     M_BLTU  : return M_BLTU;
-     M_BGEU  : return M_BGEU;
+     M_BEQ   : return BEQ;
+     M_BNE   : return BNE;
+     M_BLT   : return BLT;
+     M_BGE   : return BGE;
+     M_BLTU  : return BLTU;
+     M_BGEU  : return BGEU;
 
      // J-Type Instructions
-     M_JAL   : return M_JAL;
-     M_JALR  : return M_JALR;
+     M_JAL   : return JAL;
+     M_JALR  : return JALR;
 
      // Load Instructions
-     M_LW    : return M_LW;
-     M_LH    : return M_LH;
-     M_LHU   : return M_LHU;
-     M_LB    : return M_LB;
-     M_LBU   : return M_LBU;
+     M_LW    : return LW;
+     M_LH    : return LH;
+     M_LHU   : return LHU;
+     M_LB    : return LB;
+     M_LBU   : return LBU;
 
      // Default Case
      // default : $error("Unknown instruction ");
@@ -567,7 +567,7 @@ function automatic void set_i_imm(ref instruction_t instr, input short_imm_t imm
 endfunction
 
 function automatic void set_si_imm(ref instruction_t instr, input short_imm_t imm);
-   instr.i.imm = imm & 32'h0000001F;
+   instr.si.imm = imm & 32'h0000001F;
 endfunction
 
 function automatic void set_s_imm(ref instruction_t instr, input short_imm_t imm);

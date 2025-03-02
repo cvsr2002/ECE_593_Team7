@@ -24,7 +24,7 @@ class execute_scoreboard_c extends uvm_scoreboard;
     rtl_exec = cpu_exec_record_c::type_id::create("rtl_exec");
     iss_exec = cpu_exec_record_c::type_id::create("iss_exec");
     
-    uvm_config_db#(iss_c)::set(this, "execute_scoreboard", "iss", iss);
+    uvm_config_db#(iss_c)::set(null, "", "iss", iss);
 
   endfunction
 
@@ -38,6 +38,7 @@ class execute_scoreboard_c extends uvm_scoreboard;
 
     iss.load_program(); 
     iss.reset();
+    // iss.enable_trace();
 
   endtask
 
@@ -49,7 +50,10 @@ class execute_scoreboard_c extends uvm_scoreboard;
 
     `uvm_info("port reader", message, UVM_HIGH);
 
+    iss.set_pc(0);
+    iss.set_instruction(0, exec_rec.instr);
     iss.get_exec_rec(iss_exec);
+    exec_rec.next_pc = iss_exec.next_pc;
     `uvm_info(get_type_name(), $sformatf("hdl result:   %x iss result:    %x ", exec_rec.result, iss_exec.result), UVM_DEBUG);
     `uvm_info(get_type_name(), $sformatf("hdl rd:       x%0d      iss rd:      x%0d ", exec_rec.rd, iss_exec.rd), UVM_DEBUG);
     `uvm_info(get_type_name(), $sformatf("hdl instr:    %x iss instr:     %x ", exec_rec.instr, iss_exec.instr), UVM_DEBUG);

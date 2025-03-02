@@ -23,6 +23,10 @@ module top;
   string         program_filename;
   int            program_size;
 
+  // debug
+
+  string instr_str;
+
   // interface instantiations and connections
 
   code_memory_i  code_memory_if(u_cpu_design.u_code_memory.memory);
@@ -85,6 +89,7 @@ module top;
     forever clk = #(clock_period/2) ~clk;
   end
 
+  always @(posedge clk) instr_str = decode_instr(u_cpu_design.code_read_data);
 
   initial begin 
 
