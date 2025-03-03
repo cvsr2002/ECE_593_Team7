@@ -1,7 +1,7 @@
 import opcodes::*;
 
 module decoder #(
-   parameter random_errors= 0
+   parameter broken = "NONE"
  )(
   input logic clk, rst,
 
@@ -15,9 +15,12 @@ module decoder #(
   instruction_t instr_reg;
   register_num_t rs1, rs2;
   register_t imm;
+  register_num_t rd_reg;
+
+`ifndef SYNTHESIS
 
   function automatic register_t induce_errors(register_t data);
-    if (random_errors) begin
+    if (broken == "DEC") begin
       if ($urandom_range(1,10)==7)   // 10% of the time flip a bit at random
         return data ^ register_t'(32'h1 << $urandom_range(0,31));
     end
@@ -26,6 +29,14 @@ module decoder #(
 
   string debug_opcode;
 
+  mnemonic_t opcode;
+  assign opcode = opc_base(instr);
+ 
+  assign rd = rd_reg;
+`else
+  assign rd = rd_reg;
+`endif
+
   assign debug_opcode = decode_instr(instr); 
 
   always_ff @(posedge clk) begin
@@ -33,18 +44,14 @@ module decoder #(
       rs1 <= '0;
       rs2 <= '0;
       imm <= '0;
-      rd <= '0;
+      rd_reg <= '0;
       instr_reg <= '0;
     end else begin 
       if (enable) begin
         rs1 <= get_rs1(instr);
         rs2 <= get_rs2(instr);
         imm <= get_imm(instr);
-`ifdef SYNTHESIS
-        rd  <= get_rd(instr);
-`else
-        rd  <= register_num_t'(induce_errors(get_rd(instr)));
-`endif
+        rd_reg  <= get_rd(instr);
         instr_reg <= instr;
       end
     end
@@ -93,9 +100,6 @@ module decoder #(
 `endif
   end 
 
-
-   mnemonic_t opcode;
-   assign opcode = opc_base(instr);
 
    covergroup opcodes_cg @(posedge clk);
      coverpoint opcode {

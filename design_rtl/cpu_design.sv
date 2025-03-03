@@ -1,6 +1,6 @@
 import opcodes::*;
 
-module cpu_design #(parameter BROKEN = 1)
+module cpu_design #(parameter BROKEN = "NONE")
   (
     input logic clk, rst,
     output logic halted);

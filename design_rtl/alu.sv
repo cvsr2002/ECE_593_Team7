@@ -2,7 +2,8 @@
 import opcodes::*;
 
 module alu #(
-    parameter trace = 0
+    parameter trace = 0,
+    broken = "NONE"
   ) (
     input logic clk,
     input logic rst,
@@ -12,10 +13,26 @@ module alu #(
     input logic enable,             // enable signal
     output logic instr_exec,        // opcode was executed
     output register_t result        // ALU result
-);
+  );
 
-always_ff @(posedge clk) begin
-    if (rst) result <= 0;
+  register_t result_reg;
+
+`ifndef SYNTHESIS
+  function automatic register_t induce_errors(register_t data);
+    if (broken == "ALU") begin
+      if ($urandom_range(1,10)==7)   // 10% of the time flip a bit at random
+        return data ^ register_t'(32'h1 << $urandom_range(0,31));
+    end
+    return(data);
+  endfunction
+
+  assign result = induce_errors(result_reg);
+`else
+  assign result = result_reg;
+`endif
+
+  always_ff @(posedge clk) begin
+    if (rst) result_reg <= 0;
     else if (enable) begin
    
 `ifndef SYNTHESIS
@@ -23,35 +40,35 @@ always_ff @(posedge clk) begin
         if (trace) if (enable && is_alu_op(instr))
             $display("%t executed: %s ", $time, decode_instr(instr));
 `endif 
-        instr_exec <= 1;
+      instr_exec <= 1;
 
-        casez (instr)
-            // Arithmetic Operations
-            M_ADD, M_ADDI  : result <= op1 + op2;
-            M_SUB          : result <= op1 - op2;
+      casez (instr)
+        // Arithmetic Operations
+        M_ADD, M_ADDI  : result_reg <= op1 + op2;
+        M_SUB          : result_reg <= op1 - op2;
             
-            // Comparisons
-            M_STLU, M_STLUI: result <= ($unsigned(op1) < $unsigned(op2)) ? 1 : 0;
-            M_STL, M_STLI  : result <=   ($signed(op1) <   $signed(op2)) ? 1 : 0;
+        // Comparisons
+        M_STLU, M_STLUI: result_reg <= ($unsigned(op1) < $unsigned(op2)) ? 1 : 0;
+        M_STL, M_STLI  : result_reg <=   ($signed(op1) <   $signed(op2)) ? 1 : 0;
             
-            // Logical Operations
-            M_AND, M_ANDI  : result <= op1 & op2;
-            M_OR, M_ORI    : result <= op1 | op2;
-            M_XOR, M_XORI  : result <= op1 ^ op2;
+        // Logical Operations
+        M_AND, M_ANDI  : result_reg <= op1 & op2;
+        M_OR, M_ORI    : result_reg <= op1 | op2;
+        M_XOR, M_XORI  : result_reg <= op1 ^ op2;
             
-            // Shifts
-            M_SLL, M_SLLI  : result <= op1 << op2[4:0];
-            M_SRL, M_SRLI  : result <= $unsigned(op1) >>  op2[4:0];
-            M_SRA, M_SRAI  : result <=   $signed(op1) >>> op2[4:0];
+        // Shifts
+        M_SLL, M_SLLI  : result_reg <= op1 << op2[4:0];
+        M_SRL, M_SRLI  : result_reg <= $unsigned(op1) >>  op2[4:0];
+        M_SRA, M_SRAI  : result_reg <=   $signed(op1) >>> op2[4:0];
             
-            // Upper Immediate
-            M_LUI          : result <= op1;               // op1 = immediate
-            M_AUIPC        : result <= op1 + op2;         // op1 = immediate
+        // Upper Immediate
+        M_LUI          : result_reg <= op1;               // op1 = immediate
+        M_AUIPC        : result_reg <= op1 + op2;         // op1 = immediate
           
-            default: instr_exec <= 0;   // silently ignore bad opcodes, hold prior output
+        default: instr_exec <= 0;   // silently ignore bad opcodes, hold prior output
 
-            endcase
-        end else instr_exec <= 0;
-end
+      endcase
+    end else instr_exec <= 0;
+  end
 endmodule
  

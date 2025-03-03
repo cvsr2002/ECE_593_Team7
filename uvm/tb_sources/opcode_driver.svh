@@ -12,12 +12,18 @@ class opcode_driver_c extends uvm_driver#(opcode_seq_item_c);
 
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
+    `uvm_info(get_type_name(), "Starting driver build phase", UVM_INFO);
 
     if (!uvm_config_db#(virtual interface cpu_if_i)::get(null, "*", "cpu_if", ci_vif)) 
       `uvm_error(get_type_name(), "Unable to get cpu_if interface");
 
     if (!uvm_config_db#(virtual interface cpu_state_i)::get(null, "*", "cpu_state_if", cs_vif)) 
       `uvm_error(get_type_name(), "Unable to get cpu_state interface");
+
+  endfunction
+
+  function void connect_phase(uvm_phase phase);
+    super.connect_phase(phase);
 
     if (!uvm_config_db#(iss_c)::get(null, "*", "iss", iss))
       `uvm_error(get_type_name(), "Unable to get iss handle");

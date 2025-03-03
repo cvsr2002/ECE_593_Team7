@@ -2,7 +2,7 @@
 class execute_test_c extends uvm_test;
   `uvm_component_utils(execute_test_c)
 
-  env_execute_test_c env_execute_test;
+  execute_env_c     execute_env;
   virtual interface config_data_i cd_vif;
 
   function new(string name = "execute_test",uvm_component parent=null);
@@ -14,7 +14,7 @@ class execute_test_c extends uvm_test;
     `uvm_info(get_type_name(), "In the build phase", UVM_DEBUG);
     super.build_phase(phase);
 
-    env_execute_test = env_execute_test_c::type_id::create("env_execute_test", this);
+    execute_env = execute_env_c::type_id::create("execute_env", this);
 
     if (!uvm_config_db#(virtual interface config_data_i)::get(null, "*", "config_data_if", cd_vif))
      `uvm_error(get_type_name, "Failed to get config_data interface");

@@ -8,9 +8,11 @@ package riscv_opcode_test_pkg;
 
   `include "exec_record.svh"
   `include "iss_class.svh"
+
   `include "riscv_monitor.svh"
-  `include "cpu_tracer.svh"
-  `include "execute_scoreboard.svh"
+  `include "riscv_tracer.svh"
+  `include "riscv_scoreboard.svh"
+
   `include "opcode_seq_item.svh"
   `include "opcode_seq.svh"
   `include "opcode_sequencer.svh"

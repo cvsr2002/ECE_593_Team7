@@ -1,13 +1,13 @@
 
 `uvm_analysis_imp_decl(_rtl_trace_port)
 
-class cpu_tracer_c extends uvm_scoreboard;
+class riscv_tracer_c extends uvm_scoreboard;
   virtual interface cpu_state_i   cs_vif;
   cpu_exec_record_c rtl_exec;
 
-  uvm_analysis_imp_rtl_trace_port#(cpu_exec_record_c, cpu_tracer_c) rtl_trace_port;
+  uvm_analysis_imp_rtl_trace_port#(cpu_exec_record_c, riscv_tracer_c) rtl_trace_port;
 
-  `uvm_component_utils(cpu_tracer_c)
+  `uvm_component_utils(riscv_tracer_c)
 
   function new(string name, uvm_component parent);
     super.new(name, parent);

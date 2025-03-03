@@ -1,7 +1,7 @@
 import opcodes::*;
 
 module riscv_rv32i #(
-     parameter BROKEN=0
+     parameter BROKEN="NONE"
   )(
    input  logic         clk, rst,
 
@@ -65,7 +65,7 @@ module riscv_rv32i #(
    assign execute    = (state == EXECUTE)    ? 1 : 0;
    assign write_back = (state == WRITE_BACK) ? 1 : 0;
 
-   decoder #(.random_errors(BROKEN)) u_decoder(
+   decoder #(.broken(BROKEN)) u_decoder(
      .clk           (clk),
      .rst           (rst),
   
@@ -78,7 +78,7 @@ module riscv_rv32i #(
      .rd            (rd)
    );
 
-   alu u_alu(
+   alu #(.broken(BROKEN)) u_alu(
      .clk            (clk),
      .rst            (rst),
  
@@ -90,7 +90,7 @@ module riscv_rv32i #(
      .result         (alu_result)
    );
 
-   branch_unit u_branch_unit(
+   branch_unit #(.broken(BROKEN)) u_branch_unit(
      .clk            (clk),
      .rst            (rst),
 
@@ -104,7 +104,7 @@ module riscv_rv32i #(
      .ret_addr       (bcu_result)
    );
    
-   memory_ctrl u_memory_ctrl(
+   memory_ctrl #(.broken(BROKEN)) u_memory_ctrl(
      .clk            (clk),
      .rst            (rst),
 

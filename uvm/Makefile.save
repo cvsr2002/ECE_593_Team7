@@ -14,41 +14,36 @@ VOPT = $(QUESTA_HOME)/bin/vopt
 VSIM = $(QUESTA_HOME)/bin/vsim -voptargs=+acc -work work 
 GCC  = $(QUESTA_HOME)/gcc32/bin/gcc
 
-
 .PHONY: all compile sim gui clean
 
 all: 
 	@echo " "
-	@echo " Opcode test make targets are: "
+	@echo " make targets are: "
 	@echo "   - sim         = run Questa in command line mode Questa "
 	@echo "   - gui         = run Questa in GUI mode "
+	@echo "   - fib         = run fibonacci program "
+	@echo "   - mem_test    = run memory test "
 	@echo "   - coverage    = run coverage analysis "
 	@echo "   - broken      = run with errors induced in the DUT "
 	@echo " "
 
-#COVER_DO = "coverage save -instance top.u_cpu -codeAll cover_opc.ucdb -onexit ; run 10 ms"
-COVER_DO = "coverage save -instance top.u_cpu cover_opc.ucdb -onexit ; run 10 ms"
-GUI_DO = "do core_wave.do; run 10 ms"
-SIM_DO = "run 10 ms"
-
-# Set "BAD_MODULE" to module that should induce faults
-# valid values are ALU, BCU (branch control unit), MCU (memory control unit), and DEC (decoder)
-# only used with "make broken", can be set on command line as "make broken BAD_MODULE=MCU
-
-BAD_MODULE ?= ALU
-
-
 gui: compile riscv_iss.so
-	$(VSIM) -do $(GUI_DO) top +UVM_TESTNAME=opcode_test_c -sv_lib riscv_iss
+	$(VSIM) -do run_gui.do top +UVM_TESTNAME=fibonacci -sv_lib riscv_iss
 
 sim: compile riscv_iss.so
-	$(VSIM) -c -do $(SIM_DO) top +UVM_TESTNAME=opcode_test_c -sv_lib riscv_iss 
+	$(VSIM) -c -do run.do top +UVM_TESTNAME=fibonacci -sv_lib riscv_iss 
+
+fib: compile riscv_iss.so
+	$(VSIM) -do run_gui.do top +UVM_TESTNAME="fibonacci" -sv_lib riscv_iss
+
+mem_test: compile riscv_iss.so
+	$(VSIM) -do run_gui.do top +UVM_TESTNAME="mem_test" -sv_lib riscv_iss
 
 coverage: compile riscv_iss.so
-	$(VSIM) -c -do $(COVER_DO) top +UVM_TESTNAME=opcode_test_c -sv_lib riscv_iss -coverage
+	$(VSIM) -do run_gui.do top +UVM_TESTNAME="mem_test" -sv_lib riscv_iss -coverage
 
 broken: compile riscv_iss.so
-	$(VSIM) -c -do $(SIM_DO) top +UVM_TESTNAME=opcode_test_c -sv_lib riscv_iss -g BROKEN=$(BAD_MODULE)
+	$(VSIM) -c -do run.do top +UVM_TESTNAME="mem_test" -sv_lib riscv_iss -g BROKEN=1
 
 compile: clean 
 	rm -rf ./work
@@ -56,19 +51,20 @@ compile: clean
 	$(VLIB) ./work
 	$(VMAP) work ./work
 
-	# UVM Test files
 	$(VLOG) $(HW)/opcode_pkg.sv
 	$(VLOG) $(TB)/iss_pkg.sv
 	$(VLOG) $(TB)/riscv_test_interfaces.sv
-	$(VLOG) $(TB)/opcode_test_pkg.sv
-	$(VLOG) $(TB)/riscv_core_test.sv
+	$(VLOG) $(TB)/riscv_test_pkg.sv
+	$(VLOG) $(TB)/riscv_design_test.sv
 
-	# RISCV Design files
 	$(VLOG) $(HW)/alu.sv +cover
 	$(VLOG) $(HW)/memory_ctrl.sv +cover
 	$(VLOG) $(HW)/branch_ctrl.sv +cover
 	$(VLOG) $(HW)/decoder.sv +cover
 	$(VLOG) $(HW)/riscv_rv32i.sv +cover
+
+	$(VLOG) $(HW)/ssram.sv
+	$(VLOG) $(HW)/cpu_design.sv
 
 riscv_iss.so: iss/riscv_iss.c
 	$(GCC) -m32 -o riscv_iss.so -shared -fPIC -std=c99 iss/riscv_iss.c 

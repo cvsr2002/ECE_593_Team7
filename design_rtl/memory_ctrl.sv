@@ -2,7 +2,7 @@
 import opcodes::*;
 
 module memory_ctrl #(
-   parameter random_errors = 0
+   parameter broken = "NONE"
  )(
    input logic          clk, rst,
 
@@ -37,13 +37,19 @@ module memory_ctrl #(
    register_t wdata;
    register_t result_reg;
 
+`ifndef SYNTHESIS
    function automatic register_t induce_errors(register_t data);
-     if (random_errors) begin
+     if (broken == "MCU") begin
        if ($urandom_range(1,10)==7)   // 10% of the time flip a bit at random 
          return data ^ register_t'(32'h1 << $urandom_range(0,31));
      end 
      return(data);
    endfunction
+
+   assign result = induce_errors(result_reg);
+`else
+   assign result = result_reg;
+`endif
 
    always_ff @(posedge clk) 
      if (rst) state <= ADDR_PHASE; 
@@ -56,12 +62,6 @@ module memory_ctrl #(
        DONE       : next_state = ADDR_PHASE;
      endcase
    end
-
-`ifndef SYNTHESIS
-   assign result = induce_errors(result_reg);
-`else
-   assign result = result_reg;
-`endif
 
    always_comb begin 
      if (rst) result_reg <= '0;

@@ -33,6 +33,10 @@ class iss_c extends uvm_object;
     iss_set_register(addr, value);
   endfunction
 
+  function int get_register(int addr);
+    return iss_get_register(addr);
+  endfunction
+
   function void set_pc(register_t value);
     iss_set_pc(value);
   endfunction

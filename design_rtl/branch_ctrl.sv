@@ -1,7 +1,9 @@
 
 import opcodes::*;
 
-module branch_unit (
+module branch_unit #(
+   broken = "NONE"
+ ) (
    input logic          clk, rst,
 
    input wire instruction_t  instr,
@@ -12,7 +14,23 @@ module branch_unit (
 
    register_t pc, next_pc;
 
+`ifndef SYNTHESIS
+
+   function automatic register_t induce_errors(register_t data);
+     if (broken == "BCU") begin
+       if ($urandom_range(1,10)==5) begin   // 10% of the time flip a bit at random begin
+         return data ^ register_t'(32'h1 << $urandom_range(0,15));
+       end
+     end
+     return(data);
+   endfunction
+
+   // assign pc_out = (count< 10) ?  pc : induce_errors(pc);
+   assign pc_out = induce_errors(pc);
+`else
    assign pc_out = pc;
+`endif
+
    assign pc = next_pc;
 
    always_ff @(posedge clk) begin
@@ -74,6 +92,6 @@ module branch_unit (
 
    // Instantiate the covergroups
    branch_cg branch_cg_inst = new();
-   // ret_cg ret_cg_inst = new();
+   ret_cg ret_cg_inst = new();
 
 endmodule

@@ -19,7 +19,7 @@ module top;
 
   logic          clk, rst, halted;
 
-  string         program_name;
+  string         program_name = "execute_test";
   string         program_filename;
   int            program_size;
 
@@ -35,7 +35,8 @@ module top;
   cpu_state_i    cpu_state_if(
                      .code_memory(u_cpu_design.u_code_memory.memory), 
                      .data_memory(u_cpu_design.u_data_memory.memory), 
-                     .register_bank(u_cpu_design.u_cpu.register_bank));
+                     .register_bank(u_cpu_design.u_cpu.register_bank),
+                     .pc(u_cpu_design.u_cpu.pc));
 
   // configuration class
 

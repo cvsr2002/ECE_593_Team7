@@ -33,7 +33,7 @@ module top;
   logic          data_write_rdy = 1;
   logic          halted;
 
-  string         program_name;
+  string         program_name = "opcode_test";
   string         program_filename;
   int            program_size;
 
@@ -41,6 +41,10 @@ module top;
 
   logic [31:0] code_memory ['h10000];
   logic [31:0] data_memory ['h10000];
+
+  // debug
+
+  string instr_str;
 
   // interface instantiations and connections
 
@@ -50,7 +54,7 @@ module top;
                      .code_memory(code_memory), 
                      .data_memory(data_memory), 
                      .register_bank(u_cpu.register_bank),
-                     .pc(u_cpu.pc));
+                     .pc(u_cpu.u_branch_unit.next_pc));
 
   // configuration class
 
@@ -103,6 +107,8 @@ module top;
     clk = 1;
     forever clk = #(clock_period/2) ~clk;
   end
+
+  always @(posedge clk) instr_str = decode_instr(instr);
 
   initial force u_cpu.u_branch_unit.pc = 0;
 
