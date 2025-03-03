@@ -79,19 +79,7 @@ module branch_unit #(
      cross opcode, next_pc;
    endgroup
 
-   //--------------------------------------------------------------------------
-   // Covergroup for the computed return address (ret_addr)
-   //--------------------------------------------------------------------------
-   covergroup ret_cg @(posedge clk);
-     coverpoint ret_addr {
-       ignore_bins zero = {0};  // branch of zero is pointless
-       bins positive = { [1:$] };
-       bins negative = { [$:-1] };
-     }
-   endgroup
-
    // Instantiate the covergroups
    branch_cg branch_cg_inst = new();
-   ret_cg ret_cg_inst = new();
 
 endmodule
