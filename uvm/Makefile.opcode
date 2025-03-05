@@ -26,8 +26,7 @@ all:
 	@echo "   - broken      = run with errors induced in the DUT "
 	@echo " "
 
-#COVER_DO = "coverage save -instance top.u_cpu -codeAll cover_opc.ucdb -onexit ; run 10 ms"
-COVER_DO = "coverage save -instance top.u_cpu cover_opc.ucdb -onexit ; run 10 ms"
+COVER_DO = "coverage save cover_opc.ucdb -onexit ; run 10 ms"
 GUI_DO = "do core_wave.do; run 10 ms"
 SIM_DO = "run 10 ms"
 

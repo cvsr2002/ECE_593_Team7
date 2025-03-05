@@ -1,78 +1,14 @@
-
-QUESTA_HOME = /pkgs/mentor/questa/2024.2/questasim/
-ifdef MENTOR
-  QUESTA_HOME = /u/release/questa/2024.2/questasim/
-endif
-
-HW   = ../design_rtl
-TB   = ./tb_sources
-
-VLIB = $(QUESTA_HOME)/bin/vlib
-VMAP = $(QUESTA_HOME)/bin/vmap
-VLOG = $(QUESTA_HOME)/bin/vlog -64 -lint +acc=all -work work +incdir=$(TB)
-VOPT = $(QUESTA_HOME)/bin/vopt 
-VSIM = $(QUESTA_HOME)/bin/vsim -64 -voptargs=+acc -work work 
-
-.PHONY: all compile sim gui clean
-
-all: 
+all:
 	@echo " "
-	@echo " make targets are: "
-	@echo "   - sim         = run Questa in command line mode Questa "
-	@echo "   - gui         = run Questa in GUI mode "
-	@echo "   - fib         = run fibonacci program "
-	@echo "   - mem_test    = run memory test "
-	@echo "   - coverage    = run coverage analysis "
-	@echo "   - broken      = run with errors induced in the DUT "
+	@echo "valid makefiles are: "
+	@echo "   - Makefile.mem_test "
+	@echo "   - Makefile.fib      "
+	@echo "   - Makefile.opcode   "
+	@echo " "
+	@echo " targets are:          "
+	@echo "    sim                "
+	@echo "    gui                "
+	@echo "    coverage           "
+	@echo "    broken             "
 	@echo " "
 
-gui: compile riscv_iss.so
-	$(VSIM) -do run_gui.do top +UVM_TESTNAME=fibonacci -sv_lib riscv_iss
-
-sim: compile riscv_iss.so
-	$(VSIM) -c -do run.do top +UVM_TESTNAME=fibonacci -sv_lib riscv_iss 
-
-fib: compile riscv_iss.so
-	$(VSIM) -do run_gui.do top +UVM_TESTNAME="fibonacci" -sv_lib riscv_iss
-
-mem_test: compile riscv_iss.so
-	$(VSIM) -do run_gui.do top +UVM_TESTNAME="mem_test" -sv_lib riscv_iss
-
-coverage: compile riscv_iss.so
-	$(VSIM) -do run_gui.do top +UVM_TESTNAME="mem_test" -sv_lib riscv_iss -coverage
-
-broken: compile riscv_iss.so
-	$(VSIM) -c -do run.do top +UVM_TESTNAME="mem_test" -sv_lib riscv_iss -g BROKEN=1
-
-compile: clean 
-	rm -rf ./work
-
-	$(VLIB) ./work
-	$(VMAP) work ./work
-
-	$(VLOG) $(HW)/opcode_pkg.sv
-	$(VLOG) $(TB)/iss_pkg.sv
-	$(VLOG) $(TB)/riscv_test_interfaces.sv
-	$(VLOG) $(TB)/riscv_test_pkg.sv
-	$(VLOG) $(TB)/riscv_design_test.sv
-
-	$(VLOG) $(HW)/alu.sv +cover
-	$(VLOG) $(HW)/memory_ctrl.sv +cover
-	$(VLOG) $(HW)/branch_ctrl.sv +cover
-	$(VLOG) $(HW)/decoder.sv +cover
-	$(VLOG) $(HW)/riscv_rv32i.sv +cover
-
-	$(VLOG) $(HW)/ssram.sv
-	$(VLOG) $(HW)/cpu_design.sv
-
-riscv_iss.so: iss/riscv_iss.c
-	gcc -o riscv_iss.so -shared -fPIC -std=c99 iss/riscv_iss.c 
-
-CRUFT  = transcript
-CRUFT += *.wlf
-CRUFT += work
-CRUFT += modelsim.ini
-CRUFT += riscv_iss.so
-
-clean:
-	rm -rf $(CRUFT)
