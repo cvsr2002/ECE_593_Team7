@@ -1,4 +1,6 @@
-import trans::*;
+
+//`include "transaction_v2.sv"
+import trans_v1::*;
 
 class driver;
     virtual intf vif;
@@ -11,38 +13,45 @@ class driver;
   endfunction
 
 task reset();
-    wait(intf_vi.rst);
+    wait(vif.rst);
     $display("[DRV] Reset started");
-    intf_vi.op1 <= 0;
-    intf_vi.op2 <= 0;
-    intf_vi.enable <= 0;
-    intf_vi.instr <= 0;
-    wait(!intf_vi.rst);
+    vif.op1 <= 0;
+    vif.op2 <= 0;
+    vif.enable <= 0;
+    vif.instr <= 0;
+    wait(!vif.rst);
     $display ("[DRV] Reset ended");
   endtask
   
   
-   task main();
+  task main();
   $display("[DRV] Driver started");
 
-  forever begin
-   $display("[DRV] Waiting for transaction...");
+  repeat(10) begin
+    $display("[DRV] Waiting for transaction...");
     gen2driv.get(tx);
-   
-	 // Get transaction from generator
-    $display("[DRV] Received :instr=%0d, op1=%0d, op2=%0d, enable = %0d", tx.instr, tx.op1, tx.op2, tx.enable);
-   
 
-	// @(posedge vif.clk); 
+    $display("[DRV] Received: instr=%s, op1=%0d, op2=%0d, enable=%0d", decode_instr(tx.instr), tx.op1, tx.op2, tx.enable);
+
+  // Apply transaction to DUT
 
     vif.instr = tx.instr;
     vif.op1 = tx.op1;
     vif.op2 = tx.op2;
-    vif.enable = 1; // Enable signal set
- $display("[DRV] sent: instr=%0d, op1=%0d, op2=%0d, enable = %0d", tx.instr, tx.op1, tx.op2, tx.enable);
-   
-  end
-  
-endtask
+	
+     @(posedge vif.clk);
+    
+	vif.enable = 1;
 
+     @(posedge vif.clk);	// Enable signal set
+    vif.enable = 0;
+	  
+    // Wait until instr_exec is set, then reset it before proceeding
+    wait(vif.instr_exec);  // Wait until execution is complete
+    @(posedge vif.clk);
+    vif.instr_exec <= 0;  // Reset it before getting the next instruction
+
+    $display("[DRV] Sent: instr=%s, op1=%0d, op2=%0d, enable=%0d", decode_instr(vif.instr), vif.op1, vif.op2, vif.enable);
+  end
+endtask 
 endclass
