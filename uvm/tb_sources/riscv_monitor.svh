@@ -8,6 +8,7 @@ class riscv_monitor_c extends uvm_monitor;
   endfunction : new
 
   virtual interface cpu_trace_i tr_vif;
+
   uvm_analysis_port #(cpu_exec_record_c) cpu_exec_port;
   
   virtual function void build_phase(uvm_phase phase);

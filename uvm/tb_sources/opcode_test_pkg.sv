@@ -12,6 +12,7 @@ package riscv_opcode_test_pkg;
   `include "riscv_monitor.svh"
   `include "riscv_tracer.svh"
   `include "riscv_scoreboard.svh"
+  `include "riscv_coverage.svh"
 
   `include "opcode_seq_item.svh"
   `include "opcode_seq.svh"

@@ -5,6 +5,8 @@ class riscv_tracer_c extends uvm_scoreboard;
   virtual interface cpu_state_i   cs_vif;
   cpu_exec_record_c rtl_exec;
 
+  UVM_FILE uvm_report_file;
+
   uvm_analysis_imp_rtl_trace_port#(cpu_exec_record_c, riscv_tracer_c) rtl_trace_port;
 
   `uvm_component_utils(riscv_tracer_c)
@@ -19,10 +21,23 @@ class riscv_tracer_c extends uvm_scoreboard;
     super.build_phase(phase);
 
     rtl_exec = cpu_exec_record_c::type_id::create("rtl_exec");
+
+    //=======================//
+    // set report file here  //
+    //=======================//
+    uvm_report_file = $fopen("uvm_processor_trace_file.txt", "w");
+
+    $fwrite(uvm_report_file, "Log file for Processor Execution Trace \n");
+
+    set_report_default_file(uvm_report_file);
+    // set_report_severity_action(UVM_INFO, UVM_LOG);
+    set_report_severity_id_action(UVM_INFO, "riscv_tracer_c", UVM_LOG);
+
   endfunction
 
   virtual function void write_rtl_trace_port( // how is this not named "read"???
     cpu_exec_record_c exec_rec);
+
     string decode_message, state_change_message;
 
     decode_message = $sformatf(" %s ", decode_instr(exec_rec.instr));

@@ -6,13 +6,18 @@ class opcode_seq_item_c extends uvm_sequence_item;
     super.new(name);
   endfunction
 
-  rand int opcode_index;
+  rand int            opcode_index;
   rand register_num_t rs1, rs2, rd;
-  rand register_t register_bank[32];
-  rand register_t read_data;
-  rand register_t imm;
-  instruction_t instr;
-  opcode_mask_t opcode;
+  rand register_t     register_bank[32];
+  rand register_t     read_data;
+  rand register_t     imm;
+  instruction_t       instr;
+  opcode_mask_t       opcode;
+  register_t          result;
+  logic               write_op;
+  register_t          waddr;
+  register_t          wdata;
+  register_t          next_pc;
 
   opcode_mask_t opcode_list [] = {
     /* R Type */   M_ADD, M_SUB, M_AND, M_OR, M_XOR, M_SLL, M_SRA, M_STL, M_STLU, M_SRL,

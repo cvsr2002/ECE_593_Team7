@@ -4,6 +4,7 @@ class execute_env_c extends uvm_env;
 
   riscv_scoreboard_c   riscv_scoreboard;
   riscv_tracer_c       riscv_tracer;
+  riscv_coverage_c     riscv_coverage;
   execute_agent_c      execute_agent;
 
   function new(string name="env_execute_test", uvm_component parent=null);
@@ -15,6 +16,7 @@ class execute_env_c extends uvm_env;
 
     riscv_scoreboard   = riscv_scoreboard_c::type_id::create("riscv_scoreboard", this);
     riscv_tracer       = riscv_tracer_c::type_id::create("riscv_tracer", this);
+    riscv_coverage     = riscv_coverage_c::type_id::create("risv_coverage", this);
     execute_agent      = execute_agent_c::type_id::create("execute_agent", this);
 
   endfunction

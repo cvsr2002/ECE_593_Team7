@@ -55,7 +55,6 @@ class riscv_scoreboard_c extends uvm_scoreboard;
 
     `uvm_info("port reader", message, UVM_HIGH);
 
-    // iss.enable_trace();
     if (config_data_if.program_name=="opcode_test") begin
       iss.set_pc(0);
       iss.set_instruction(0, exec_rec.instr);
