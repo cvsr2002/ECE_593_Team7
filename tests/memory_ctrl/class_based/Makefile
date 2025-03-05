@@ -1,6 +1,8 @@
 
 QUESTA_HOME = /pkgs/mentor/questa/2024.2/questasim/
-#QUESTA_HOME = /u/release/questa/2024.2/questasim/
+ifdef MENTOR
+ QUESTA_HOME = /u/release/questa/2024.2/questasim/
+endif
 
 HW   = ../../../design_rtl
 TB   = ./
