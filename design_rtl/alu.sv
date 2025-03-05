@@ -70,5 +70,37 @@ module alu #(
       endcase
     end else instr_exec <= 0;
   end
+
+  mnemonic_t opcode;
+  assign opcode = opc_base(instr);
+
+  //--------------------------------------------------------------------------
+  // Covergroup for ALU instructions and op1, op2
+  //--------------------------------------------------------------------------
+  covergroup alu_cg @(posedge clk);
+
+    coverpoint opcode {
+      bins instr[] = {ADD,  STLU,  STL,  AND,  OR,  XOR,  SLL,  SRL,  SRA,  SUB,
+                      ADDI, STLUI, STLI, ANDI, ORI, XORI, SLLI, SRLI, SRAI,
+                      LUI,  AUIPC};
+    }
+    // Cover op1 and op2
+    coverpoint op1 {
+      bins zero     = {0};
+      bins positive = {[1:$]};
+      bins negative = {[$:-1]};
+    }
+    coverpoint op2 {
+      bins zero     = {0};
+      bins positive = {[1:$]};
+      bins negative = {[$:-1]};
+    }
+    // Cross coverage
+    cross opcode, op1, op2;
+  endgroup
+
+  // Instantiate the covergroups
+  alu_cg alu_cg_inst = new();
+
 endmodule
  

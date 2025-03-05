@@ -374,6 +374,20 @@ function string decode_instr(instruction_t instr);
 endfunction
 
 
+function automatic op_type_t opc_type(instruction_t instr);
+  case(1)
+   is_r_type(instr) : return R_TYPE;
+   is_i_type(instr) : return I_TYPE;
+   is_si_type(instr) : return SI_TYPE;
+   is_s_type(instr) : return S_TYPE;
+   is_b_type(instr) : return B_TYPE;
+   is_u_type(instr) : return U_TYPE;
+   is_j_type(instr) : return J_TYPE;
+   default : return op_type_t'(0);
+  endcase
+endfunction
+
+
 function mnemonic_t opc_base(instruction_t instr);
 
    casez (instr) 
