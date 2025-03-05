@@ -585,7 +585,7 @@ static int srl(unsigned long instr, char *mnemonic, char *trace)
    
    get_r_type_ops(instr, &rd, &rs1, &rs2);
    
-   register_bank[rd] = (unsigned long) register_bank[rs1] >> (register_bank[rs2] & 0x1F);
+   register_bank[rd] = ((unsigned int) (register_bank[rs1] & 0xFFFFFFFF))  >> (register_bank[rs2] & 0x1F);
   
    sprintf(trace, "%-6s  x%d, x%d, x%d           ", mnemonic, rd, rs1, rs2);
    sprintf(trace+27, "x%d = %08x ", rd, register_bank[rd]);
@@ -861,7 +861,7 @@ static int srli(unsigned long instr, char *mnemonic, char *trace)
 
    get_si_type_ops(instr, &rd, &rs1, &imm);
  
-   register_bank[rd] = ((unsigned long) register_bank[rs1]) >> imm;
+   register_bank[rd] = ((unsigned int) (register_bank[rs1] & 0xFFFFFFFF))  >> imm;
 
    sprintf(trace, "%-6s  x%d, x%d, %d            ", mnemonic, rd, rs1, imm);
    sprintf(trace+27, "x%d = %08x ", rd, register_bank[rd]);
