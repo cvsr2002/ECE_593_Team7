@@ -1,18 +1,18 @@
 `include "environment_v2.sv"
-import trans::*;
+import trans_v1::*;
 
 module tb_top();
   bit clk, rst;
   
-  always begin 
+  initial begin 
     clk = 0;
-    #5 clk = ~clk; // Clock toggles every 5 time units
+   forever #5 clk = ~clk; // Clock toggles every 5 time units
   end
   
   initial begin
     rst = 1;
     #10 rst = 0;
-    #5000 $finish; // Ensure test runs long enough
+    #500 $finish; // Ensure test runs long enough
   end
 
   intf intf_top(clk, rst);

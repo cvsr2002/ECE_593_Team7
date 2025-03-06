@@ -1,15 +1,15 @@
 `include "generator.sv"
-`include "driver.sv"
+`include "driver_v2.sv"
 `include "intf2mon.sv"
 `include "scb.sv"
 
-import trans::*;
+import trans_v1::*;
 
 class environment;
   generator gen;
   driver driv;
   alu_mon mon;
-  alu_scb scb;
+ alu_scb scb;
   
   mailbox gen2driv;
   mailbox mon2scb;
@@ -27,7 +27,7 @@ class environment;
     gen = new(gen2driv);
     driv = new(vif, gen2driv);
     mon = new(vif, mon2scb);
-    scb = new(mon2scb);
+   scb = new(mon2scb);
   endfunction
   
   task test();
@@ -36,7 +36,7 @@ class environment;
       gen.main();      // Start transaction generation
       driv.main();     // Apply transactions to DUT
       mon.main();   // Capture input transactions
-      scb.main();      // Compare expected vs actual results
+     scb.main();      // Compare expected vs actual results
     join_any // Run all tasks concurrently
   endtask
   
